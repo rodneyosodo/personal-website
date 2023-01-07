@@ -67,7 +67,7 @@ I am always looking for new opportunities to apply my skills and knowledge to ma
 [9]: https://tabirihealth.org/ "Tabiri Health Website"
 [10]: https://gdsc.community.dev/jomo-kenyatta-university-of-agriculture-and-technology/ "JKUAT GDSC"
 [11]: https://ses.jkuat.ac.ke/ "JKUAT SES Website"
-[12]: https://www.meetup.com/Python-Nairobi "Python Nairobi website"
+[12]: https://www.meetup.com/Python-Nairobi "Python Nairobi Website"
 [13]: http://pyconke.org/ "PyConKE website"
 
 <style>
