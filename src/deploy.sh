@@ -1,0 +1,1 @@
+cd anatole/exampleSite/ && rm -rf public public.zip && hugo --gc --minify --themesDir ../.. && mkdir public/CV && cp ../../CV/* public/CV/ && zip -r public.zip public/
