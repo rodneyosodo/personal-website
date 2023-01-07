@@ -5,5 +5,3 @@ demo/
 .hugo_build.lock
 /node_modules
 .devcontainer
-exampleSite/public/
-*.zip
