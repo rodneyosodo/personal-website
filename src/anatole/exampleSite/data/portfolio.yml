@@ -1,6 +1,46 @@
 portfolioitems:
   - title: Coding Projects
     portfolioitem:
+      - name: Memfault GO SDK
+        image: '/images/portfolio/code.jpg'
+        link: https://github.com/0x6f736f646f/memfault-go
+        description: 'Memfault Go is a library to provide smooth memfault integration with GO. It contains the API wrapper for memfault and the CLI intaerface.'
+        status: 'On Hold'
+        tags:
+          - Golang
+          - API
+          - SDK
+
+      - name: Smart Farm using africastalking services
+        image: '/images/portfolio/smart_farm_africastalking.jpeg'
+        link: https://github.com/0x6f736f646f/smart-farm-africastalking-hackathon
+        description: 'This is a prototype device for smart farming. The smart farm has DHT11 sensor which measures temperature and humidity, a light-dependent resistor that measures the light intensity and a soil moisture sensor that measures soil moisture content. We have an irrigation system and fan system symbolized by a solid-state relay. When the soil moisture is low the eris dev kit automatically starts the irrigation system to raise the soil moisture content. If the soil moisture rises until it reaches a certain level the irrigation system is closed. When the temperature is high the fan and irrigation system is turned on to reduce the temperature of the microclimate. If it drops to a certain level the two systems are stopped. When the humidity is low the irrigation system which is overhead the crops is started to raise the humidity to optimum levels. If it is high the irrigation system is stopped. For light intensity, we are tracking the records to be able to make better decisions in the future maybe by data analysis.'
+        status: 'Finished'
+        tags:
+          - Hardware
+          - API
+          - Python
+
+      - name: JKUAT SES Website
+        link: https://ses.jkuat.ac.ke/
+        image: '/images/portfolio/ses_website.png'
+        status: 'Finished'
+        description: 'The JKUAT Society of Engineering Students is a body established for that student who desires to discover what lies beyond books. SES activities are geared towards holistic development of its members, moulding individuals who are not only well adapted at classroom level, but also stand out in the practical scene and corporate engineering world at large.'
+        tags:
+          - Website
+          - Bootstrap
+      
+      - name: Sendyit Python SDK
+        link: https://github.com/0x6f736f646f/sendyit-python
+        image: '/images/portfolio/sendyit.png'
+        status: 'Finished'
+        description: "Python wrapper for Sendy's API. https://www.sendyit.com/api"
+        tags:
+          - Python
+          - SDK
+
+  - title: Mechatronics Projects
+    portfolioitem:
       - name: Design and fabrication of a mobile platform with holonomic and omnidirectional motion
         image: '/images/portfolio/omicron.jpg'
         link: https://github.com/omicronrobot
@@ -54,44 +94,6 @@ portfolioitems:
           - Embedded
         status: 'Finished'
     
-      - name: Smart Farm using africastalking services
-        image: '/images/portfolio/smart_farm_africastalking.jpeg'
-        link: https://github.com/0x6f736f646f/smart-farm-africastalking-hackathon
-        description: 'This is a prototype device for smart farming. The smart farm has DHT11 sensor which measures temperature and humidity, a light-dependent resistor that measures the light intensity and a soil moisture sensor that measures soil moisture content. We have an irrigation system and fan system symbolized by a solid-state relay. When the soil moisture is low the eris dev kit automatically starts the irrigation system to raise the soil moisture content. If the soil moisture rises until it reaches a certain level the irrigation system is closed. When the temperature is high the fan and irrigation system is turned on to reduce the temperature of the microclimate. If it drops to a certain level the two systems are stopped. When the humidity is low the irrigation system which is overhead the crops is started to raise the humidity to optimum levels. If it is high the irrigation system is stopped. For light intensity, we are tracking the records to be able to make better decisions in the future maybe by data analysis.'
-        status: 'Finished'
-        tags:
-          - Hardware
-          - API
-          - Python
-      
-      - name: Memfault GO SDK
-        image: '/images/portfolio/code.jpg'
-        link: https://github.com/0x6f736f646f/memfault-go
-        description: 'Memfault Go is a library to provide smooth memfault integration with GO. It contains the API wrapper for memfault and the CLI intaerface.'
-        status: 'On Hold'
-        tags:
-          - Golang
-          - API
-          - SDK
-      
-      - name: JKUAT SES Website
-        link: https://ses.jkuat.ac.ke/
-        image: '/images/portfolio/ses_website.png'
-        status: 'Finished'
-        description: 'The JKUAT Society of Engineering Students is a body established for that student who desires to discover what lies beyond books. SES activities are geared towards holistic development of its members, moulding individuals who are not only well adapted at classroom level, but also stand out in the practical scene and corporate engineering world at large.'
-        tags:
-          - Website
-          - Bootstrap
-      
-      - name: Sendyit SDK
-        link: https://github.com/0x6f736f646f/sendyit-python
-        image: '/images/portfolio/sendyit.png'
-        status: 'Finished'
-        description: "Python wrapper for Sendy's API. https://www.sendyit.com/api"
-        tags:
-          - Python
-          - SDK
-
   - title: Research
     portfolioitem:
       - name: Variational Quantum Classifier on Heart attack dataset
