@@ -1,4 +1,5 @@
 import { ThemeToggle } from "@/components/theme-toggle";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -8,15 +9,15 @@ export default function Navbar() {
           <div className="w-10" />
 
           <div className="flex items-center justify-center">
-            <a className={"text-muted-foreground px-3 py-2"} href="/">
+            <Link className={"text-muted-foreground px-3 py-2"} href="/">
               Home
-            </a>
-            <a className={"text-muted-foreground px-3 py-2"} href="/about">
+            </Link>
+            <Link className={"text-muted-foreground px-3 py-2"} href="/about">
               About
-            </a>
-            <a className={"text-muted-foreground px-3 py-2"} href="/blogs">
+            </Link>
+            <Link className={"text-muted-foreground px-3 py-2"} href="/blogs">
               Blogs
-            </a>
+            </Link>
           </div>
           <ThemeToggle />
         </nav>

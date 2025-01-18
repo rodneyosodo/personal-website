@@ -12,33 +12,34 @@ import {
   YouTube,
 } from "@/components/ui/icons";
 import { useForm } from "@formspree/react";
+import Link from "next/link";
 
 function Navigation() {
   return (
     <nav className="mb-8 flex flex-wrap justify-center gap-6">
-      <a href="/" className="text-muted-foreground">
+      <Link href="/" className="text-muted-foreground">
         Home
-      </a>
+      </Link>
       <span className="hidden md:block text-muted-foreground mx-2">|</span>
-      <a href="/about" className="text-muted-foreground">
+      <Link href="/about" className="text-muted-foreground">
         About
-      </a>
+      </Link>
       <span className="hidden md:block text-muted-foreground mx-2">|</span>
-      <a href="/blogs" className="text-muted-foreground">
+      <Link href="/blogs" className="text-muted-foreground">
         Blogs
-      </a>
+      </Link>
       <span className="hidden md:block text-muted-foreground mx-2">|</span>
-      <a href="/publications" className="text-muted-foreground">
+      <Link href="/publications" className="text-muted-foreground">
         Publications
-      </a>
+      </Link>
       <span className="hidden md:block text-muted-foreground mx-2">|</span>
-      <a href="/talks" className="text-muted-foreground">
+      <Link href="/talks" className="text-muted-foreground">
         Talks
-      </a>
+      </Link>
       <span className="hidden md:block text-muted-foreground mx-2">|</span>
-      <a href="/awards" className="text-muted-foreground">
+      <Link href="/awards" className="text-muted-foreground">
         Awards
-      </a>
+      </Link>
     </nav>
   );
 }
