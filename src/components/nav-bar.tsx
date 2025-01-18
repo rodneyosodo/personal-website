@@ -11,11 +11,11 @@ export default function Navbar() {
             <a className={"text-muted-foreground px-3 py-2"} href="/">
               Home
             </a>
-            <a className={"text-muted-foreground px-3 py-2"} href="/">
+            <a className={"text-muted-foreground px-3 py-2"} href="/about">
               About
             </a>
-            <a className={"text-muted-foreground px-3 py-2"} href="/">
-              Blog
+            <a className={"text-muted-foreground px-3 py-2"} href="/blogs">
+              Blogs
             </a>
           </div>
           <ThemeToggle />

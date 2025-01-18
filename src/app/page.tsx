@@ -6,7 +6,7 @@ export default function Home() {
       <div className="flex flex-col items-center text-center">
         <div className="relative w-48 h-48 mb-8">
           <Image
-            src="/android-chrome-512x512.png" // Make sure to add your profile image to the public folder
+            src="/android-chrome-512x512.png"
             alt="Rodney Osodo"
             fill={true}
             className="rounded-full object-cover border-2 border-border"
@@ -24,7 +24,7 @@ export default function Home() {
             distributed systems, building communities (
             <a
               href="https://www.meetup.com/python-nairobi/"
-              className="text-primary hover:underline"
+              className="text-primary underline underline-offset-4"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -33,7 +33,7 @@ export default function Home() {
             and{" "}
             <a
               href="https://www.meetup.com/roboke/"
-              className="text-primary hover:underline"
+              className="text-primary underline underline-offset-4"
               target="_blank"
               rel="noopener noreferrer"
             >
