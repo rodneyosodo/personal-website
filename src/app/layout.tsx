@@ -5,6 +5,7 @@ import type React from "react";
 import Navbar from "@/components/nav-bar";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/footer";
+import { PostHogProvider } from "./providers";
 
 const robotoMono = Roboto_Mono({
   weight: "400",
@@ -57,11 +58,13 @@ export default async function RootLayout({
           enableSystem={true}
           disableTransitionOnChange={true}
         >
-          <div className="min-h-screen flex flex-col">
-            <Navbar />
-            {children}
-            <Footer />
-          </div>
+          <PostHogProvider>
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              {children}
+              <Footer />
+            </div>
+          </PostHogProvider>
         </ThemeProvider>
       </body>
     </html>
