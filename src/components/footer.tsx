@@ -47,30 +47,58 @@ function Navigation() {
 function SocialLinks() {
   return (
     <div className="mb-8 flex space-x-2">
-      <Button variant="link" size="icon">
-        <LinkedIn className="h-4 w-4" />
-        <span className="sr-only">LinkedIn</span>
-      </Button>
-      <Button variant="link" size="icon">
-        <Github className="h-4 w-4" />
-        <span className="sr-only">Github</span>
-      </Button>
-      <Button variant="link" size="icon">
-        <XformerlyTwitter className="h-4 w-4" />
-        <span className="sr-only">Twitter</span>
-      </Button>
-      <Button variant="link" size="icon">
-        <Instagram className="h-4 w-4" />
-        <span className="sr-only">Instagram</span>
-      </Button>
-      <Button variant="link" size="icon">
-        <TikTok className="h-4 w-4" />
-        <span className="sr-only">TikTok</span>
-      </Button>
-      <Button variant="link" size="icon">
-        <YouTube className="h-4 w-4" />
-        <span className="sr-only">YouTube</span>
-      </Button>
+      <a
+        href="https://www.linkedin.com/in/rodneyosodo"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <Button variant="link" size="icon">
+          <LinkedIn className="h-4 w-4" />
+          <span className="sr-only">LinkedIn</span>
+        </Button>
+      </a>
+      <a href="https://github.com/rodneyosodo" target="_blank" rel="noreferrer">
+        <Button variant="link" size="icon">
+          <Github className="h-4 w-4" />
+          <span className="sr-only">Github</span>
+        </Button>
+      </a>
+      <a href="https://x.com/b1ackd0t" target="_blank" rel="noreferrer">
+        <Button variant="link" size="icon">
+          <XformerlyTwitter className="h-4 w-4" />
+          <span className="sr-only">Twitter</span>
+        </Button>
+      </a>
+      <a
+        href="https://www.instagram.com/rodneyosodo/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <Button variant="link" size="icon">
+          <Instagram className="h-4 w-4" />
+          <span className="sr-only">Instagram</span>
+        </Button>
+      </a>
+      <a
+        href="https://www.tiktok.com/@b1ackd0t"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <Button variant="link" size="icon">
+          <TikTok className="h-4 w-4" />
+          <span className="sr-only">TikTok</span>
+        </Button>
+      </a>
+      <a
+        href="https://www.youtube.com/@rodneyosodo"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <Button variant="link" size="icon">
+          <YouTube className="h-4 w-4" />
+          <span className="sr-only">YouTube</span>
+        </Button>
+      </a>
     </div>
   );
 }
@@ -81,9 +109,12 @@ export default function Footer() {
   return (
     <footer className="bg-background py-12 mt-auto">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center border-t pt-4">
           <Navigation />
           <SocialLinks />
+          <div className="mb-8 w-full max-w-md text-center border-t pt-4">
+            <p className="text-sm">Subscribe to get future posts via email </p>
+          </div>
           <div className="mb-8 w-full max-w-md">
             {state.succeeded ? (
               <p className="text-center">Thank you for subscribing!</p>

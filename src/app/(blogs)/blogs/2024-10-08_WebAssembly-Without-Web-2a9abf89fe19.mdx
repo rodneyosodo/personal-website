@@ -1,0 +1,177 @@
+---
+title: WebAssembly Without Web
+date: 2024-10-08
+---
+
+
+# WebAssembly Without Web
+
+WebAssembly (WASM) defines a portable binary code format and corresponding text format for executable programs and interfaces to…
+
+WebAssembly (WASM) defines a portable binary code format and corresponding text format for executable programs and interfaces to facilitate communication between the host environment and the application. WASM is designed to be fast, safe, portable and efficient. WASM being portable allows it to be hardware-independent, language-independent and platform-independent. It seems counterintuitive that WASM is being used in places outside the web. It was initially designed for execution within web browsers, but its capabilities have extended far beyond its original purpose. It allows languages other than JavaScript to run efficiently in a web environment. Today, we explore its potential in server-side applications, unlocking new possibilities for performance, portability, and security. Let’s start by understanding the fundamentals before going into an example and use cases.
+
+![](/blogs/medium/0__F04__U__cb__ik0V5gA.png)
+
+### Application Development
+
+Wasm application development involves a dedicated ecosystem of languages, compilers, frameworks, libraries, tools, and runtimes. Programming languages for Wasm vary across four categories:
+
+1.  Compiled languages: Directly compile to Wasm bytecode without additional dependencies. Examples include C, C++, Zig, and Rust, offering fast and compact Wasm applications.
+2.  Managed languages: Require a managed runtime for proper execution, typically for tasks like garbage collection. Examples are Kotlin, Dart (with Wasm GC support), and Go (with embedded runtime).
+3.  Scripting languages: Run via a Wasm-based interpreter compiled from languages like JavaScript, Ruby, PHP, and Python. Projects like WebAssembly Language Runtimes and WasmEdge QuickJS support these.
+
+![](/blogs/medium/0__YxIHRKz4EUFnzz8I.png)
+
+### Compilers
+
+WebAssembly supports ahead-of-time (AOT), just-in-time (JIT) compilation, and interpreters, utilized in web browsers and non-browser environments like Wasmer, Wasmtime, and others. Over 40 programming languages can compile to WebAssembly, either directly or through virtual machines implemented in WebAssembly.
+
+![](/blogs/medium/0__MMHNOpU0jsF32k2l.png)
+
+Emscripten uses Binaryen and LLVM to compile C, C++, and other LLVM-supported languages to WebAssembly, integrating with JavaScript’s environment interfaces like WebGL. Clang can now compile C, C++, Rust, .NET languages, and AssemblyScript to WebAssembly. WebAssembly’s post-MVP features include multithreading and garbage collection, enabling support for languages like C#, F#, Python, and even optimizing JavaScript.
+
+Additional languages with varying levels of WebAssembly support include Python, Julia, Ruby, and systems like CheerpJ, JWebAssembly, TeaVM for Java bytecode, and direct support from Kotlin.
+
+### Runtime
+
+A WASM runtime is a software component that executes Wasm bytecode. Runtimes can be standalone or embedded within a host environment, like a web browser or server. Standalone runtimes include [WasmEdge](https://github.com/WasmEdge/WasmEdge), [Wasmtime](https://wasmtime.dev/), [Wasmer](https://wasmer.io/), and others, while embedded runtimes include [V8](https://v8.dev/), [SpiderMonkey](https://spidermonkey.dev/) and others. Runtimes provide a sandboxed execution environment for WASM applications, ensuring safety, security and portability.
+
+![](/blogs/medium/0__nDLaeD__ctwRd____zf.png)
+
+#### Embedding Interfaces
+
+1.  JavaScript API: This interface provides an explicit JavaScript API for interacting with WebAssembly.
+2.  Web API: This interface provides the integration of WebAssembly with the broader web platform.
+3.  WebAssembly System Interface (WASI) API: This interface provides a POSIX-like system interface for WebAssemblyto be able to run outside the web providing access to files, network connection and others.
+
+### Application Framework
+
+Wasm runtimes, akin to operating systems, support high-level libraries and frameworks crucial for application development.
+
+WasmEdge stands out by extending POSIX APIs beyond the standard, enabling popular Rust and JS frameworks like tokio, hyper, and node.js, along with various database clients, to operate within it. Unlike other runtimes, which require frameworks for essential features like networking and database access, WasmEdge is designed as a lightweight, high-performance runtime for cloud-native, edge, and decentralized applications. It supports serverless functions, microservices, smart contracts, and IoT devices, and is recognized as a CNCF Sandbox project.
+
+WasmEdge ensures the secure execution of WebAssembly bytecode within a defined sandbox, safeguarding resources and memory. Its primary use case includes safely running user-contributed code as plug-ins in diverse software environments, fostering extensibility and customization by third-party developers and community members.
+
+### Beyond the Browser: WebAssembly on Servers
+
+While WebAssembly’s initial focus was on client-side web applications, its benefits have sparked interest in using it on server-side environments:
+
+1.  Performance: Wasm modules can execute close to native speeds, making them suitable for performance-critical server applications. This efficiency is achieved through precompiled binaries that bypass the interpretation overhead often associated with traditional scripting languages.
+2.  Language Agnosticism: Developers can write server-side logic in languages traditionally unsuitable for server environments, such as Rust, C/C++, or even TypeScript, and compile these to Wasm. This flexibility allows leveraging existing codebases without rewriting them in a server-compatible language.
+3.  Portability: Wasm modules are platform-independent, meaning they can run on any server architecture that supports WebAssembly runtimes. This portability streamlines deployment and reduces compatibility issues across different server environments.
+4.  Security: Wasm modules execute within a sandboxed environment, enhancing server security by preventing direct access to system resources unless explicitly allowed. This isolation reduces the risk of exploits and vulnerabilities common in server-side applications.
+
+The adoption of WebAssembly on servers is evident in various use cases:
+
+1.  Microservices: Deploying lightweight, efficient Wasm modules as microservices can enhance scalability and resource utilization.
+2.  Edge Computing: Running Wasm at the edge allows for processing data closer to the end-user, reducing latency and improving responsiveness.
+3.  Customizable APIs: Providing customizable functionality through dynamically loaded Wasm modules enables developers to extend server applications without modifying the core codebase.
+
+### Example
+
+[Burn](https://burn.dev/) is a new comprehensive dynamic Deep Learning Framework built using Rust with extreme flexibility, compute efficiency and portability as its primary goals. With Burn and Rust we can compile training or inference processes to Machine Learning models to WASM and run them anywhere there is a WASM runtime. This is an example of a simple WebAssembly program written in Rust that adds two matrices and returns the result. The code can be found [here](https://gitea.rodneyosodo.com/rodneyosodo/rust-wasi-example). This is an [example](https://antimora.github.io/image-classification/) by burn to show   
+how to execute an image classification task in a web browser using a model converted to Rust code.
+
+Before you begin, ensure that you have Rust installed. If not, visit the [official Rust website](https://www.rust-lang.org/tools/install) and follow the installation guide.
+
+For WASM development, we’ll need the \`**_wasm32-wasip1_**\` target, which can be added with:
+
+rustup target add wasm32-wasip1
+
+Clone this repository:
+
+git clone https://gitea.rodneyosodo.com/rodneyosodo/rust-wasi-example.git
+
+Change to the project directory:
+
+cd rust-wasi-example
+
+The code is in the \`**_src/main.rs_**\` file.
+
+use burn::{  
+    tensor::{backend::Backend, Tensor},  
+};  
+use futures::executor;  
+  
+pub async fn addition<B: Backend>(  
+    a: \[\[f32; 2\]; 2\],  
+    b: \[\[f32; 2\]; 2\],  
+) \-> String {  
+    let device = Default::default();  
+  
+    let tensor1: Tensor<B, 2\> = Tensor::from\_floats(a, &device);  
+    let tensor2: Tensor<B, 2\> = Tensor::from\_floats(b, &device);  
+  
+    let result = tensor1 + tensor2;  
+  
+    #\[cfg(not(target\_family = "wasm"))\]  
+    return result.to\_data().to\_string();  
+  
+    #\[cfg(target\_family = "wasm")\]  
+    return result.to\_data().await.to\_string();  
+}  
+  
+fn main() {  
+    let args: Vec<String\> = std::env::args().collect();  
+    let a: \[\[f32; 2\]; 2\] = serde\_json::from\_str(&args\[1\])  
+        .expect("Please provide a valid JSON input for example: \[\[1.0, 2.0\], \[3.0, 4.0\]\]");  
+    let b: \[\[f32; 2\]; 2\] = serde\_json::from\_str(&args\[2\])  
+        .expect("Please provide a valid JSON input for example: \[\[1.0, 2.0\], \[3.0, 4.0\]\]");  
+    let result = executor::block\_on(addition::<burn::backend::NdArray>(a, b));  
+    println!("{:}", result);  
+}
+
+We have a simple function that takes two matrices and returns the sum of the two matrices. The function is asynchronous and returns a string.
+
+Build the project:
+
+cargo build --target=wasm32-wasip1 --release
+
+This will compile the project into WebAssembly. The compiled file can be found in the \`**_target/wasm32-wasip1/release_**\` directory.
+
+To run the project, you would need to install the \`**_wasmtime_**\` runtime. You can find the installation instructions [here](https://docs.wasmtime.dev/quick-start/installation.html). \`**_wasmer_**\` is another runtime that can be used to run the compiled WebAssembly file. You can find the installation instructions [here](https://wasmer.io/).
+
+To run the compiled WebAssembly file with \`**_wasmtime_**\`, you can use the following command:
+
+wasmtime target/wasm32-wasip1/release/rust-wasi-example.wasm '\[\[1.0, 2.0\], \[3.0, 4.0\]\]' '\[\[1.0, 2.0\], \[3.0, 4.0\]\]'
+
+Or with \`**_wasmer_**\`:
+
+wasmer target/wasm32-wasip1/release/rust-wasi-example.wasm '\[\[1.0, 2.0\], \[3.0, 4.0\]\]' '\[\[1.0, 2.0\], \[3.0, 4.0\]\]'
+
+This will output the result of the addition of the two matrices.
+
+### Use cases
+
+Autodesk leveraged WebAssembly to bring a subset of AutoCAD’s features to web browsers. This strategic move democratized access to CAD functionalities, allowing engineers and architects to view and edit drawings directly within their web browsers.
+
+[**Roundup: The AutoCAD Web App at Google I/O 2018**  
+_We were blown away by the response the WebAssembly-based AutoCAD web app got when we were featured at Google I/O 2018…_www.autodesk.com](https://www.autodesk.com/blogs/autocad/autocad-web-app-google-io-2018/?redirected=1 "https://www.autodesk.com/blogs/autocad/autocad-web-app-google-io-2018/?redirected=1")[](https://www.autodesk.com/blogs/autocad/autocad-web-app-google-io-2018/?redirected=1)
+
+![](/blogs/medium/0__EAEq81AAuHIdAWsP.png)
+
+[Figma introduced WebAssembly](https://www.figma.com/blog/webassembly-cut-figmas-load-time-by-3x/) to optimize critical components of its 2D WebGL rendering engine. This approach allowed complex vector graphics and UI elements to render swiftly, even on less powerful devices. Figma’s load times improved by more than 3x across all document sizes after implementing WebAssembly. Moreover, Wasm’s efficient parsing and execution model facilitated smoother interactions during collaborative editing sessions, where multiple users simultaneously manipulate designs in real-time.
+
+![](/blogs/medium/0__trlNlCwbVLedMPln.png)
+
+[Zed editor making extensible via WASM](https://news.ycombinator.com/item?id=31669852)
+
+[**We plan to make Zed extensible via WebAssembly, but we're taking a different app... | Hacker News**  
+_Our goal is to make Zed fast, stable, and collaborative first, extensible second. We'll be taking a more conservative…_news.ycombinator.com](https://news.ycombinator.com/item?id=31669852 "https://news.ycombinator.com/item?id=31669852")[](https://news.ycombinator.com/item?id=31669852)
+
+[Zellij offers a Webassembly / WASI plugin system, allowing plugin developers to develop plugins in many different languages](https://zellij.dev/documentation/plugins)
+
+[**Zellij User Guide**  
+_Zellij offers a Webassembly / WASI plugin system, allowing plugin developers to develop plugins in many different…_zellij.dev](https://zellij.dev/documentation/plugins "https://zellij.dev/documentation/plugins")[](https://zellij.dev/documentation/plugins)
+
+### References
+
+1.  [https://landscape.cncf.io/?group=wasm](https://landscape.cncf.io/?group=wasm)
+2.  [https://webassembly.org/](https://webassembly.org/)
+3.  [https://webassembly.eu/](https://webassembly.eu/)
+
+If you liked this article, click the👏 below so other people will see it here on Medium.
+
+Let’s be friends on [Twitter](https://twitter.com/b1ackd0t). Happy Coding 😉
+
+

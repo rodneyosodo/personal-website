@@ -1,0 +1,303 @@
+---
+title: Wasm based AI ML and Confidential Computing  Part 1  AI Algorithms
+date: 2024-10-11
+---
+
+
+# Wasm-based AI/ML and Confidential Computing, Part 1: AI Algorithms
+
+In today’s digital landscape, securing sensitive data during computation is more crucial than ever. At Ultraviolet, we’re developing a…
+
+![](/blogs/medium/1__zzmzp5GXdubJ__bksuxn10Q.jpeg)
+
+### **Introduction to AI and WebAssembly**
+
+[Python](https://www.python.org/) is a high-level, interpreted language that is easy to learn and use. It is versatile and can be used for a wide range of applications, including AI and machine learning. However, Python’s performance can be slower than compiled languages like C or C++, which can be a concern for certain applications.
+
+[Rust](https://www.rust-lang.org/) is a compiled language designed to be fast, safe, and concurrent. It is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety. Unlike C++ or C, Rust is memory-safe by default. Rust is also a low-level language, which provides fine-grained control over memory management and allows for more efficient use of system resources.
+
+Python has synonymously become the most popular language for [AI and machine learning](https://en.wikipedia.org/wiki/Machine_learning). However, Python is not the only language that can be used for AI. In this blog post, we will explore the use of Rust for AI algorithms and how it can be compiled into Binary and WebAssembly. WebAssembly is a binary format that is designed to be executed in a web browser, and it is a low-level language that can be compiled to run on a variety of platforms, including servers, mobile devices, and embedded systems. WebAssembly is designed to be fast, secure, and portable, making it an ideal choice for AI algorithms. Compiling AI models to binary or WebAssembly (Wasm) modules brings several advantages, which could be interesting for a blog post:
+
+1.  **Portability and Cross-Platform Compatibility**
+
+*   **Binary**: Compiling AI models to binary enables them to be executed directly on different systems without depending on the source code. This approach ensures faster loading times, fewer dependencies, and a smoother user experience.
+*   **Wasm**: WebAssembly is platform-agnostic, which means models can run across various devices, including browsers, mobile apps, and edge devices, without major modification.
+
+**2\. Efficient Deployment and Inference**
+
+*   **Reduced Size**: The model can be optimized for size and performance by compiling binaries or Wasm, which is especially important for edge computing or embedded systems.
+*   **Faster Inference**: Wasm modules are designed for near-native performance in environments like web browsers. This makes it ideal for real-time inference on lightweight devices or scenarios where performance is critical.
+*   **Lower Latency:** Compiled binaries remove interpretation layers, reducing latency during model execution, which is crucial in real-time applications like autonomous systems or IoT devices.
+
+**3\. Confidential Computing and Security**
+
+*   **Wasm**: Running models within WebAssembly enables strong sandboxing and isolation, making it harder to tamper with or extract sensitive data from AI models. This is especially important in confidential computing environments.
+*   **Binary**: Compiling models directly to binary makes reverse engineering more difficult, adding a layer of protection for proprietary models or algorithms.
+
+**4\. Resource-Constrained Devices**
+
+*   **Edge Computing**: Many edge devices (e.g., IoT sensors, mobile phones, or industrial machines) have limited computational power and memory. Compiling AI models to lightweight formats like Wasm or stripped-down binaries allows them to run efficiently in these environments.
+*   **Energy Efficiency**: Compiled AI models can also be optimized for energy efficiency, making them suitable for battery-powered devices.
+
+**5\. Reduced Dependency on AI Frameworks**
+
+Compiling to binary or Wasm can remove the need for large AI libraries like TensorFlow, PyTorch, or ONNX, as the compiled model can run independently. This reduces deployment complexity and runtime overhead.
+
+### Burn AI Framework and Wasm Compilation
+
+The need to run machine learning algorithms either training or making inferences from a single executable has been a challenge with Python-based models. This is where Rust comes in. [Burn Algorithms](https://github.com/ultravioletrs/ai/tree/main/burn-algorithms) is a collection of machine learning algorithms that are written in Rust using B[urn](https://burn.dev/).
+
+Burn is a deep learning Framework for Rust designed to be extremely flexible, compute efficient, and highly portable. Burn strives to be as fast as possible on as much hardware as possible, with robust implementations. With Burn, you can run your machine learning models on the CPU, GPU, WebAssembly, and other hardware.
+
+### **Exploring the Ultraviolet AI Repository**
+
+Ultraviolet AI repo is open source and located [here](https://github.com/ultravioletrs/ai) on our GitHub. The repository includes several machine learning algorithms, written in the Burn framework, each addressing different types of problems:
+
+*   Classification — Using the classic Iris dataset to categorize species of flowers.
+*   Regression — Predicting outcomes based on the Wine Quality dataset.
+*   Image Classification — Leveraging the MNIST dataset to recognize handwritten digits.
+*   Text Classification — Classifying news articles with the AG News dataset.
+
+These algorithms are implemented in Rust, offering the advantage of compiling directly to binaries for efficient training. After training, the algorithms are then compiled into WebAssembly (Wasm) modules, enabling lightweight, fast, and secure deployment across various environments, from browsers to edge devices.
+
+We will explore a few algorithms in more depth, focusing on the compilation process to binary (for training) and WebAssembly (for inference). This approach highlights the flexibility and efficiency of Rust for building AI models that are portable and optimized for performance in different deployment scenarios.
+
+Before getting started you need to install the following tools:
+
+\- [Rust](https://www.rust-lang.org/tools/install)
+
+curl - proto '=https' - tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+\- [Wasmtime](https://wasmtime.dev/)
+
+curl https://wasmtime.dev/install.sh -sSf | bash
+
+\- Wasm32-wasi target
+
+rustup target add wasm32-wasip1
+
+\- Clone the repository
+
+git clone https://github.com/ultravioletrs/ai.git
+
+\- Navigate to the burn-algorithms directory
+
+cd ai/burn-algorithms
+
+### **Compiling AI Algorithms to Binary**
+
+#### [**Iris-classification**](https://github.com/ultravioletrs/ai/tree/main/burn-algorithms/iris)
+
+1\. Compiling the Iris-classification algorithm (in the **_burn-algorithms/_** folder)
+
+cargo build - release - bin iris-ndarray - features ndarray
+
+This will build the Iris classification algorithm with the [**_ndarray_** feature](https://github.com/tracel-ai/burn#backends) enabled. The **_ndarray_** feature specifies that the algorithm will run using the CPU for training. The — **_release_** flag specifies that the binary will be optimized for performance and will not include debug symbols.
+
+If we want to compile the algorithm for [WGPU](https://wgpu.rs/), a cross-platform GPU API, we can use the \`**_wgpu_**\` feature:
+
+cargo build - release - bin iris-wgpu - features wgpu
+
+2\. Running the Iris-classification algorithm
+
+Change the directory to the iris folder, the dataset is already downloaded and stored in the \`**_datasets_**\` folder inside the \`**_iris_**\` folder.
+
+cd iris
+
+../target/release/iris-ndarray
+
+For **_wgpu_**:
+
+../target/release/iris-wgpu
+
+The training graph will look like this:
+
+![](/blogs/medium/1__QOcnJ9540Rta__SCopIazew.png)
+
+The output should be something like:
+
+Train Dataset Size: 120  
+Test Dataset Size: 30  
+\======================== Learner Summary ========================  
+Model:  
+ClassificationModel {  
+  input\_layer: Linear {d\_input: 4, d\_output: 128, bias: true, params: 640}  
+  hidden\_layer: Linear {d\_input: 128, d\_output: 64, bias: true, params: 8256}  
+  activation: Relu  
+  output\_layer: Linear {d\_input: 64, d\_output: 3, bias: true, params: 195}  
+  params: 9091  
+}  
+Total Epochs: 48  
+  
+  
+| Split | Metric   | Min.     | Epoch    | Max.     | Epoch    |  
+|-------|----------|----------|----------|----------|----------|  
+| Train | Accuracy | 47.500   | 1        | 98.333   | 47       |  
+| Train | Loss     | 0.062    | 48       | 1.041    | 1        |  
+| Valid | Accuracy | 66.667   | 1        | 100.000  | 48       |  
+| Valid | Loss     | 0.034    | 48       | 0.837    | 1        |
+
+The training artefacts are stored in the \`**_artifacts/iris_**\` folder, this includes the model file and the training logs.
+
+3\. For inference purposes, we can move this folder to the \`**_burn-algorithms/_**\` folder and run the following command:
+
+mkdir -p ../artifacts/iris && cp -r artifacts/iris/\* ../artifacts/iris
+
+This process applies to all the algorithms in the \`**_burn-algorithms/_**\` folder.
+
+#### [**MNIST-classification**](https://github.com/ultravioletrs/ai/tree/main/burn-algorithms/mnist)
+
+1\. Compiling the MNIST-classification algorithm (in the \`**_burn-algorithms/_**\` folder)
+
+cargo build - release - bin mnist-ndarray - features ndarray
+
+If we want to compile the algorithm for WebGPU, a cross-platform GPU API, we can use the \`**_wgpu_**\` feature:
+
+cargo build - release - bin mnist-wgpu - features wgpu
+
+2\. Running the MNIST-classification algorithm
+
+First, download the dataset from [https://www.kaggle.com/datasets/playlist/mnistzip/data?select=mnist\_png](https://www.kaggle.com/datasets/playlist/mnistzip/data?select=mnist_png) and extract it in the \`data\` folder inside the \`mnist\` folder.
+
+mkdir -p mnist/data/  
+unzip mnistzip.zip -d mnist/data/
+
+The folder structure would be something like:
+
+mnist  
+├── Cargo.toml  
+├── data  
+│   └── mnist\_png  
+│       ├── train  
+│       │   ├── 0  
+│       │   ├── 1  
+│       │   ├── 2  
+│       │   ├── 3  
+│       │   ├── 4  
+│       │   ├── 5  
+│       │   ├── 6  
+│       │   ├── 7  
+│       │   ├── 8  
+│       │   └── 9  
+│       └── valid  
+│           ├── 0  
+│           ├── 1  
+│           ├── 2  
+│           ├── 3  
+│           ├── 4  
+│           ├── 5  
+│           ├── 6  
+│           ├── 7  
+│           ├── 8  
+│           └── 9
+
+Change the directory to the mnist folder, the dataset is already downloaded and stored in the \`**_datasets_**\` folder inside the \`**_mnist_**\` folder.
+
+cd mnist
+
+../target/release/mnist-ndarray
+
+For wgpu:
+
+../target/release/mnist-wgpu
+
+The training graph will look like this:
+
+![](/blogs/medium/1__L3z6NE7C2__QU6C4PddBJrg.png)
+
+The output should be something like:
+
+\======================== Learner Summary ========================  
+Model:  
+Model {  
+  conv1: ConvBlock {  
+    conv: Conv2d {stride: \[1, 1\], kernel\_size: \[3, 3\], dilation: \[1, 1\], groups: 1, padding: Valid, params: 80}  
+    norm: BatchNorm {num\_features: 8, momentum: 0.1, epsilon: 0.00001, params: 32}  
+    activation: Gelu  
+    params: 112  
+  }  
+  conv2: ConvBlock {  
+    conv: Conv2d {stride: \[1, 1\], kernel\_size: \[3, 3\], dilation: \[1, 1\], groups: 1, padding: Valid, params: 1168}  
+    norm: BatchNorm {num\_features: 16, momentum: 0.1, epsilon: 0.00001, params: 64}  
+    activation: Gelu  
+    params: 1232  
+  }  
+  conv3: ConvBlock {  
+    conv: Conv2d {stride: \[1, 1\], kernel\_size: \[3, 3\], dilation: \[1, 1\], groups: 1, padding: Valid, params: 3480}  
+    norm: BatchNorm {num\_features: 24, momentum: 0.1, epsilon: 0.00001, params: 96}  
+    activation: Gelu  
+    params: 3576  
+  }  
+  dropout: Dropout {prob: 0.5}  
+  fc1: Linear {d\_input: 11616, d\_output: 32, bias: false, params: 371712}  
+  fc2: Linear {d\_input: 32, d\_output: 10, bias: false, params: 320}  
+  activation: Gelu  
+  params: 376952  
+}  
+Total Epochs: 10  
+  
+  
+| Split | Metric   | Min.     | Epoch    | Max.     | Epoch    |  
+|-------|----------|----------|----------|----------|----------|  
+| Train | Loss     | 0.015    | 10       | 0.252    | 1        |  
+| Train | Accuracy | 93.752   | 1        | 99.543   | 10       |  
+| Valid | Loss     | 0.032    | 8        | 0.081    | 1        |  
+| Valid | Accuracy | 97.570   | 1        | 98.920   | 8        |
+
+The training artefacts are stored in the \`**_artifacts/iris_**\` folder, this includes the model file and the training logs.
+
+3\. For inference purposes, we can move this folder to the \`**_burn-algorithms/_**\` folder and run the following command:
+
+mkdir -p ../artifacts/mnist && cp -r artifacts/mnist/\* ../artifacts/mnist
+
+### **Compiling AI Algorithms to WebAssembly**
+
+WebAssembly (Wasm) is used for inference. We will use the [Wasmtime](https://wasmtime.dev/) runtime to run the WebAssembly binary generated from the Rust code. This is because it runs web assembly code outside the browser and can be used as a command-line utility.
+
+#### [**Iris-classification**](https://github.com/ultravioletrs/ai/tree/main/burn-algorithms/iris-inference)
+
+1\. Compiling the Iris-classification algorithm (in the \`**_burn-algorithms/iris-inference/_**\` folder)
+
+cargo build - release - target wasm32-wasip1
+
+2\. Running the Iris-classification algorithm
+
+wasmtime ../target/wasm32-wasip1/release/iris-inference.wasm '{"sepal\_length": 7.0, "sepal\_width": 3.2, "petal\_length": 4.7, "petal\_width": 1.4}'
+
+The output should be something like:
+
+Iris-versicolor
+
+#### [**MNIST-classification**](https://github.com/ultravioletrs/ai/tree/main/burn-algorithms/mnist-inference)
+
+1\. Compiling the Iris-classification algorithm (in the \`**_burn-algorithms/mnist-inference/_**\` folder)
+
+cargo build - release - target wasm32-wasip1
+
+2\. Running the Iris-classification algorithm
+
+Since we need to pass the input data as an argument, we can use the following command to generate the input from one of the mnist images:
+
+cargo run - release - bin convert-image mnist-inference/4.png
+
+This will convert the image to any array that can be used as input to the model. Use the output as input to the model.
+
+wasmtime ../target/wasm32-wasip1/release/mnist-inference.wasm '\[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 67.0, 232.0, 39.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 62.0, 81.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 120.0, 180.0, 39.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 126.0, 163.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 153.0, 210.0, 40.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 220.0, 163.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 27.0, 254.0, 162.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 222.0, 163.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 183.0, 254.0, 125.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 46.0, 245.0, 163.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 198.0, 254.0, 56.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 120.0, 254.0, 163.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 23.0, 231.0, 254.0, 29.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 159.0, 254.0, 120.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 163.0, 254.0, 216.0, 16.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 159.0, 254.0, 67.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 14.0, 86.0, 178.0, 248.0, 254.0, 91.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 159.0, 254.0, 85.0, 0.0, 0.0, 0.0, 47.0, 49.0, 116.0, 144.0, 150.0, 241.0, 243.0, 234.0, 179.0, 241.0, 252.0, 40.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 150.0, 253.0, 237.0, 207.0, 207.0, 207.0, 253.0, 254.0, 250.0, 240.0, 198.0, 143.0, 91.0, 28.0, 5.0, 233.0, 250.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 119.0, 177.0, 177.0, 177.0, 177.0, 177.0, 98.0, 56.0, 0.0, 0.0, 0.0, 0.0, 0.0, 102.0, 254.0, 220.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 169.0, 254.0, 137.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 169.0, 254.0, 57.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 169.0, 254.0, 57.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 169.0, 255.0, 94.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 169.0, 254.0, 96.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 169.0, 254.0, 153.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 169.0, 255.0, 153.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 96.0, 254.0, 153.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0\]'
+
+The output should be something like:
+
+4
+
+### **Conclusion**
+
+Compiling AI algorithms to binary or WebAssembly (Wasm) offers significant advantages, particularly regarding performance, portability, and deployment efficiency. Rust, a system-level programming language, provides the flexibility and control for such optimizations. By moving away from Python and leveraging Rust’s power, models can be efficiently deployed in diverse environments, from edge devices to browsers, and run securely in isolated environments like Wasm.
+
+Whether for training with binaries or inference through Wasm, this approach is not just about performance gains — it also reduces dependencies on AI frameworks, enhances security through sandboxing, and supports resource-constrained devices. With these techniques, developers can create AI solutions that are fast, portable, and secure, laying the groundwork for future advancements in confidential computing and edge AI.
+
+This blog post is the first part of a series and covers the initial step of protecting AI/ML algorithms with Confidential Computing: compiling them to Wasm and deploying them with the Wasm runtime for training and inference.
+
+In the next part, we will address TEEs, the deployment of the Wasm runtime inside Confidential VMs, and the execution of algorithms in those encrypted VMs.
+
+_To learn more about_ [_Ultraviolet Security_](https://ultraviolet.rs/index.html), _and how we’re building the world’s most sophisticated_ [_collaborative AI platform_](https://ultraviolet.rs/prism.html)_, visit our_ [_website_](https://ultraviolet.rs/index.html) _and follow us on_ [_Twitter_](https://x.com/ultravioletrs)_!_
+
+

@@ -1,0 +1,576 @@
+---
+title: Unlocking Flexibility and Extensibility in Your Programs with Go s Interfaces
+date: 2023-09-25
+---
+
+
+# Unlocking Flexibility and Extensibility in Your Programs with Go’s Interfaces
+
+In the ever-evolving software development landscape, adaptability and extensibility are key virtues. Whether you’re a seasoned developer…
+
+![](/blogs/medium/1__9EASSUdNjBpwWyvW3xQCXQ.png)
+
+In the ever-evolving software development landscape, adaptability and extensibility are key virtues. Whether you’re a seasoned developer or just starting your coding journey, harnessing the power of Go’s interfaces can significantly enhance your ability to build flexible and extensible programs. In this blog, we embark on a journey through the intricacies of Go’s interface system, uncovering the secrets that enable you to create versatile and robust software solutions. Join us as we dig deep into the world of Go and discover how interfaces can be your secret weapon in crafting software that stands the test of time.
+
+### **Introduction**
+
+Go is not an object-oriented language, that is known. Polymorphism is a feature of object-oriented languages, and Go does not have classes. However, Go does have interfaces, and interfaces are a way to achieve polymorphism in Go. An interface is a collection of method signatures that a type can implement. Interfaces are a way to define behaviour, and they are a powerful tool in Go. This means you can write code that is more flexible and adaptable by using interfaces.
+
+#### **What is Polymorphism?**
+
+Polymorphism is the ability of an object to take on many forms. In object-oriented programming, polymorphism is a feature that allows objects of different types to be treated as the same type. In other words, polymorphism allows you to define one interface and have multiple implementations. The word “poly” means many and “morphs” means forms, so polymorphism means many forms. This means that a single function or method can be used to do different things depending on the type of data that it is acting upon.
+
+For example, you can have a **_\`Car\`_** interface that has a **_\`drive()\`_** method. You can then have a **_\`lambo\`_** and **_\`chevy\`_** type that both implement the **_\`Car\`_** interface. The **_\`drive()\`_** method for each type can be different, but the interface is the same.
+
+In Go, we can achieve polymorphism by using interfaces. Interfaces allow us to define behaviour and then have types implement that behaviour. This means that we can have multiple implementations of the same behaviour. This is polymorphism.
+
+Example:
+
+package main  
+  
+import "fmt"  
+  
+// car is an interface that defines the methods that all cars must have  
+type car interface {  
+    // drive method is used to move the car  
+    drive()  
+  
+    // stop method is used to stop the car  
+    stop()  
+}  
+  
+type lambo struct {  
+    Model string  
+}  
+  
+type chevy struct {  
+    Model string  
+}  
+  
+var (  
+    \_ car = (\*lambo)(nil)  
+    \_ car = (\*chevy)(nil)  
+)  
+  
+func (l \*lambo) drive() {  
+    fmt.Printf("Lambo of model %s on the move\\n", l.Model)  
+}  
+  
+func (l \*lambo) stop() {  
+    fmt.Printf("Lambo of model %s stopped\\n", l.Model)  
+}  
+  
+func (c \*chevy) drive() {  
+    fmt.Printf("Chevy of model %s on the move\\n", c.Model)  
+}  
+  
+func (c \*chevy) stop() {  
+    fmt.Printf("Chevy of model %s stopped\\n", c.Model)  
+}  
+  
+// driveCar is a function that takes a car interface and calls the drive method  
+func driveCar(c car) {  
+    c.drive()  
+}  
+  
+// stopCar is a function that takes a car interface and calls the stop method  
+func stopCar(c car) {  
+    c.stop()  
+}  
+  
+func main() {  
+    var l = lambo{  
+        Model: "Gallardo",  
+    }  
+    var c = chevy{  
+        Model: "Camaro",  
+    }  
+    driveCar(&l)  
+    driveCar(&c)  
+    stopCar(&l)  
+    stopCar(&c)  
+}
+
+Output
+
+go run interfaces/basic/main.go  
+  
+Lambo of model Gallardo on the move  
+Chevy of model Camaro on the move  
+Lambo of model Gallardo stopped  
+Chevy of model Camaro stopped
+
+In the above example, we have a **_\`car\`_** interface that defines the **_\`drive()\`_** and **_\`stop()\`_** methods. Any type that implements these two methods can be considered a **_\`car\`_**. We then have two types **_\`lambo\`_** and **_\`chevy\`_** that both implement the **_\`car\`_** interface. This means that both types have the same behaviour, but the implementation of that behaviour is different. They both have a field called Model which stores the model name of the car. We then have two functions **_\`driveCar()\`_** and **_\`stopCar()\`_** that take a **_\`Car\`_** interface as an argument. This means that we can pass in either a **_\`lambo\`_** or **_\`chevy\`_** type to these functions. The main function creates a **_\`lambo\`_** and **_\`chevy\`_** type and then calls the **_\`driveCar()\`_** and **_\`stopCar()\`_** functions with each type. This means that the same function is being used to drive and stop both types, even though the implementation of the **_\`drive()\`_** and **_\`stop()\`_** methods are different for each type. This is polymorphism.
+
+Interfaces can be used to define common behaviour for different types of objects. In this case, all cars can drive and stop. This can be useful for writing code that works with cars without having to know the specific details of each type of car.
+
+### **Why are Interfaces Important?**
+
+Interfaces are important in software design because they:
+
+*   Encapsulate abstraction. An interface defines the behavior of an object, but not its implementation. This allows the implementation to be changed without affecting the clients of the interface.
+*   Promote loose coupling. Loose coupling is a design principle that minimizes the dependencies between modules. This makes the code more flexible and easier to maintain.
+*   Allow polymorphism. Polymorphism is the ability to treat objects of different types similarly. This is made possible by interfaces, which define a common set of methods for different types of objects.
+*   Make code more readable and maintainable. Interfaces can make code more readable and maintainable by providing a clear definition of the expected behaviour of an object. This makes it easier to understand how different parts of the code interact.
+
+### **Interfaces following the Software Design Principles**
+
+Software design principles are a set of guidelines that help developers create software that is easy to understand, maintain, and extend. It is not a specific implementation, but rather a description of the solution that can be used in many different ways. Design patterns can help you write more maintainable and extensible code, and they can also help you communicate your ideas to other developers.
+
+Here are some of the most common design patterns in Go:
+
+*   Singleton pattern: This pattern ensures that there is only one instance of a particular class in a program.
+*   Factory pattern: This pattern provides a way to create objects without specifying their concrete class.
+*   Adapter pattern: This pattern allows two incompatible classes to work together.
+*   Builder pattern: This pattern allows you to construct complex objects step by step.
+*   Prototype pattern: This pattern allows you to create new objects by cloning existing ones.
+
+These are just a few of the many available design patterns. If you are new to Go software design, I recommend that you learn about the most common patterns. There are many resources available online, including books, articles, and tutorials.
+
+An example of using software design principles while implementing an interface:
+
+package main  
+  
+import "fmt"  
+  
+// car is an interface that defines the methods that all cars must have  
+type car interface {  
+    // addDoors method is used to add doors to the car  
+    // This is an example of the Builder pattern  
+    addDoors(doors uint8) car  
+    // addEngine method is used to add an engine to the car  
+    // This is an example of the Builder pattern  
+    addEngine(engine string) car  
+    // drive method is used to move the car  
+    drive()  
+    // stop method is used to stop the car  
+    stop()  
+}  
+  
+// lambo is a struct that represents a Lamborghini car  
+type lambo struct {  
+    doors  uint8  
+    engine string  
+}  
+  
+// newLambo is a function that returns a new lambo struct  
+// This implements the Factory pattern  
+func newLambo() car {  
+    return &lambo{}  
+}  
+  
+func (l \*lambo) addDoors(doors uint8) car {  
+    l.doors = doors  
+    return l  
+}  
+  
+func (l \*lambo) addEngine(engine string) car {  
+    l.engine = engine  
+    return l  
+}  
+  
+func (l \*lambo) drive() {  
+    fmt.Println("Lambo on the move")  
+}  
+  
+func (l \*lambo) stop() {  
+    fmt.Println("Lambo stopped")  
+}  
+  
+// chevy is a struct that represents a Chevrolet car  
+type chevy struct {  
+    doors  uint8  
+    engine string  
+}  
+  
+// newChevy is a function that returns a new chevy struct  
+// This implements the Factory pattern  
+func newChevy() car {  
+    return &chevy{}  
+}  
+  
+func (c \*chevy) addDoors(doors uint8) car {  
+    c.doors = doors  
+    return c  
+}  
+  
+func (c \*chevy) addEngine(engine string) car {  
+    c.engine = engine  
+    return c  
+}  
+  
+func (c \*chevy) drive() {  
+    fmt.Println("Chevy on the move")  
+}  
+  
+func (c \*chevy) stop() {  
+    fmt.Println("Chevy stopped")  
+}  
+  
+// factory is an interface that defines the methods that all factories must have  
+// This implements the Abstract Factory pattern  
+type factory interface {  
+    makeCar(car car, doors uint8, engine string) car  
+}  
+  
+type carFactory struct{}  
+  
+func (cf \*carFactory) makeCar(car car, doors uint8, engine string) car {  
+    switch car.(type) {  
+    case \*lambo:  
+        fmt.Println("Making a Lambo")  
+    case \*chevy:  
+        fmt.Println("Making a Chevy")  
+    }  
+  
+    return car.addDoors(doors).addEngine(engine)  
+}  
+  
+// newCarFactory is a function that returns a new carFactory struct  
+// This implements the Factory pattern  
+func newCarFactory() factory {  
+    return &carFactory{}  
+}  
+  
+func main() {  
+    var f = newCarFactory()  
+    var l = newLambo()  
+    var c = newChevy()  
+    f.makeCar(l, 2, "V8")  
+    f.makeCar(c, 4, "V6")  
+    l.drive()  
+    c.drive()  
+    l.stop()  
+    c.stop()  
+}
+
+Output
+
+go run interfaces/advanced/main.go  
+  
+Making a Lambo  
+Making a Chevy  
+Lambo on the move  
+Chevy on the move  
+Lambo stopped  
+Chevy stopped
+
+From the above example, we can see that we define two interfaces: **_\`car\`_** and **_\`factory\`_**. The **_\`car\`_** interface defines the methods that all cars must have, such as **_\`addDoors()\`_**, **_\`addEngine()\`_**, **_\`drive()\`_**, and **_\`stop()\`_**. The **_\`factory\`_** interface defines the methods that all factories must have, such as **_\`makeCar()\`_**.
+
+The **_\`lambo\`_** and **_\`chevy\`_** structs implement the **_\`car\`_** interface. They represent two different types of cars: a Lamborghini and a Chevrolet.
+
+The **_\`newLambo()\`_** and **_\`newChevy()\`_** functions return new instances of the **_\`lambo\`_** and **_\`chevy\`_** structs, respectively.
+
+The **_\`carFactory\`_** struct implements the **_\`factory\`_** interface. It has a method called **_\`makeCar()\`_**, which takes a **_\`car\`_**, a number of doors, and an engine as arguments. The **_\`makeCar()\`_** method first prints a message indicating what kind of car is being created. Then, it calls the **_\`addDoors()\`_** and **_\`addEngine()\`_** methods on the car to add the specified number of doors and engines.
+
+The **_\`newCarFactory()\`_** function returns a new instance of the **_\`carFactory\`_** struct.
+
+The **_\`main()\`_** function creates a new **_\`carFactory\`_** object, a new **_\`lambo\`_** object, and a new **_\`chevy\`_** object. It then calls the **_\`makeCar()\`_** method on the **_\`carFactory\`_** object to create a Lamborghini with 2 doors and a V8 engine. It also calls the **_\`makeCar()\`_** method to create a Chevrolet with 4 doors and a V6 engine. Finally, it calls the **_\`drive()\`_** and **_\`stop()\`_** methods on the Lamborghini and Chevrolet objects.
+
+#### **Builder Pattern**
+
+The builder pattern is a design pattern that allows you to construct complex objects step by step. It is often used to create objects that have many optional parameters. The builder pattern is useful when you want to create an object that has many optional parameters. For example, you might want to create a car that has a certain number of doors and an engine of a certain type. You could use the builder pattern to create a car with 2 doors and a V8 engine or a car with 4 doors and a V6 engine.
+
+func (cf \*carFactory) makeCar(car car, doors uint8, engine string) car {  
+    return car.addDoors(doors).addEngine(engine)  
+}
+
+#### **Abstract Factory Pattern**
+
+The abstract factory pattern is a design pattern that allows you to create families of related objects without specifying their concrete classes. It is often used to create objects that have many optional parameters. The abstract factory pattern is useful when you want to create a family of related objects. For example, you might want to create a family of cars that have a certain number of doors and an engine of a certain type. You could use the abstract factory pattern to create a family of cars with 2 doors and a V8 engine, or a family of cars with 4 doors and a V6 engine.
+
+func (cf \*carFactory) makeCar(car car, doors uint8, engine string) car {  
+    return car.addDoors(doors).addEngine(engine)  
+}  
+  
+func main() {  
+    var f = newCarFactory()  
+    var l = newLambo()  
+    var c = newChevy()  
+    f.makeCar(l, 2, "V8")  
+    f.makeCar(c, 4, "V6")  
+}
+
+#### **Factory Pattern**
+
+The factory pattern is a design pattern that allows you to create objects without specifying their concrete classes. It is often used to create objects that have many optional parameters. The factory pattern is useful when you want to create an object without specifying its concrete class. For example, you might want to create a car with 2 doors and a V8 engine or a car with 4 doors and a V6 engine.
+
+func newLambo() car {  
+    return &lambo{}  
+}  
+  
+func newChevy() car {  
+    return &chevy{}  
+}  
+  
+func main() {  
+    var l = newLambo()  
+    var c = newChevy()  
+    l.addDoors(2).addEngine("V8")  
+    c.addDoors(4).addEngine("V6")  
+}
+
+### **Real-World Examples**
+
+> _Mainflux is a modern, scalable, secure open source and patent-free IoT cloud platform written in Go. It accepts user and thing connections over various network protocols (i.e. HTTP, MQTT, WebSocket, CoAP), thus making a seamless bridge between them. It is used as the IoT middleware for building complex IoT solutions._
+
+In mainflux, there is a configurable message broker. That is, you can configure mainflux to run using **_\`NATS\`_** or **_\`RabbitMQ\`_** as the message broker. This is achieved by using the **_\`messaging\`_** package. The package contains a **_\`publisher\`_** and **_\`subscriber\`_** interface. The **_\`publisher\`_** interface defines the **_\`publish()\`_** method and the **_\`subscriber\`_** interface defines the **_\`subscribe()\`_** method. The **_\`NATS\`_** and **_\`RabbitMQ\`_** packages implement the **_\`publisher\`_** and **_\`subscriber\`_** interfaces. This means that you can use either **_\`NATS\`_** or **_\`RabbitMQ\`_** as the message broker for mainflux.
+
+#### **The interface**
+
+// Copyright (c) Mainflux  
+// SPDX-License-Identifier: Apache-2.0  
+  
+package messaging  
+  
+import "context"  
+  
+// Publisher specifies message publishing API.  
+type Publisher interface {  
+    // Publishes message to the stream.  
+    Publish(ctx context.Context, topic string, msg \*Message) error  
+  
+    // Close gracefully closes message publisher's connection.  
+    Close() error  
+}  
+  
+// MessageHandler represents Message handler for Subscriber.  
+type MessageHandler interface {  
+    // Handle handles messages passed by underlying implementation.  
+    Handle(msg \*Message) error  
+  
+    // Cancel is used for cleanup during unsubscribing and it's optional.  
+    Cancel() error  
+}  
+  
+// Subscriber specifies message subscription API.  
+type Subscriber interface {  
+    // Subscribe subscribes to the message stream and consumes messages.  
+    Subscribe(ctx context.Context, id, topic string, handler MessageHandler) error  
+  
+    // Unsubscribe unsubscribes from the message stream and  
+    // stops consuming messages.  
+    Unsubscribe(ctx context.Context, id, topic string) error  
+  
+    // Close gracefully closes message subscriber's connection.  
+    Close() error  
+}  
+  
+// PubSub  represents aggregation interface for publisher and subscriber.  
+type PubSub interface {  
+    Publisher  
+    Subscriber  
+}
+
+The **_\`publisher\`_** interface defines the **_\`publish()\`_** method, which takes a context, a topic, and a message as arguments. The **_\`subscriber\`_** interface defines the **_\`subscribe()\`_** method, which takes a context, an id, a topic, and a message handler as arguments. The **_\`messageHandler\`_** interface defines the **_\`handle()\`_** method, which takes a message as an argument.
+
+#### **Publisher**
+
+The NATS publisher implements the **_\`publisher\`_** interface. It has a **_\`conn\`_** field that stores the NATS connection. The **_\`publish()\`_** method takes a context, a topic, and a message as arguments. It then marshals the message into a byte array and publishes it to the NATS connection.
+
+func (pub \*publisher) Publish(ctx context.Context, topic string, msg \*messaging.Message) error {  
+    if topic == "" {  
+        return ErrEmptyTopic  
+    }  
+  
+    data, err := proto.Marshal(msg)  
+    if err != nil {  
+        return err  
+    }  
+  
+    subject := fmt.Sprintf("%s.%s", chansPrefix, topic)  
+    if msg.Subtopic != "" {  
+        subject = fmt.Sprintf("%s.%s", subject, msg.Subtopic)  
+    }  
+  
+    return pub.conn.Publish(subject, data)  
+}
+
+The RabbitMQ publisher implements the **_\`publisher\`_** interface. It has a **_\`ch\`_** field that stores the RabbitMQ channel. The **_\`publish()\`_** method takes a context, a topic, and a message as arguments. It then marshals the message into a byte array and publishes it to the RabbitMQ channel.
+
+func (pub \*publisher) Publish(ctx context.Context, topic string, msg \*messaging.Message) error {  
+    if topic == "" {  
+        return ErrEmptyTopic  
+    }  
+    data, err := proto.Marshal(msg)  
+    if err != nil {  
+        return err  
+    }  
+    subject := fmt.Sprintf("%s.%s", chansPrefix, topic)  
+    if msg.Subtopic != "" {  
+        subject = fmt.Sprintf("%s.%s", subject, msg.Subtopic)  
+    }  
+    subject = formatTopic(subject)  
+  
+    err = pub.ch.PublishWithContext(  
+        ctx,  
+        exchangeName,  
+        subject,  
+        false,  
+        false,  
+        amqp.Publishing{  
+            Headers:     amqp.Table{},  
+            ContentType: "application/octet-stream",  
+            AppId:       "mainflux-publisher",  
+            Body:        data,  
+        })  
+  
+    if err != nil {  
+        return err  
+    }  
+  
+    return nil  
+}
+
+From the above examples, we can see that the **_\`NATS\`_** and **_\`RabbitMQ\`_** publishers have different implementations, but they both implement the **_\`publisher\`_** interface. This means that you can use either **_\`NATS\`_** or **_\`RabbitMQ\`_** as the message broker for mainflux.
+
+Their respective factory methods are as follows:
+
+func NewPublisher(url string) (messaging.Publisher, error) {  
+    conn, err := nats.Connect(url, nats.MaxReconnects(maxReconnects))  
+    if err != nil {  
+        return nil, err  
+    }  
+    ret := &publisher{  
+        conn: conn,  
+    }  
+    return ret, nil  
+}
+
+The NATS publisher factory method takes a URL as an argument. It then creates a new NATS connection and returns a new NATS publisher. The **_\`publisher\`_** struct implements the **_\`publisher\`_** interface, so it can be used as a publisher for mainflux.
+
+func NewPublisher(url string) (messaging.Publisher, error) {  
+    conn, err := amqp.Dial(url)  
+    if err != nil {  
+        return nil, err  
+    }  
+  
+    ch, err := conn.Channel()  
+    if err != nil {  
+        return nil, err  
+    }  
+    if err := ch.ExchangeDeclare(exchangeName, amqp.ExchangeTopic, true, false, false, false, nil); err != nil {  
+        return nil, err  
+    }  
+    ret := &publisher{  
+        conn: conn,  
+        ch:   ch,  
+    }  
+    return ret, nil  
+}
+
+The RabbitMQ publisher factory method takes a URL as an argument. It then creates a new rabbitmq connection and channel. It also declares a new RabbitMQ exchange. Finally, it returns a new RabbitMQ publisher. The **_\`publisher\`_** struct implements the **_\`publisher\`_** interface, so it can be used as a publisher for mainflux.
+
+Mainflux uses build flags to determine which publisher to use. If the **_\`NATS\`_** build flag is set, then mainflux will use the NATS publisher. If the **_\`RabbitMQ\`_** build flag is set, then mainflux will use the RabbitMQ publisher. If neither build flag is set, then mainflux will use the NATS publisher by default. This is done by using 2 separate files: **_\`brokers\_nats.go\`_** and **_\`brokers\_rabbitmq.go\`_**. The **_\`brokers\_nats.go\`_** file contains the nats publisher factory method and the **_\`brokers\_rabbitmq.go\`_** file contains the rabbitmq publisher factory method.
+
+// Copyright (c) Mainflux  
+// SPDX-License-Identifier: Apache-2.0  
+  
+//go:build !rabbitmq  
+// +build !rabbitmq  
+  
+package brokers  
+  
+import (  
+    "log"  
+  
+    mflog "github.com/mainflux/mainflux/logger"  
+    "github.com/mainflux/mainflux/pkg/messaging"  
+    "github.com/mainflux/mainflux/pkg/messaging/nats"  
+)  
+  
+// SubjectAllChannels represents subject to subscribe for all the channels.  
+const SubjectAllChannels = "channels.>"  
+  
+func init() {  
+    log.Println("The binary was build using Nats as the message broker")  
+}  
+  
+func NewPublisher(url string) (messaging.Publisher, error) {  
+    pb, err := nats.NewPublisher(url)  
+    if err != nil {  
+        return nil, err  
+    }  
+  
+    return pb, nil  
+}  
+  
+func NewPubSub(url, queue string, logger mflog.Logger) (messaging.PubSub, error) {  
+    pb, err := nats.NewPubSub(url, queue, logger)  
+    if err != nil {  
+        return nil, err  
+    }  
+  
+    return pb, nil  
+}
+
+//go:build rabbitmq  
+// +build rabbitmq  
+  
+// Copyright (c) Mainflux  
+// SPDX-License-Identifier: Apache-2.0  
+  
+package brokers  
+  
+import (  
+    "log"  
+  
+    mflog "github.com/mainflux/mainflux/logger"  
+    "github.com/mainflux/mainflux/pkg/messaging"  
+    "github.com/mainflux/mainflux/pkg/messaging/rabbitmq"  
+)  
+  
+// SubjectAllChannels represents subject to subscribe for all the channels.  
+const SubjectAllChannels = "channels.#"  
+  
+func init() {  
+    log.Println("The binary was build using RabbitMQ as the message broker")  
+}  
+  
+func NewPublisher(url string) (messaging.Publisher, error) {  
+    pb, err := rabbitmq.NewPublisher(url)  
+    if err != nil {  
+        return nil, err  
+    }  
+  
+    return pb, nil  
+}  
+  
+func NewPubSub(url, queue string, logger mflog.Logger) (messaging.PubSub, error) {  
+    pb, err := rabbitmq.NewPubSub(url, queue, logger)  
+    if err != nil {  
+        return nil, err  
+    }  
+  
+    return pb, nil  
+}
+
+### **Conclusion**
+
+Interfaces are a powerful tool in Go. They allow you to define behaviour and then have types implement that behaviour. This means that you can write code that is more flexible and adaptable by using interfaces. Interfaces are important in software design because they encapsulate abstraction, promote loose coupling, allow polymorphism, and make code more readable and maintainable.
+
+### **References**
+
+1.  [https://books.google.co.ke/books?id=9IFMCsQJyscC&pg=SA91-PA5&redir\_esc=y](https://books.google.co.ke/books?id=9IFMCsQJyscC&pg=SA91-PA5&redir_esc=y)
+2.  [http://lucacardelli.name/Papers/OnUnderstanding.A4.pdf](http://lucacardelli.name/Papers/OnUnderstanding.A4.pdf)
+3.  [https://www.worldcat.org/title/31171684](https://www.worldcat.org/title/31171684)
+4.  [https://www.enterpriseintegrationpatterns.com](https://www.enterpriseintegrationpatterns.com)
+5.  [https://github.com/mainflux/mainflux](https://github.com/mainflux/mainflux)
+6.  [https://github.com/mainflux/mainflux/blob/master/pkg/messaging](https://github.com/mainflux/mainflux/blob/master/pkg/messaging)
+7.  [https://github.com/0x6flab/blog-golang-interfaces](https://github.com/0x6flab/blog-golang-interfaces)
+
+> The bigger the interface, the weaker the abstraction. — Rob Pike
+
+If you liked this article, click the👏 below so other people will see it here on Medium.
+
+Let’s be friends on [Twitter](https://twitter.com/b1ackd0t). Happy Coding 😉
+
+### Stackademic
+
+_Thank you for reading until the end. Before you go:_
+
+*   _Please consider_ **_clapping_** _and_ **_following_** _the writer! 👏_
+*   _Follow us on_ [**_Twitter(X)_**](https://twitter.com/stackademichq)_,_ [**_LinkedIn_**](https://www.linkedin.com/company/stackademic)_, and_ [**_YouTube_**](https://www.youtube.com/c/stackademic)**_._**
+*   _Visit_ [**_Stackademic.com_**](http://stackademic.com/) _to find out more about how we are democratizing free programming education around the world._
+
+

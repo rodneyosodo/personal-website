@@ -1,0 +1,157 @@
+---
+title: Integrating Large Language Models in Trusted Execution Environments with SuperMQ and Ollama
+date: 2024-12-01
+---
+
+
+# Integrating Large Language Models in Trusted Execution Environments with SuperMQ and Ollama
+
+Integrating large language models (LLMs) within Trusted Execution Environments (TEEs) represents a groundbreaking advancement in secure and…
+
+![](/blogs/medium/1__OJoFjkRO6Fqmy48hMT7qDg.jpeg)
+
+### Introduction to Large Language Models (LLMs)
+
+A large language model (LLM) is a statistical language model trained on a massive amount of data capable of language generation and other natural language processing (NLP) tasks. LLMs are trained using deep learning techniques, especially the [transformer model architecture](https://arxiv.org/abs/1706.03762).
+
+![](/blogs/medium/1__0AACUBsHp4jfcZM4iZ3P3g.png)
+
+The transformer model architecture is a type of neural network architecture that is well-suited for processing sequential data, such as natural language text. Before the Transformer, most models for things like language translation used:
+
+*   [Recurrent Neural Networks](http://www.scholarpedia.org/article/Recurrent_neural_networks) (RNNs): These models process words one by one, which makes them slow because each word depends on the one before it.
+*   [Convolutional Neural Networks](https://hal.science/hal-04206682/document) (CNNs): These work faster, but aren’t great at understanding long sentences because they focus only on small chunks at a time.
+
+Both models typically have two parts:
+
+*   Encoder: Understands the input (like a sentence in one language).
+*   Decoder: Translates this understanding into an output (like a sentence in another language).
+
+To improve these models, people added something called **attention**. This helps the model focus on the most important words when translating or processing text. The Transformer model changed things by using only attention to process sequences of text. It doesn’t use RNNs or CNNs at all. Here’s how it’s different:
+
+*   No Recurrence: Instead of processing one word at a time like RNNs, the Transformer looks at the entire sentence at once. This makes it much faster.
+*   Attention Everywhere: The Transformer uses multiple layers of attention to understand how every word relates to every other word in a sentence, which helps it make better predictions.
+
+In simple terms, a Large Language Model (LLM) is a computer program that learns to understand and interpret human language or other complex data by being exposed to many examples. These models are often trained on massive amounts of text, sometimes gathered from the internet. However, the quality of the data affects how well the LLM learns, so developers may choose to use carefully selected data sets to improve the model’s ability to understand language naturally.
+
+LLMs can be trained to perform various tasks. One of the most popular uses is [generative AI](https://en.wikipedia.org/wiki/Generative_artificial_intelligence), where, given a prompt or question, they can produce text as a response. For example, ChatGPT, a widely available LLM, can generate essays, poems, and other forms of writing based on user inputs. Examples of LLMs include [ChatGPT](https://chatgpt.com/) (OpenAI), [Gemini](https://gemini.google.com/) (Google), [Llama](https://www.llama.com/) (Meta), and many others. [GitHub’s Copilot](https://github.com/features/copilot) is another example, but it focuses on helping with code rather than natural language.
+
+### The Role of Trusted Execution Environments (TEEs) in AI Workloads
+
+Confidential computing is a technology designed to protect computer workloads from their surrounding environments. It addresses a critical and previously unresolved issue: how to process data on computing infrastructure that may be compromised.
+
+The foundation of confidential computing lies in specialized hardware. The processor creates a secure environment for data processing, often referred to as a trusted execution environment (TEE). Generally, a TEE is responsible for running and securing a single workload, such as a function, application, or container. For instance, in Intel SGX, TEE is synonymous with an enclave, while for AMD SEV, Arm CCA, and Intel TDX, TEE refers to a confidential VM ([CVM](https://profian.com/what-are-confidential-vms/)). [AMD Secure Encrypted Virtualization (SEV)](https://www.amd.com/en/developer/sev.html) is a technology that isolates and encrypts the memory of a VM, providing a high level of security for the VM. AMD Secure Encrypted Virtualization-Secure Nested Paging (SEV-SNP) enhances security by providing strong memory integrity protection to guard against malicious hypervisor-based attacks, including data replay and memory remapping. This technology establishes an isolated execution environment for virtual machines (VMs). Furthermore, SEV-SNP includes several optional security features that accommodate a broader range of VM use cases, bolster protection against interrupt-related vulnerabilities, and improve defences against recently identified side-channel attacks.
+
+Running AI workloads in TEEs is a critical step in achieving confidential computing. This ensures that data and AI models are protected from unauthorized access outside the TEE. TEEs provide a higher level of security for trusted applications running on the device. In Cube AI, the TEE ensures that AI models are executed securely and in a controlled environment. The user can verify the integrity of the AI model running inside by doing remote attestation. Remote attestation is a process that proves to the user that SEV protection is in place and that the virtual machine is not subject to manipulation. Before sending secrets to the CVM, the user must verify the attestation information. While this process is the same for the SEV and the SEV-ES, it changed with the SEV-SNP.
+
+![](/blogs/medium/1__iIEYMV7NSF0HQfFecsjCzg.png)
+
+In SEV-SNP, the attestation process involves the same parties as SEV versions but introduces two new keys for signing attestation reports: the Versioned Chip Endorsement Key (VCEK) and the Versioned Loaded Endorsement Key (VLEK).
+
+\- **VCEK**: This is a unique private key created by hashing the CEK key with the version numbers of all the trusted computing base (TCB) components, including the CPU microcode, SNP firmware, PSP operating system, and PSP bootloader. The VCEK is signed with the ASK and ARK keys to validate the attestation report.
+
+\- **VLEK**: This key can replace the VCEK when signing the attestation report. The VLEK is an ECDSA P-384 key signed by AMD. Unlike the VCEK, which is unique to each chip, the VLEK requires the platform owner (PO) to enrol with AMD and obtain a unique seed from the AMD Key Derivation Service (KDS). To do this, the PO must provide the KDS with the current TCB version and the processor’s chip ID. The KDS then creates a VLEK hashstick, which is wrapped in an AES-256-GCM key derived from the chip ID. Once loaded, the firmware can use the VLEK instead of the VCEK.
+
+The **ID block** can be given to the PO by the Global Orchestrator (GO) and is presented to the hypervisor during the launch of the Confidential Virtual Machine (CVM). This ID block includes the expected launch measurement, the GO policy, and its cryptographic signature. If the measurement doesn’t match the expected value, the CVM launch will fail. The GO also provides the public ID key to the hypervisor for verification.
+
+The **guest policy** in SEV-SNP serves a similar purpose to previous SEV versions. It includes flags that determine how the CVM should start, such as debug options and firmware version requirements.
+
+A key change in SEV-SNP is how the attestation report is retrieved and sent to the GO. This report is accessed using a kernel driver (sev-guest driver) that interacts with the SNP firmware. The driver communicates with the firmware by sending encrypted messages through the hypervisor using VM platform communication keys (VMPCKs). During the CVM launch, a special memory page containing these keys is created. If a message requests an attestation report, the firmware sends it back to the hypervisor and then to the guest.
+
+The main components of the SEV-SNP attestation report include the CVM measurement, the GO policy, TCB information, the digest of the ID key that signed the ID block, and data from the guest. This report data is a 512-bit block that the firmware does not modify, allowing it to carry important information to the GO, like a public key for establishing a secure connection. Once the GO receives the attestation report, it verifies the signature and checks the validity of the information.
+
+On an already enabled SEV-SNP system, the attestation report can be retrieved by running the following command:
+
+snpguest report attestation-report.bin request-data.txt - random
+
+This command will request the attestation report. \`**_attestation-report.bin_**\` is the output file that will contain the report. \`**_request-data.txt_**\` is a file that contains the request data.
+
+AMD Root Key (ARK) and AMS SEV Key (ASK) are requested from the AMD Key Derivation Service (KDS).
+
+snpguest fetch vcek pem milan . attestation-report.bin
+
+**Milan** is the AMD processor model.
+
+AMD VCEK is requested from the AMD Key Derivation Service (KDS).
+
+snpguest fetch vcek pem milan . attestation-report.bin
+
+The certificates are then verified.
+
+snpguest verify certs .
+
+The attestation report is verified.
+
+snpguest verify attestation . attestation-report.bin
+
+To get the measurement from the attestation report, run the following command:
+
+snpguest\_report\_measurement=$(snpguest display report attestation-report.bin | tr '\\n' ' ' | sed "s|.\*Measurement:\\(.\*\\)Host Data.\*|\\1\\n|g" | sed "s| ||g")  
+snpguest\_report\_measurement=$(echo ${snpguest\_report\_measurement} | sed $'s/\[^\[:print:\]\\t\]//g')  
+echo -e "Measurement from SNP Attestation Report: ${snpguest\_report\_measurement}\\n"
+
+The expected measurement and actual measurement are compared to ensure that the attestation report is valid.
+
+### SuperMQ
+
+SuperMQ is a cutting-edge event-driven infrastructure solution designed to empower organizations and developers in building secure, scalable, and innovative cloud applications. SuperMQ provides a platform for building SaaS applications that leverage the power of TEEs to protect sensitive data and AI models. It offers fine-grained control over user permissions, taking into account hierarchical relationships between entities and domains. The structure and functionality of the authorization system are implemented using [SpiceDB](https://github.com/authzed/spicedb) — based on [Google Zanzibar](https://zanzibar.academy/) protocol — and its associated schema language. The A**uth** service backed by SpiceDB manages permissions for users and domains. By striping SuperMQ of protocol adapters, it allows for the building of a custom **user management platform** using its [**Auth**](https://github.com/absmach/supermq/tree/main/auth) and [**Users**](https://github.com/absmach/supermq/tree/main/users) services.
+
+### Ollama: Simplifying LLM Integration
+
+Ollama is a popular open-source tool for running LLMs. Ollama bundles model weights, configurations, and datasets into a unified package managed by a Model file. Ollama supports a variety of LLMs including Llama, Phi, Gemma, Mistral and many others. Ollama also supports the creation and use of custom models. You can create a model using a Modelfile, which includes passing the model file, creating various layers, writing the weights, and finally, seeing a success message. For more information about Ollama, please refer to the [Github repository](https://github.com/ollama/ollama).
+
+Running models using Ollama is a simple process. Users can download and run models using the run command in the terminal. If the model is not installed, Ollama will automatically download it first. For example, to run the llama3.2 model, you would use the command \`_ollama run llama3.2_\`.
+
+To use Ollama as a coding assistant, we would need 4 models.
+
+*   Chat model — is designed to engage in conversational exchanges. These models are generally capable of answering a wide range of questions and producing intricate code, making the most effective ones typically large, often exceeding 405 billion parameters. For example _llama3.2_ or _gemma2_
+*   The autocomplete model — is trained using a specialized format known as fill-in-the-middle. This format involves providing the prefix and suffix of a code file and predicting the content that fits in between. This specific task allows for smaller models to perform effectively, with even a 3 billion parameter model yielding good results. Conversely, this specialization means that larger chat models may not perform as well in this context. For example _starcoder2_ or _codegemma_
+*   The embeddings model — is designed to transform a piece of text into a vector, enabling quick comparisons with other vectors to assess the similarity between different text segments. These models are usually much smaller than large language models (LLMs) and are significantly faster and more cost-effective. For example _nomic-embed-text_ or _mxbai-embed-large_
+*   reranking model — is trained to evaluate two pieces of text — typically a user question and a document — and assign a relevancy score between 0 and 1, indicating how useful the document is for answering the question. Reranking models are generally much smaller than large language models (LLMs) and are significantly faster and more cost-effective.
+
+### Cube AI
+
+Cube AI is a platform for interacting with GPT-based AI applications using confidential computing. It protects user data and the AI model by using a TEE.
+
+#### Key Features
+
+*   **Secure Computing**: Cube AI uses secure enclaves to protect user data and AI models from unauthorized access.
+*   **Trusted Execution Environment (TEE)**: Cube AI uses a TEE to ensure that AI models are executed securely and in a controlled environment.
+*   **Scalability**: Cube AI can handle large amounts of data and AI models, making it suitable for applications that require high performance and scalability.
+
+#### Why Cube AI?
+
+Traditional GPT-based AI applications often rely on public cloud services, which can be vulnerable to security breaches and unauthorized access. The tenant — the 3rd party company running LLM server for you— and the hardware provider — a public cloud provider on which the server is deployed — are not always transparent about their security practices and can be easily compromised. They can also access your prompts and model responses. Cube AI addresses these privacy concerns by using TEEs. Using TEEs, Cube AI ensures that user data and AI models are protected from unauthorized access outside the TEE. This helps to maintain user privacy and ensures that AI models are used in a controlled and secure manner.
+
+#### How does Cube AI work?
+
+Cube AI uses TEEs to protect user data and AI models from unauthorized access. TEE offers an execution space that provides a higher level of security for trusted applications running on the device. In Cube AI, the TEE ensures that AI models are executed securely and in a controlled environment.
+
+Cube AI is built on top of SuperMQ, Ollama and a custom proxy server. All these hosts the Cube AI API that hosts the AI models and protects prompts and user data securely.
+
+![](/blogs/medium/1__vSuJyxlTeGhEClYPmMAbGg.png)
+
+Cube AI uses SuperMQ Users and Auth Service to manage users and authentication and authorization. Since SuperMQ is based on micro-service architecture, auth and users are separated from the core application. SuperMQ is responsible for user authentication, authorization and user management. It also provides a secure way to store user data.
+
+Ollama is responsible for managing LLMs and their configurations. It provides a unified interface for interacting with different LLMs. Ollama also provides a way to manage LLMs, including configuring LLMs, managing prompts, and managing models.
+
+The proxy server is responsible for handling requests to ollama. Once a user is registered on SuperMQ and issued with an access token, the user can interact with Cube AI using the issued token. The proxy server will verify the token and ensure that the user has the necessary permissions to access the Cube AI API by checking it with the SuperMQ Auth Service. Once the request is verified, the proxy server will forward the request to the appropriate Ollama instance. The proxy server also handles authentication and authorization for the user. It ensures that only authorized users can access the Cube AI API.
+
+Cube AI uses a Hardware Abstraction Layer(HAL) and AMD SEV-SNP as an abstraction layer for confidential computing. AMD SEV-SNP creates CVMS. CVMs are usually used to run an operating system (e.g., Ubuntu and its applications). To avoid using a whole OS, HAL uses:
+
+*   Linux kernel v6.11 — _vmlinuz_ archive with the standard Linux kernel v6.11 with support for AMD SEV.
+*   File system — the initial RAM file system (_initramfs_) that is used as the root file system of the VM and extra ext4 filesystem for persistent data storage for docker images and other data.
+
+HAL is made using the tool [Buildroot](https://buildroot.org/). Buildroot is used to create efficient, embedded Linux systems, and we use it to create the compressed image of the kernel (_vmlinuz_) and the initial file system (_initramfs_). HAL configuration for Buildroot also includes Docker runtime and [snp-guest](https://github.com/virtee/snpguest) software support.
+
+Cube AI uses Qemu and Open Virtual Machine Firmware (OVMF) to boot the CVM. During boot with SEV-SNP, the AMD Secure Processor (AMD SP) measures (calculates the hash) of the contents of the VM to insert that hash into the attestation report. This measurement is proof of what is currently running inside the VM.
+
+### Conclusion
+
+Running LLMs within TEEs like AMD SEV-SNP presents both challenges and opportunities. The key challenge lies in ensuring that the execution of these computationally intensive models remains secure while maintaining performance efficiency. TEEs, while excellent at protecting data and models from unauthorized access, can introduce latency or require significant hardware resources, which may slow down the execution of complex models. Additionally, the verification and attestation processes needed for confidential computing can increase the complexity of deployment and operations.
+
+A significant challenge in scaling LLMs within TEEs is the reliance on high-performance GPUs that support TEEs. Currently, NVIDIA’s H100 GPUs are among the few that provide confidential computing capabilities, offering hardware-level security for AI workloads. However, H100 GPUs are not only rare but also prohibitively expensive, making them difficult to obtain for smaller organizations or projects. This limits the accessibility of secure GPU resources for deploying large-scale AI models in confidential environments, adding another layer of difficulty for those looking to adopt confidential computing for LLMs.
+
+The fusion of LLMs and secure execution environments represents a significant step forward for both AI and cybersecurity. By addressing the technical challenges, such as hardware availability, and continuously improving upon frameworks like SuperMQ and Ollama, we can unlock the full potential of LLMs while ensuring data privacy, integrity, and security in a confidential computing world.
+
+_To learn more about_ [_Ultraviolet Security_](https://ultraviolet.rs/index.html), _and how we’re building the world’s most sophisticated_ [_collaborative AI platform_](https://ultraviolet.rs/prism.html)_, visit our_ [_website_](https://ultraviolet.rs/index.html) _and follow us on_ [_Twitter_](https://x.com/ultravioletrs)_!_
+
