@@ -43,7 +43,7 @@
       }
     },
     "include": ["./src/*"],
-    "ignore": ["./src/components/ui/*"]
+    "ignore": ["./src/components/ui/*", "src/app/providers.tsx"]
   },
   "javascript": {
     "formatter": {
