@@ -1,38 +1,118 @@
 ---
 title: Andela News Hackathon on BBC World News - Focus on Africa
 date: 2019-02-20
+tags: ["BBC", "News", "Fake News", "Andela", "Hackathon", "Machine Learning"]
 ---
 
+BBC conducted a research and highlighted that “fake news” really is a menace
+to the society. For example, just the concluded general election it was sited
+that most information about either Raila's lose or victory was shared mostly
+through social media platforms such as twitter, blogs and WhatsApp to name a few.
+Of upmost disappointment was people didn't verify if the news was fake or real.
+Some of the simple methods people could employ was to check if it was the same
+as what the media houses were concluding. For example, people were tensed and
+urged to move from towns to their homes because there was a likelihood for
+post-election and even pre-election violence. Some people had to flee form their
+work place denying their rights to exercise their universal adult suffrage.
 
-# Andela News Hackathon on BBC World News — Focus on Africa
+## PROPOSAL IDEA FOR FIGHTING FAKE NEWS
 
-BBC conducted a research and highlighted that “fake news” really is a menace to the society. For example, just the concluded general…
+With the growing number of people engaging in online activities,
+it is more likely that they read news online rather than from newspapers or
+television broadcasts. However, the source of these news is uncertain since
+they are written by people on social platforms. Sometimes fake news may cause
+an uproar in a country. In the just concluded elections, fake news of Raila's
+death would've created a political uproar which could've spread like fire
+through social channels. Without verifying, it will become viral in seconds and
+cause emotional reactions. To solve this problem, we had this idea in mind.
 
-BBC conducted a research and highlighted that “fake news” really is a menace to the society. For example, just the concluded general election it was sited that most information about either Raila’s lose or victory was shared mostly through social media platforms such as twitter, blogs and WhatsApp to name a few. Of upmost disappointment was people didn’t verify if the news was fake or real. Some of the simple methods people could employ was to check if it was the same as what the media houses were concluding. For example, people were tensed and urged to move from towns to their homes because there was a likelihood for post-election and even pre-election violence. Some people had to flee form their work place denying their rights to exercise their universal adult suffrage.
+We plan on using natural language processing in order to identify some
+sentiments in news so as to classify the news using machine learning algorithms
+whether true or false. We plan on using open source algorithms such as
+naive Bayes, Logistic Regression and Support Vector Clustering algorithms to
+name a few. Furthermore, we plan on integrating a blockchain solution such that
+every news creator has a public key which identifies news coming from it. Also,
+some incentives would be given to more reliable sources so that their reputation
+increases locking out fake news creators.
 
-### **PROPOSAL IDEA FOR FIGHTING FAKE NEWS**
+Andela in liaison with BBC decided to come up with a two-day hackathon to help
+and solve the problem and possible let the winning problems grow and finally
+help in combatting fake news. Teams registered and those accepted were invited
+to Andela offices near USIU for the hackathon. The 50 technologists that had
+attended paired up to in groups of less than or equal to 5 with an aim of
+employing different methods to solve the problem. At the end people were to have
+prototypes, minimum viable products that can demonstrate the use of technology
+in tackling this challenge
 
-With the growing number of people engaging in online activities, it is more likely that they read news online rather than from newspapers or television broadcasts. However, the source of these news is uncertain since they are written by people on social platforms. Sometimes fake news may cause an uproar in a country. In the just concluded elections, fake news of Raila’s death would’ve created a political uproar which could’ve spread like fire through social channels. Without verifying, it will become viral in seconds and cause emotional reactions. To solve this problem, we had this idea in mind.
+We decided to build a web app that could check if new is real or fake.
+The website basically takes the link of paragraph(s) from the user the parses
+it to the Machine learning model to check if its real or fake and give a
+tentative answer. There after the news if its new it would be sent to our block
+verifiers to check if the news is real or fake. They would vote and be give
+incentives for the correct answer thereafter. The its an existing news it would
+be searched in the blockchain network to see if it was true or false.
+The answer would be return to the user. Our blockchain application was running
+or EOS blockchain network and our machine learning model was intended to be
+deployed to azure.
 
-We plan on using natural language processing in order to identify some sentiments in news so as to classify the news using machine learning algorithms whether true or false. We plan on using open source algorithms such as naive Bayes, Logistic Regression and Support Vector Clustering algorithms to name a few. Furthermore, we plan on integrating a blockchain solution such that every news creator has a public key which identifies news coming from it. Also, some incentives would be given to more reliable sources so that their reputation increases locking out fake news creators.
-
-Andela in liaison with BBC decided to come up with a two-day hackathon to help and solve the problem and possible let the winning problems grow and finally help in combatting fake news. Teams registered and those accepted were invited to Andela offices near USIU for the hackathon. The 50 technologists that had attended paired up to in groups of less than or equal to 5 with an aim of employing different methods to solve the problem. At the end people were to have prototypes, minimum viable products that can demonstrate the use of technology in tackling this challenge
-
-We decided to build a web app that could check if new is real or fake. The website basically takes the link of paragraph(s) from the user the parses it to the Machine learning model to check if its real or fake and give a tentative answer. There after the news if its new it would be sent to our block verifiers to check if the news is real or fake. They would vote and be give incentives for the correct answer thereafter. The its an existing news it would be searched in the blockchain network to see if it was true or false. The answer would be return to the user. Our blockchain application was running or EOS blockchain network and our machine learning model was intended to be deployed to azure.
-
-> **Presentation mode activated**
+### Presentation mode activated
 
 <Image
   src="/blogs/medium/1__eZHgknKPIAs0x8H9HVnvQQ.jpeg"
-  alt="Image"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-xl"
+  alt="Image showing my team and I (rodneyosodo) doing a presentation"
 />
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Pitching about our idea
+</p>
 
-I did the machine learning implementation and would like to share my idea. I got data from scraping local media houses because they didn’t have an api for streaming their data, a data source from Kaggle and also from webhosio api. The model was built using Logistic Regression and Naïve Bayes (Multinomial Naïve Bayes, Gaussian Naïve Bayes, Bernoulli Naïve Bayes). I created a class that would find the awaited average of the predictions then
+I did the machine learning implementation and would like to share my idea.
+I got data from scraping local media houses because they didn't have an api for
+streaming their data, a data source from Kaggle and also from webhosio api.
+The model was built using Logistic Regression and Naïve Bayes
+(Multinomial Naïve Bayes, Gaussian Naïve Bayes, Bernoulli Naïve Bayes).
+I created a class that would find the awaited average of the predictions then
+display the average confidence and score. I saved my model as a pickle file so
+that I could be able to use it again without training. The model was linked to
+the frontend by a flask api that would take input from the user and return the
+results.
 
-display the average confidence and score. I saved my model as a pickle file so that I could be able to use it again without training. The model was linked to the frontend by a flask api that would take input from the user and return the results.
+Unfortunately, we didn't win but some of the solutions that won were image
+analysis to see if an image is photoshopped or not and crowd sourcing to
+fact-check and distinguish fake news from real news. Three teams won and got a
+chance to pitch their idea at the recently concluded Beyond Fake News Conference.
+They also got a 6-month mentorship at Safaricom alpha as they shape and deploy
+the solution to the world. The hackathon was a success from the diversity of
+people from Nairobi and also networking with some of the people in the industry.
 
-Unfortunately, we didn’t win but some of the solutions that won were image analysis to see if an image is photoshopped or not and crowd sourcing to fact-check and distinguish fake news from real news. Three teams won and got a chance to pitch their idea at the recently concluded Beyond Fake News Conference. They also got a 6-month mentorship at Safaricom alpha as they shape and deploy the solution to the world. The hackathon was a success from the diversity of people from Nairobi and also networking with some of the people in the industry.
+Thank you, our judges Jackie Christie from BBC Africa, Dr Shikoh Gitau from
+Safaricom Alpha, James Smart Journalist and Frank Tamre, form Android254.
+Thank you our panelist Pinky Ghelani, Brice Nkengsa and Joshua Mwaniki
 
-Thank you, our judges Jackie Christie from BBC Africa, Dr Shikoh Gitau from Safaricom Alpha, James Smart Journalist and Frank Tamre, form Android254. Thank you our panelist Pinky Ghelani, Brice Nkengsa and Joshua Mwaniki
+<iframe
+  width="560"
+  height="315"
+  className="mx-auto my-8 rounded-md"
+  src="https://www.youtube.com/embed/TJKY1QOZloQ?si=fZAylA-3vIdVCsNQ"
+  title="YouTube video player"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerPolicy="strict-origin-when-cross-origin"
+  allowFullScreen
+></iframe>
 
-> Link to the github repo is [https://github.com/bl4ck4ndbr0wn/1infinitycOrp](https://github.com/bl4ck4ndbr0wn/1infinitycOrp)
+<iframe
+  width="560"
+  height="315"
+  className="mx-auto my-8 rounded-md"
+  src="https://www.youtube.com/embed/63X_7_P0zNk?si=qzPcxeXBZc2FFjhm&amp;start=725"
+  title="YouTube video player"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerPolicy="strict-origin-when-cross-origin"
+  allowFullScreen
+></iframe>
+
+Link to the github repo is [https://github.com/bl4ck4ndbr0wn/1infinitycOrp](https://github.com/bl4ck4ndbr0wn/1infinitycOrp)

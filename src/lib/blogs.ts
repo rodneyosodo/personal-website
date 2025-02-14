@@ -5,8 +5,6 @@ import path from "node:path";
 
 type Metadata = {
   title: string;
-  image: string;
-  description: string;
   date: string;
 };
 

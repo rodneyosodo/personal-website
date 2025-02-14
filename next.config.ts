@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   experimental: {
     taint: true,
   },
+  transpilePackages: ["next-mdx-remote"],
   async rewrites() {
     const postHogBaseURL = process.env.NEXT_PUBLIC_POSTHOG_HOST;
     if (!postHogBaseURL) {
