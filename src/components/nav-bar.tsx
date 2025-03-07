@@ -12,9 +12,6 @@ export default function Navbar() {
             <Link className={"text-muted-foreground px-3 py-2"} href="/">
               Home
             </Link>
-            <Link className={"text-muted-foreground px-3 py-2"} href="/about">
-              About
-            </Link>
             <Link className={"text-muted-foreground px-3 py-2"} href="/blogs">
               Blogs
             </Link>

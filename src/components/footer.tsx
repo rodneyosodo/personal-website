@@ -21,10 +21,6 @@ function Navigation() {
         Home
       </Link>
       <span className="hidden md:block text-muted-foreground mx-2">|</span>
-      <Link href="/about" className="text-muted-foreground">
-        About
-      </Link>
-      <span className="hidden md:block text-muted-foreground mx-2">|</span>
       <Link href="/blogs" className="text-muted-foreground">
         Blogs
       </Link>

@@ -41,7 +41,6 @@ export default function Home() {
             </a>
             ), and building products that make people's lives easier.
           </p>
-          <p>Based in Nairobi, Kenya 🇰🇪</p>
         </div>
       </div>
     </div>

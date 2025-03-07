@@ -24,11 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: "/about",
-      lastModified: new Date().toISOString(),
-      priority: 0.9,
-    },
-    {
       url: "/publications",
       lastModified: new Date().toISOString(),
       priority: 0.8,
