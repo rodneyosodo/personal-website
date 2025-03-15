@@ -1,8 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Github,
   Instagram,
@@ -11,7 +9,6 @@ import {
   XformerlyTwitter,
   YouTube,
 } from "@/components/ui/icons";
-import { useForm } from "@formspree/react";
 import Link from "next/link";
 
 function Navigation() {
@@ -100,44 +97,12 @@ function SocialLinks() {
 }
 
 export default function Footer() {
-  const [state, handleSubmit] = useForm("mlddygzj");
-
   return (
     <footer className="bg-background py-12 mt-auto">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center border-t pt-4">
           <Navigation />
           <SocialLinks />
-          <div className="mb-8 w-full max-w-md text-center border-t pt-4">
-            <p className="text-sm">Subscribe to get future posts via email </p>
-          </div>
-          <div className="mb-8 w-full max-w-md">
-            {state.succeeded ? (
-              <p className="text-center">Thank you for subscribing!</p>
-            ) : (
-              <form className="flex space-x-2" onSubmit={handleSubmit}>
-                <div className="flex-grow">
-                  <Label htmlFor="email" className="sr-only">
-                    Email
-                  </Label>
-                  <Input
-                    id="email"
-                    placeholder="Enter your email"
-                    type="email"
-                    name="email"
-                    className="rounded-full"
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="rounded-full"
-                  disabled={state.submitting}
-                >
-                  Subscribe
-                </Button>
-              </form>
-            )}
-          </div>
         </div>
       </div>
     </footer>

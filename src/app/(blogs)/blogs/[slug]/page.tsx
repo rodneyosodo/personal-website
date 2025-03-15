@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { CustomMdx } from "@/components/mdx";
 import { getArticles } from "@/lib/blogs";
 import { Suspense } from "react";
+import Form from "@/components/form";
 
 export default async function Article(props: {
   params: Promise<{ slug: string }>;
@@ -33,6 +34,7 @@ export default async function Article(props: {
             <article className="prose">
               <CustomMdx source={post.content} />
             </article>
+            <Form />
           </div>
         </div>
       </div>
