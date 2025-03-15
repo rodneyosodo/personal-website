@@ -24,18 +24,20 @@ export default function Blogs() {
   );
 
   return (
-    <div className="space-y-2 px-8">
+    <div className="space-y-2 px-4 sm:px-8">
       {sortedYears.map((year) =>
         groupedPosts[year].map((post, index) => (
           <div key={post.slug} className="flex gap-6 items-center">
             {index === 0 ? (
-              <span className="text-muted-foreground min-w-[4rem]">{year}</span>
+              <span className="text-muted-foreground min-w-[2rem] sm:min-w-[4rem]">
+                {year}
+              </span>
             ) : (
-              <span className="min-w-[4rem]" />
+              <span className="min-w-[2rem] sm:min-w-[4rem]" />
             )}
             <Link
               href={`/blogs/${post.slug}`}
-              className="flex-grow hover:underline truncate"
+              className="flex-grow hover:underline break-words"
             >
               {post.metadata.title}
             </Link>

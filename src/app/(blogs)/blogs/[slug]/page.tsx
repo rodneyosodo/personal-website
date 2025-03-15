@@ -1,8 +1,9 @@
-import { notFound } from "next/navigation";
-import { CustomMdx } from "@/components/mdx";
-import { getArticles } from "@/lib/blogs";
-import { Suspense } from "react";
 import Form from "@/components/form";
+import { CustomMdx } from "@/components/mdx";
+import { ArticleSkeleton } from "@/components/skeleton";
+import { getArticles } from "@/lib/blogs";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function Article(props: {
   params: Promise<{ slug: string }>;
@@ -16,7 +17,7 @@ export default async function Article(props: {
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<ArticleSkeleton />}>
       <div className="relative overflow-hidden">
         <div className="container mx-auto max-w-8xl px-8">
           <div className="max-w-2xl mx-auto">

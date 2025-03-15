@@ -5,7 +5,7 @@ import type React from "react";
 import Navbar from "@/components/nav-bar";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/footer";
-import { PostHogProvider } from "./providers";
+import { PostHogProvider } from "@/app/providers";
 
 const robotoMono = Roboto_Mono({
   weight: "400",
