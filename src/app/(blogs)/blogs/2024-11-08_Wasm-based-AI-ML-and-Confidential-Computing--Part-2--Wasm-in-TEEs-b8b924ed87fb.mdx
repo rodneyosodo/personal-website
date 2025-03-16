@@ -1,0 +1,333 @@
+---
+title: Wasm based AI ML and Confidential Computing  Part 2  Wasm in TEEs
+date: 2024-11-08
+---
+
+In today’s digital landscape, securing sensitive data during computation
+is more crucial than ever. At Ultraviolet, we’re developing a powerful
+Confidential Computing infrastructure designed to securely execute any
+workload within Trusted Execution Environments (TEEs). Since TEEs often
+function like bare-metal VMs, it’s essential to have a lightweight,
+portable runtime that can handle complex AI/ML algorithms while keeping
+the Trusted Computing Base (TCB) minimal and easy to audit. This is where
+WebAssembly (Wasm) comes in — its efficiency and flexibility make it the
+perfect solution for building secure, high-performance environments.
+In this second part of the blog series, we’ll explore the deployment of
+Wasm-based AI algorithms within Trusted Execution Enclaves.
+
+<Image
+  src="/blogs/medium/1__f1FpS7bhNXFgvS0DGu2cvw.jpeg"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-sm"
+  alt="Image"
+/>
+
+Confidential computing is a paradigm that enables secure and private
+computation by performing computations in a hardware-based, attested Trusted
+Execution Environment (TEE). Confidential computing can be used with storage
+and network encryption, which protect data at rest and in transit. TEE is a
+secure execution environment in a processor that isolates code and data loaded
+into it from the rest of the system with confidentiality and integrity
+guarantees. By confidentiality, information is not made available to
+unauthorized parties, and by integrity, information is not modified or tampered
+with. This is achieved through a secure architecture that uses hardware-based
+memory encryption to keep certain application codes and data safe. It lets
+user-level code create private memory areas, called enclaves, protected from
+more privileged processes.
+
+The following are some hardware-based TEEs:
+
+- AMD SEV-SNP
+- Intel TDX
+- RISC-V Keystone
+
+[Cocos AI](https://github.com/ultravioletrs/cocos) is an open-source platform
+designed to run confidential workloads securely. It includes a Confidential VM
+(CVM) Manager, an in-enclave Agent, and a Command Line Interface (CLI) for safe
+communication with the enclave. Cocos AI supports Remote Attestation, verifying
+the integrity and security of the execution environment. It also offers a
+Linux-based Hardware Abstraction Layer (HAL) and enables Python, Docker, and
+WebAssembly (Wasm) workloads within Trusted Execution Environments (TEEs). With
+Cocos AI, organizations and developers can easily manage confidential workloads
+in secure enclaves, enabling Secure Multi-party Computation (SMPC) and
+safeguarding sensitive data. The platform provides comprehensive tools,
+libraries, and components to ensure seamless and secure data exchange,
+fostering privacy-preserving AI collaboration.
+
+[Prism AI](https://ultraviolet.rs/prism.html) is a state-of-the-art platform
+designed to help organizations and developers run confidential workloads
+securely within TEEs. Whether in private, hybrid, or public clouds, Prism AI
+excels at managing secure, encrypted VMs. Prism AI is built on top of Cocos AI,
+leveraging its open-source foundation to provide robust features for managing
+confidential workloads. By integrating Cocos AI, Prism inherits advanced
+capabilities like secure enclave management, confidential VM orchestration, and
+remote attestation. This ensures that every computational node, whether in the
+cloud or a private data centre, benefits from Cocos AI's secure
+infrastructure, allowing Prism AI to deliver privacy-preserving AI and SMPC
+with confidence.
+
+### Integrating AI Algorithms in Confidential Computing with Cocos
+
+Currently, Cocos AI and Prism AI support running the following algorithm types:
+
+1.  Binary algorithms
+2.  Python scripts
+3.  Docker images
+4.  Wasm modules
+
+Before getting started you need to install the following tools:
+
+- [Rust](https://www.rust-lang.org/tools/install)
+
+```bash
+curl - proto '=https' - tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+- [Wasmtime](https://wasmtime.dev/)
+
+```bash
+curl https://wasmtime.dev/install.sh -sSf | bash
+```
+
+- Wasm32-wasi target
+
+```bash
+rustup target add wasm32-wasip1
+```
+
+- Clone the [Cocos repository](https://github.com/ultravioletrs/cocos.git)
+
+```bash
+git clone https://github.com/ultravioletrs/cocos.git
+```
+
+- Clone the [Buildroot repository](https://gitlab.com/buildroot.org/buildroot.git)
+
+```bash
+git clone https://gitlab.com/buildroot.org/buildroot.git
+```
+
+- Clone the AI [repository](https://github.com/ultravioletrs/ai.git)
+
+```bash
+git clone https://github.com/ultravioletrs/ai.git
+```
+
+### Setup
+
+- Prepare the cocos directory
+
+```bash
+mkdir -p cocos/cmd/manager/img && mkdir -p cocos/cmd/manager/tmp
+```
+
+- Change the directory to buildroot.
+
+```bash
+cd buildroot
+```
+
+- Build the cocos qemu image.
+
+```bash
+make BR2_EXTERNAL=../cocos/hal/linux cocos_defconfig
+
+make && cp output/images/bzImage output/images/rootfs.cpio.gz ../cocos/cmd/manager/img
+```
+
+The above commands will build the Cocos Qemu image and copy the kernel and
+**_rootfs_** to the Manager image directory.
+
+- Generate a new public/private key pair
+
+(If you are not in the cocos directory, change the directory to cocos)
+
+```bash
+make all
+
+./build/cocos-cli keys -k="rsa"
+```
+
+### Running Algorithms with Cocos
+
+####
+
+[Iris-classification](https://github.com/ultravioletrs/ai/tree/main/burn-algorithms/iris)
+
+Compiling the Iris-classification algorithm (in the
+`ai/burn-algorithms/` folder)
+
+```bash
+cargo build - release - bin iris-cocos - features cocos
+```
+
+This will build the Iris classification algorithm with the `ndarray`
+feature enabled. The `cocos` feature specifies that the algorithm will
+run inside cocos. The `--release` flag specifies that the binary
+will be optimized for performance and will not include debug symbols.
+
+Copy the built binary from `/target/release/iris-ndarray` to the
+directory where you will run the computation server.
+
+```bash
+cp ./target/release/iris-cocos ../../cocos
+```
+
+Copy the dataset to the cocos directory
+
+```bash
+cp ./iris/datasets/Iris.csv ../../cocos
+```
+
+Start the computation server(this happens in the `cocos` directory).
+
+```bash
+go run ./test/computations/main.go ./iris-cocos ./public.pem false ./Iris.csv
+```
+
+The manager requires the `vhost_vsock` kernel module to be loaded. Load the
+module with the following command.
+
+```bash
+sudo modprobe vhost_vsock
+```
+
+Start the manager (this happens in the `cocos/cmd/manager` directory).
+
+```bash
+sudo \
+MANAGER_QEMU_SMP_MAXCPUS=4 \
+MANAGER_GRPC_URL=localhost:7001 \
+MANAGER_LOG_LEVEL=debug \
+MANAGER_QEMU_USE_SUDO=false \
+MANAGER_QEMU_ENABLE_SEV=false \
+MANAGER_QEMU_ENABLE_SEV_SNP=false \
+MANAGER_QEMU_OVMF_CODE_FILE=/usr/share/edk2/x64/OVMF_CODE.fd \
+MANAGER_QEMU_OVMF_VARS_FILE=/usr/share/edk2/x64/OVMF_VARS.fd \
+go run main.go
+```
+
+This will start on a specific port called `agent_port`, which will be
+in the manager logs. For most cases, the agent port will be `7001`.
+
+Upload the algorithms to the computation server.
+
+```bash
+./build/cocos-cli algo ./iris-cocos ./private.pem
+```
+
+Upload the data to the computation server.
+
+```bash
+./build/cocos-cli data ./Iris.csv ./private.pem
+```
+
+Download the results.
+
+```bash
+./build/cocos-cli result ./private.pem
+```
+
+The above will generate a `results.zip` file. Unzip the file to get the
+result.
+
+```bash
+unzip results.zip -d result
+```
+
+[![asciicast](https://asciinema.org/a/672663.svg)](https://asciinema.org/a/672663)
+
+To test the model for inference we need to copy the results to the
+`ai/burn-algorithms/artifacts/iris/` directory.
+
+```bash
+cp -r results/* ../ai/burn-algorithms/artifacts/iris/
+```
+
+Test the model with the test data with wasm we need to build the wasm module
+(this happens in the `ai/burn-algorithms/iris-inference/` directory).
+
+```bash
+cargo build - release - target wasm32-wasip1 - features cocos
+```
+
+Copy the built wasm module from
+`ai/burn-algorithms/target/wasm32-wasip1/release/iris-inference.wasm`
+to the directory where you will run the computation server.
+
+```bash
+cp ../target/wasm32-wasip1/release/iris-inference.wasm ../../../cocos
+```
+
+Close the previous computation server and start a new one.
+
+```bash
+go run ./test/computations/main.go ./iris-cocos ./public.pem false
+```
+
+Start the manager (this happens in the `cocos/cmd/manager` directory).
+
+```bash
+sudo \
+MANAGER_QEMU_SMP_MAXCPUS=4 \
+MANAGER_GRPC_URL=localhost:7001 \
+MANAGER_LOG_LEVEL=debug \
+MANAGER_QEMU_USE_SUDO=false \
+MANAGER_QEMU_ENABLE_SEV=false \
+MANAGER_QEMU_ENABLE_SEV_SNP=false \
+MANAGER_QEMU_OVMF_CODE_FILE=/usr/share/edk2/x64/OVMF_CODE.fd \
+MANAGER_QEMU_OVMF_VARS_FILE=/usr/share/edk2/x64/OVMF_VARS.fd \
+go run main.go
+```
+
+Upload the algorithms to the computation server.
+
+```bash
+./build/cocos-cli algo ./iris-inference.wasm ./private.pem -a wasm -args='{"sepal_length": 7.0, "sepal_width": 3.2, "petal_length": 4.7, "petal_width": 1.4}'
+```
+
+Download the results.
+
+```bash
+./build/cocos-cli result ./private.pem
+```
+
+The above will generate a `results.zip` file. Unzip the file to get the
+result.
+
+```bash
+unzip results.zip
+```
+
+```bash
+cat results/results.txt
+```
+
+### Running Algorithms with Prism
+
+Running AI algorithms with Prism is similar to the process with Cocos, but
+Prism provides a more user-friendly UI for managing workloads. You can perform
+algorithm uploads, remote attestation, and run Wasm and binary applications
+directly from the interface.
+
+For details on binary and Wasm workloads, consult the [Prism
+documentation](https://docs.prism.ultraviolet.rs/algorithms/):
+
+- [Prism Binary Workloads](https://youtu.be/IPwU8Qim9Ek)
+- [Prism Wasm Workloads](https://youtu.be/Lmmnr5lg6bs)
+
+### Future Directions and Optimizations
+
+The future of AI integration in confidential computing holds great promise, as
+these systems evolve to support more advanced workloads, larger datasets, and
+distributed collaborations. Overcoming the challenges of performance,
+scalability, and user experience will unlock new possibilities in
+privacy-preserving AI, enabling secure, scalable, and efficient AI solutions
+across industries.
+
+_To learn more about [Ultraviolet Security](https://ultraviolet.rs/index.html),
+and how we're building the world's most sophisticated
+[collaborative AI platform](https://ultraviolet.rs/prism.html), visit our
+[website](https://ultraviolet.rs/index.html) and follow us on
+[Twitter](https://x.com/ultravioletrs)!_

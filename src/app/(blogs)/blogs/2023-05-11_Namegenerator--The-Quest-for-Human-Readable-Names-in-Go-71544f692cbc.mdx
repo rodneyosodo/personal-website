@@ -1,0 +1,428 @@
+---
+title: Namegenerator  The Quest for Human Readable Names in Go
+date: 2023-05-11
+---
+
+> “A problem is a chance for you to do your best.”
+>
+> Duke Ellington
+
+<Image
+  src="/blogs/medium/0__7vbU55FaFYiWs5OW.png"
+  width={600}
+  height={600}
+  className="mx-auto my-6"
+  alt="Image"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  From
+  [https://blog.suprabha.me/18-basics-of-golang-part-2](https://blog.suprabha.me/18-basics-of-golang-part-2)
+</p>
+
+I will demonstrate how to write a namegenerator library in Go in this blog
+post. The library will generate random names from a name dataset. The dataset
+is available at
+[https://www.cs.cmu.edu/](https://www.cs.cmu.edu/afs/cs/project/ai-repository/ai/areas/nlp/corpora/0.html).
+
+### **Background**
+
+During the development of the
+[mainflux-e2e-tools](https://github.com/mainflux/mainflux/tree/clients/tools/e2e) tool, I needed to generate random names. I tried to make the names as
+pronounceable and readable for people as possible. I found a library that was
+doing this, [goombaio-namegenerator](https://github.com/goombaio/namegenerator)
+but it was not working as I expected. The dataset was quite limited, and it
+produced names using nouns and adjectives. Since some of the fields were
+primary keys, I needed unique names for each one. I realized I had to take
+matters into my own hands as I sat there feeling stuck and frustrated. I
+couldn't count on some shoddy library to complete the task for me. I put my
+hands to work and started working on my name generator. It was daunting at
+first. I didn't know where to begin. However, I grew more enthusiastic as I
+dug deeper into the area of name-generating. Countless opportunities existed!
+
+### **Implementation**
+
+I looked on the internet for a dataset of names and I found one at
+[https://www.cs.cmu.edu/](https://www.cs.cmu.edu/afs/cs/project/ai-repository/ai/areas/nlp/corpora/0.html). The dataset contains 5163 names. I created a Python
+script that reads the dataset and generates a Go file with a slice of names.
+The script is available at
+[namegenerator.py](https://github.com/0x6flab/namegenerator/blob/2b2a18bd753a57405574399a0f50b3676b3a479c/namegenerator.py). The script generates a file called
+[names.go](https://github.com/0x6flab/namegenerator/blob/2b2a18bd753a57405574399a0f50b3676b3a479c/names.go) that contains a slice of names. The script is
+executed using `python3`.
+
+```bash
+python3 namegenerator.py
+```
+
+**Why did I decide to pick slices over other data structures or even read the
+dataset directly from the file?**
+
+Slices are a popular data structure in Go because they provide a convenient and
+efficient way to work with sequences of typed data. They are analogous to
+arrays in other languages but have some unique properties that make them more
+flexible and powerful [[1]](https://www.geeksforgeeks.org/slices-in-golang/).
+
+When compared to reading data straight from a file, employing slices may
+sometimes be more effective. Take, for instance, a scenario in which you must
+locate and return a particular section of data from a file. You can find the
+needed data by reading the full file into a slice and returning a new slice
+that only contains the pertinent data. It's vital to keep in mind that just
+reslicing a slice does not provide a duplicate of the underlying array, which
+could result in the file being retained in memory even when only a small
+portion of it is required.
+
+There are some trade-offs to consider when choosing between slices and other
+data structures or file reading. Slices offer flexibility and convenience, but
+they might not be the best choice for all situations. When working with large
+files or data that do not need to be loaded entirely into memory, reading
+directly from the file might be more efficient and suitable
+[[2]](https://medium.com/@victorsteven/understanding-data-structures-in-golang-f55205afdcaa).
+
+**How do we generate random names?**
+
+I chose to use the [math/rand](https://golang.org/pkg/math/rand/) package from
+the standard library because I wanted an indeterministic method of generating
+names. You must first have a method for producing random integers to produce a
+random name from a slice of names. To produce random numbers, however, you must
+seed the random number generator with a value that is probably going to vary
+each time the program is executed. One approach to do this is to use the
+`time.Now().UnixNano()` function to seed the generator with the current time.
+
+Once you have a random number generator, you can use the `rand.Intn()` function
+to generate a random integer between `0` and the length of the slice of names.
+This integer can then be used as an index to select a random name from the
+slice.
+
+```go
+package main
+
+import (
+    "fmt"
+    "math/rand"
+    "time"
+)
+
+func main() {
+    names := []string{"Rodney", "Osodo", "David"}
+
+    // Seed the random number generator with the current time
+    rand.Seed(time.Now().UnixNano())
+
+    // Generate a random integer between 0 and the length of the slice
+    randomIndex := rand.Intn(len(names))
+
+    // Select the name at the randomly generated index
+    randomName := names[randomIndex]
+
+    fmt.Println(randomName)
+}
+```
+
+**Code**
+
+```go
+package namegenerator
+
+import (
+    "math/rand"
+    "sync"
+    "time"
+)
+
+// NameGenerator is an interface for generating names.
+type NameGenerator interface {
+    // Generate generates a name based on gender.
+    Generate() string
+
+    // GenerateNames generates a list of names.
+    GenerateNames(int) []string
+}
+
+// nameGenerator is a struct that implements NameGenerator.
+type nameGenerator struct {
+    gender string
+}
+
+// NewNameGenerator returns a new NameGenerator.
+func NewNameGenerator(gender string) NameGenerator {
+    return &nameGenerator{
+        gender: gender,
+    }
+}
+
+func (namegen *nameGenerator) Generate() string {
+    frandom := rand.New(rand.NewSource(time.Now().UnixNano()))
+    grandom := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+    randonFamilyName := FamilyNames[frandom.Intn(len(FamilyNames))]
+
+    switch namegen.gender {
+    case "male":
+        randomMaleName := MaleNames[grandom.Intn(len(MaleNames))]
+
+        return randomMaleName + "-" + randonFamilyName
+    case "female":
+        randomFemaleName := FemaleNames[grandom.Intn(len(FemaleNames))]
+
+        return randomFemaleName + "-" + randonFamilyName
+    default:
+        randomName := GeneralNames[grandom.Intn(len(GeneralNames))]
+
+        return randomName + "-" + randonFamilyName
+    }
+}
+
+func (namegen *nameGenerator) GenerateNames(count int) [string {
+    var waitGroup sync.WaitGroup
+    names := make([]string, count)
+
+    for i := 0; i < count; i++ {
+        waitGroup.Add(1)
+        go func(index int) {
+            defer waitGroup.Done()
+            names[index] = namegen.Generate()
+        }(i)
+    }
+
+    waitGroup.Wait()
+
+    return names
+}
+```
+
+We can generate a single name by calling the `Generate()` method on the
+`NameGenerator` interface. We can also generate a list of names by calling the
+`GenerateNames()` method on the `NameGenerator` interface.
+
+### **Side Notes**
+
+**1. Adding a pre-commit hook**
+
+A pre-commit hook is a script that executes before the commit is performed. It
+can be used to verify the commit message, examine the code for problems, and
+carry out any other necessary actions before the commit is made.
+
+`pre-commit` is a Python package that is used to add a pre-commit hook. For
+controlling pre-commit hooks, this package offers a command-line interface. We
+use the following command to install the package:
+
+```bash
+pip install pre-commit
+```
+
+Once the package is installed, we can use the following command to add a
+pre-commit hook:
+
+```bash
+pre-commit install
+```
+
+This command will create a `.pre-commit-config.yaml` file in the current
+directory. This file contains the configuration for the pre-commit hook. We can
+edit this file to add our pre-commit hook.
+
+This file contains the following configuration:
+
+```yaml
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+  - id: check-merge-conflict
+  - id: check-yaml
+  - id: end-of-file-fixer
+  - id: trailing-whitespace
+  - id: check-added-large-files
+
+  - repo: https://github.com/dnephin/pre-commit-golang
+    rev: v0.5.1
+    hooks:
+  - id: go-fmt
+  - id: go-imports
+  - id: no-go-testing
+  - id: golangci-lint
+  - id: go-unit-tests
+  - id: go-build
+```
+
+**2. Adding Go-releaser**
+
+Go-releaser is a tool that helps you release your Go projects. It automates the
+process of creating a release, uploading it to GitHub, and creating a release
+on GitHub. It also provides a command-line interface for managing releases.
+
+To install Go-releaser, we use the following command:
+
+```bash
+go install github.com/goreleaser/goreleaser@latest
+```
+
+The configuration for Go-releaser is stored in a file called `goreleaser.yml`.
+This file contains the following configuration:
+
+```yaml
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - skip: true
+
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        format: zip
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+```
+
+Once the tool is installed, we use the following command to create a release:
+
+```bash
+goreleaser release
+```
+
+Instead of this, we will be using a [CI/CD pipeline](https://github.com/0x6flab/namegenerator/actions/runs/4908033011) to
+automate the release process.
+
+**3. Adding a CI/CD pipeline**
+
+**3.1. Code Coverage with Codecov**
+
+Codecov is a tool that helps you measure code coverage. It provides a
+command-line interface for measuring code coverage. It also provides a web
+interface for viewing the code coverage results.
+
+To install Codecov, we use the following command:
+
+```bash
+go install github.com/codecov/codecov-action@latest
+```
+
+The configuration for Codecov is stored in a file called `codecov.yml`. This
+file contains the following configuration:
+
+```yaml
+name: Test and coverage
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: "1.19"
+
+      - name: Run coverage
+        run: go test -mod=vendor -v --race -covermode=atomic -coverprofile cover.txt
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./cover.txt
+          flags: unittests
+```
+
+**3.2. Run Examples with GitHub Actions**
+
+```yaml
+name: Test and coverage
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: ["1.19", "1.20"]
+
+    name: Go ${{ matrix.go }} sample
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go }}
+
+      - run: go run examples/female/main.go
+
+      - run: go run examples/general/main.go
+
+      - run: go run examples/male/main.go
+
+      - run: go run examples/multiple/main.go
+```
+
+**3.3. Run Linting with GitHub Actions**
+
+```yaml
+name: golangci-lint
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  golangci:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v4
+        with:
+          go-version: "1.19"
+          cache: false
+
+      - uses: actions/checkout@v3
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.50.1
+
+          # Optional: golangci-lint command line arguments.
+          args: --enable-all --disable misspell --disable funlen --disable gofumpt --disable ireturn --disable cyclop --disable lll --disable gosec --disable gochecknoglobals --disable paralleltest --disable wsl --disable gocognit
+```
+
+### **Conclusion**
+
+In the end, my name generator surpassed all of my expectations. It was able to
+generate thousands of unique, human-readable names, each one more creative than
+the last. And as I looked back on my journey, I realized that sometimes the
+biggest challenges can lead to the greatest rewards. You can find the library
+[here](https://pkg.go.dev/github.com/0x6flab/namegenerator)
+
+If you liked this article, click the 👏 below so other people will see it
+here on Medium.
+
+Let's be friends on [Twitter](https://twitter.com/b1ackd0t). Happy Coding!
+😉
+
+1.  [https://www.geeksforgeeks.org/slices-in-golang/](https://www.geeksforgeeks.org/slices-in-golang/)
+2.  [https://medium.com/@victorsteven/understanding-data-structures-in-golang-f55205afdcaa](https://medium.com/@victorsteven/understanding-data-structures-in-golang-f55205afdcaa)
+3.  [https://www.cs.cmu.edu/afs/cs/project/ai-repository/ai/areas/nlp/corpora/0.html](https://www.cs.cmu.edu/afs/cs/project/ai-repository/ai/areas/nlp/corpora/0.html)
+4.  [https://github.com/mainflux/mainflux/tree/clients/tools/e2e](https://github.com/mainflux/mainflux/tree/clients/tools/e2e)
+5.  [https://github.com/goombaio/namegenerator](https://github.com/goombaio/namegenerator)
+6.  [https://golang.org/pkg/math/rand/](https://golang.org/pkg/math/rand/)

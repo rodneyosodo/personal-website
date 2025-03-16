@@ -1,0 +1,44 @@
+import Form from "@/components/form";
+import { CustomMdx } from "@/components/mdx";
+import { ArticleSkeleton } from "@/components/skeleton";
+import { getArticles } from "@/lib/blogs";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+
+export default async function Article(props: {
+  params: Promise<{ slug: string }>;
+}) {
+  const params = await props.params;
+  const posts = getArticles();
+  const post = posts.find((post) => post.slug === params.slug);
+
+  if (!post) {
+    notFound();
+  }
+
+  return (
+    <Suspense fallback={<ArticleSkeleton />}>
+      <div className="relative overflow-hidden">
+        <div className="container mx-auto max-w-8xl px-8">
+          <div className="max-w-2xl mx-auto">
+            <h1 className="title font-semibold text-3xl tracking-tighter mt-2 mb-8">
+              {post.metadata.title}
+            </h1>
+            <p className="text-muted-foreground text-sm mt-2 mb-8">
+              Published on{" "}
+              {new Date(post.metadata.date).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </p>
+            <article className="prose">
+              <CustomMdx source={post.content} />
+            </article>
+            <Form />
+          </div>
+        </div>
+      </div>
+    </Suspense>
+  );
+}
