@@ -18,7 +18,7 @@ export default function Form() {
           <p className="text-center">Thank you for subscribing!</p>
         ) : (
           <form className="flex space-x-2" onSubmit={handleSubmit}>
-            <div className="flex-grow">
+            <div className="grow">
               <Label htmlFor="email" className="sr-only">
                 Email
               </Label>

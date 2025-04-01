@@ -37,7 +37,7 @@ export default function Blogs() {
             )}
             <Link
               href={`/blogs/${post.slug}`}
-              className="flex-grow hover:underline break-words"
+              className="grow hover:underline break-words"
             >
               {post.metadata.title}
             </Link>
