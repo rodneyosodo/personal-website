@@ -15,7 +15,7 @@ export default function Home() {
         </div>
         <h1 className="text-4xl font-bold mb-6">Rodney Osodo</h1>
         <h4 className="text-1xl mb-2">
-          Software Engineer | Community Builder | Mechatronics Engineer
+          Mechatronics Engineer | Community Builder | Software Engineer
         </h4>
         <div className="max-w-2xl text-muted-foreground">
           <p className="my-6">
