@@ -12,14 +12,17 @@ const robotoMono = Roboto_Mono({
   subsets: ["latin"],
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: "Rodney Osodo",
   description:
     "This is Rodney Osodo's website. I am a software and mechatronics engineer.",
   authors: [
     {
       name: "Rodney Osodo",
-      url: process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com",
+      url: baseUrl,
     },
   ],
   keywords: ["Rodney Osodo", "Software Engineer", "Mechatronics Engineer"],
@@ -31,12 +34,12 @@ export const metadata: Metadata = {
     title: "Rodney Osodo Portfolio",
     description:
       "This is Rodney Osodo's website. I am a software and mechatronics engineer.",
-    url: process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com",
+    url: baseUrl,
     siteName: "Rodney Osodo",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com"}/opengraph-image.png`,
-        secureUrl: `${process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com"}/opengraph-image.png`,
+        url: `${baseUrl}/opengraph-image.png`,
+        secureUrl: `${baseUrl}/opengraph-image.png`,
         alt: "Rodney Osodo's Portfolio",
         type: "image/png",
         width: 1200,
@@ -51,8 +54,8 @@ export const metadata: Metadata = {
       "This is Rodney Osodo's website. I am a software and mechatronics engineer.",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com"}/opengraph-image.png`,
-        secureUrl: `${process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com"}/opengraph-image.png`,
+        url: `${baseUrl}/opengraph-image.png`,
+        secureUrl: `${baseUrl}/opengraph-image.png`,
         alt: "Rodney Osodo's Portfolio",
         type: "image/png",
         width: 1200,
