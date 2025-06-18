@@ -1,7 +1,7 @@
+import { cn } from "@/lib/utils";
 import Image, { type ImageProps } from "next/image";
 import type { ComponentPropsWithoutRef } from "react";
 import type { JSX } from "react";
-import { cn } from "@/lib/utils";
 import { highlight } from "sugar-high";
 
 function slugify(str: string) {

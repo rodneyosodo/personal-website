@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "prod": "next build && next start",
-    "format": "biome format src --write",
-    "lint": "biome lint src"
+    "lint": "biome check src",
+    "lint:fix": "biome check src --write"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",

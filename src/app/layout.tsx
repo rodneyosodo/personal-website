@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Roboto_Mono } from "next/font/google";
 import "./globals.css";
-import type React from "react";
+import { PostHogProvider } from "@/app/providers";
+import Footer from "@/components/footer";
 import Navbar from "@/components/nav-bar";
 import { ThemeProvider } from "@/components/theme-provider";
-import Footer from "@/components/footer";
-import { PostHogProvider } from "@/app/providers";
+import type React from "react";
 
 const robotoMono = Roboto_Mono({
   weight: "400",
