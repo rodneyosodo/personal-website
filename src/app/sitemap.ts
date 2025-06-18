@@ -1,5 +1,5 @@
-import { getArticles } from "@/lib/blogs";
 import type { MetadataRoute } from "next";
+import { getArticles } from "@/lib/blogs";
 
 function generateBlogsSitemap() {
   const posts = getArticles();

@@ -1,6 +1,4 @@
-// biome-ignore lint/correctness/noNodejsModules: <explanation>
 import fs from "node:fs";
-// biome-ignore lint/correctness/noNodejsModules: <explanation>
 import path from "node:path";
 
 type Metadata = {
@@ -9,7 +7,7 @@ type Metadata = {
 };
 
 const frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
-const quoteRegex = /^['\"](.*)['\"]\$/;
+const quoteRegex = /^['"](.*)['"]\$/;
 
 function parseFrontmatter(fileContent: string) {
   const match = frontmatterRegex.exec(fileContent);

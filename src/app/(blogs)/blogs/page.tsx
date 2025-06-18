@@ -1,5 +1,5 @@
-import { getArticles } from "@/lib/blogs";
 import Link from "next/link";
+import { getArticles } from "@/lib/blogs";
 
 export default function Blogs() {
   const posts = getArticles();

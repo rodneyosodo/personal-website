@@ -1,7 +1,7 @@
+import { notFound } from "next/navigation";
 import Form from "@/components/form";
 import { CustomMdx } from "@/components/mdx";
 import { getArticles } from "@/lib/blogs";
-import { notFound } from "next/navigation";
 
 export default async function Article(props: {
   params: Promise<{ slug: string }>;

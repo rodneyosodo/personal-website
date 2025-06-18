@@ -200,11 +200,11 @@ pre code > span .sh__token--identifier {
   color: white !important;
 }
 
+pre code span {
+  font-weight: 500;
+}
+
 code:not(pre code) span {
   font-weight: 500;
   color: black !important;
-}
-
-pre code span {
-  font-weight: 500;
 }

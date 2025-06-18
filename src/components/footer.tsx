@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Github,
@@ -9,7 +10,6 @@ import {
   XformerlyTwitter,
   YouTube,
 } from "@/components/ui/icons";
-import Link from "next/link";
 
 function Navigation() {
   return (

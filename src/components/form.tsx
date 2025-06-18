@@ -1,12 +1,14 @@
 "use client";
 
+import { useForm } from "@formspree/react";
+import { useId } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm } from "@formspree/react";
 
 export default function Form() {
   const [state, handleSubmit] = useForm("mlddygzj");
+  const id = useId();
 
   return (
     <div>
@@ -23,7 +25,7 @@ export default function Form() {
                 Email
               </Label>
               <Input
-                id="email"
+                id={id}
                 placeholder="Enter your email"
                 type="email"
                 name="email"

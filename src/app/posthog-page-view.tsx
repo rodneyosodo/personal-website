@@ -17,7 +17,6 @@ function PostHogPageView(): null {
         url = `${url}?${searchParams.toString()}`;
       }
 
-      // biome-ignore lint/style/useNamingConvention: This is used by PostHog
       posthog.capture("$pageview", { $current_url: url });
     }
   }, [pathname, searchParams, posthog]);

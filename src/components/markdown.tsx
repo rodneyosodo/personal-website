@@ -1,8 +1,7 @@
-import { cn } from "@/lib/utils";
 import Image, { type ImageProps } from "next/image";
-import type { ComponentPropsWithoutRef } from "react";
-import type { JSX } from "react";
+import type { ComponentPropsWithoutRef, JSX } from "react";
 import { highlight } from "sugar-high";
+import { cn } from "@/lib/utils";
 
 function slugify(str: string) {
   return str
@@ -11,8 +10,8 @@ function slugify(str: string) {
     .trim() // Remove whitespace from both ends of a string
     .replace(/\s+/g, "-") // Replace spaces with -
     .replace(/&/g, "-and-") // Replace & with 'and'
-    .replace(/[^\w\-]+/g, "") // Remove all non-word characters except for -
-    .replace(/\-\-+/g, "-"); // Replace multiple - with single -
+    .replace(/[^\w-]+/g, "") // Remove all non-word characters except for -
+    .replace(/--+/g, "-"); // Replace multiple - with single -
 }
 
 function createHeading(level: 1 | 2 | 3 | 4 | 5 | 6) {
@@ -82,7 +81,6 @@ export const components = {
       {...props}
     />
   ),
-  // biome-ignore lint/style/useNamingConvention: This is used by MDX
   Image: (props: ImageProps) => (
     <Image className="my-6 rounded-lg" {...props} />
   ),
