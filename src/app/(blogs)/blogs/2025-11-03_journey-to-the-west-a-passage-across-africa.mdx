@@ -1,0 +1,491 @@
+---
+title: Journey to the West: A Passage Across Africa
+date: 2025-11-03
+---
+
+It all started as a simple plan, a work trip, really. I was set to speak at GopherCon Africa in Lagos, Nigeria, where I'd be giving a talk on **Expanding Kubernetes Abilities with Controllers**. The subject itself was one of my passions: exploring how far we could push Kubernetes through custom controllers, written in Go, using CRDs to automate infrastructure and edge workloads.
+
+But somewhere between excitement and planning, the trip took on a life of its own. I thought, if I'm going to Nigeria, why not truly journey through West Africa? Why not see the lands beyond the Greenwich Meridian, those names I'd only seen on maps, Ivory Coast, Ghana, Togo, Benin, and Nigeria?
+
+I shared the idea with friends, hoping for company. They were enthusiastic at first, but as the dates drew near, one by one they backed out. In the end, I set out alone, though one friend joined me later in Lagos. Looking back, I'm glad it turned into a solo trip. There's a kind of clarity that comes only when you face new worlds alone, armed with nothing but curiosity and a passport.
+
+## The Layover That Stood Still — Addis Ababa
+
+My route took me from Nairobi to Abidjan, with a long layover in Addis Ababa. But that curiosity hit a wall — quite literally. The hotel I was placed in, though comfortable, had a peculiar rule: _guests with temporary visas were not allowed to leave the premises._ The staff were polite but firm, shaking their heads with an apologetic smile each time I hinted at exploring. So there I was, stuck inside four walls in one of Africa's oldest capitals. I sat by the window, staring at the city lights I couldn't touch.
+
+A waiter, noticing my restlessness, laughed softly.
+
+> “Addis will wait for you, my brother,” he said. “But next time, take more than one night.”
+
+<Image
+  src="/blogs/2025-11-03/0.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Addis Ababa International Airport International Departure Terminal"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Addis Ababa International Airport International Departure Terminal
+</p>
+
+That night, I wrote a few notes for a future post — something about how Ethiopia is quietly building its airport into Africa's aviation cornerstone. Even from inside the hotel, you could feel the country's ambition pulsing through its infrastructure. At dawn, I boarded my next flight. The announcement came in Amharic first, then English, and the hum of jet engines signalled the beginning of the real journey — westward, into lands I'd never seen.
+
+## Touchdown in Abidjan — The Language Wall
+
+Landing in Abidjan, Ivory Coast, felt like stepping into a parallel Africa. It was my first time crossing the Greenwich Meridian, and everything felt slightly tilted, deliciously unfamiliar. And that's where the first challenge struck: **French.** At the immigration counter, the officer greeted me in rapid French. I caught only a few words — _bonjour_, _passeport_, something that sounded like _visa touristique_. I smiled nervously and responded, “English, please?”
+
+<Image
+  src="/blogs/2025-11-03/1.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Felix Houphouet Boigny International Airport Check-In Desk"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Felix Houphouet Boigny International Airport Check-In Desk
+</p>
+
+The look he gave me said everything: _English? Here?_
+
+For the first time, I felt the full weight of the language barrier. My high school French could barely buy me a bottle of water, let alone navigate customs.
+
+After several minutes of awkward gesturing and translation apps, I made it through. But the ordeal wasn't over. Buying a SIM card outside the airport turned into another comedy of errors. The vendor, eager to help, called a “translator” — a young man who spoke broken English. He translated, alright, then handed me his own invoice at the end. “Ten thousand francs,” he said proudly. I laughed, thinking it was a joke. It wasn't.
+
+Welcome to Abidjan.
+
+## First Impressions — Faith, Food, and Friction
+
+The architecture felt like a marriage of Paris and Lagos: grand colonial facades standing beside vibrant markets and chaotic motorbikes. Our destination was **St. Paul's Cathedral**. Its towering cross-shaped structure pierced the skyline, an architectural poem in white concrete. Outside, the city was tense. Protests had closed most government offices, and soldiers lounged near intersections.
+
+<Image
+  src="/blogs/2025-11-03/2.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="St. Paul's Cathedral"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  St. Paul's Cathedral
+</p>
+
+My driver then took me to a mosque, **Grande Mosquée du Plateau**, equally majestic, with intricate geometric patterns and calligraphy carved into its arches. I found it fascinating how Abidjan, a city pulsing with political unrest, still found beauty in worship.
+
+<Image
+  src="/blogs/2025-11-03/3.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Grande Mosquée du Plateau"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Grande Mosquée du Plateau
+</p>
+
+Later, hunger took over. At a local market, the air was alive with the smell of grilled fish and cassava. That's where I tasted **attieké** for the first time, a dish made from grated cassava fermented and steamed to a couscous-like texture, served with fried fish, onions, and slices of sweet plantain. The woman who served me smiled when she saw my hesitation about washing my hands in a shared bowl.
+
+> “Comme les Arabes,” she laughed. “Wash before you eat — it makes the food taste better.”
+
+And she was right. Even the **Fanta** tasted different — less sweet, more vibrant, perhaps less filtered by industrial consistency. In that moment, I realised how local even global brands become once they meet the soil of a new country.
+
+<Image
+  src="/blogs/2025-11-03/4.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Fanta"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Fanta
+</p>
+
+That night, I checked into my Airbnb — a modest apartment tucked in a quiet neighbourhood. My hosts were friendly but spoke mostly French, so conversation came in bursts of laughter, translation apps, and gestures. Among the guests was a young software developer from Mali who'd come to Abidjan for a job interview.
+
+> “I am a mobile developer,” he told me proudly. “I hope this city gives me a chance.”
+
+Another guest was a trader en route to France — _“l'Europe est la prochaine étape,”_ he said, grinning. I slept late that night, listening to the city hum outside. Dogs barked, someone played Afro-beats in the distance, and I thought about how far I was from home — yet still in Africa.
+
+## Leaving Ivory Coast
+
+Morning came with the sound of motorbikes and prayer calls. It was travel day again, time to move eastward to Ghana.
+
+I booked a ride through Yango, the local equivalent of Uber, and headed to the bus terminal. The air was thick with humidity and the smell of diesel. My seatmate on the bus spoke a mix of French and something that sounded like Ewe. We exchanged polite smiles and awkward silences. The road stretched endlessly, lined with coconut palms and red earth. Somewhere between Abidjan and the border, I fell asleep, waking only when the bus slowed near customs.
+
+The border crossing was my first real encounter with official bribery as a system. A man in uniform leaned into the window, asking for “something small”. “I don't have money,” I said, smiling politely. He looked disappointed, then waved me through. That was my first taste of what would become a pattern in West Africa, kindness and corruption dancing together in the open.
+
+When the bus finally crossed into Ghana, night had already fallen. The driver announced our arrival in English, the first words I'd properly understood all day. “Welcome to Ghana!” he shouted cheerfully, and for a moment the fatigue melted away.
+
+It was close to midnight when we rolled into Accra, the warm coastal wind sliding through the open windows. I hailed an Uber and gave the address of my Airbnb. The driver, an older man with a calm voice and a gospel playlist humming softly in the background, turned and said,
+
+> “First time in Ghana?”
+> “Yes,” I answered, smiling.
+> “Then you will love the peace here. We argue, but we don't fight.”
+
+It was an oddly comforting welcome, a sentence that somehow carried the soul of the country. The next morning, I woke to a city that moved at its own tempo, not slow, not hurried, but rhythmically confident. The air was thick and hot, almost humid enough to chew. After a shower and a quick change, I ordered breakfast at a nearby café called Jamestown Coffee House. The place had that familiar mix of laptops, conversation, and the smell of roasted beans — the universal scent of remote work. I stayed longer than I'd planned, enjoying the Wi-Fi, catching up on a few work emails, and watching the quiet bustle outside.
+
+## A Walk Through Ghana's Past
+
+<Image
+  src="/blogs/2025-11-03/6.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Ghana National Museum"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Ghana National Museum
+</p>
+
+My first destination was the Ghana National Museum. It stood not far from the centre, a modest building holding the weight of centuries. Inside, each room told a story — of kingdoms, migrations, independence, and resilience.
+
+<Image
+  src="/blogs/2025-11-03/5.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Ghana National Museum Artwork"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Ghana National Museum Artwork
+</p>
+
+One display caught my eye: a black-and-white photograph of Kwame Nkrumah addressing a jubilant crowd, fist raised. It was impossible not to feel the echo of that moment — the birth of independent Africa.
+
+After an hour wandering the exhibits, I stepped outside and realised that the Kwame Nkrumah Mausoleum was within walking distance. The sun was merciless, but I walked anyway.
+
+The mausoleum stands within a serene park, guarded by fountains and statues.
+
+<Image
+  src="/blogs/2025-11-03/7.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Kwame Nkrumah Statue"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Kwame Nkrumah Statue
+</p>
+
+We walked slowly through the complex, past the bronze statue of Nkrumah, hand raised in perpetual motion. Our guide told us the strange story of how **Nkrumah was buried three times** — first in Guinea, where he had gone into exile, then on his ancestral land in Ghana, and finally here, after the mausoleum was built.
+
+<Image
+  src="/blogs/2025-11-03/8.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Kwame Nkrumah Head Statue"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Kwame Nkrumah Head Statue
+</p>
+
+> “He ruled two nations, Ghana and Guinea — that is something!”
+
+Nearby stood the grave of his wife, Fathia, and together they lay surrounded by the quiet hum of schoolchildren on a field trip.
+
+<Image
+  src="/blogs/2025-11-03/9.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Kwame Nkrumah Life Transition"
+/>
+
+Before leaving, I noticed a small plaque where Kenya's own **Mwai Kibaki** had once planted a tree.
+
+From the mausoleum, I walked to Black Star Square, also called Independence Square. The structure was immense, stark against the blue sky — the Black Star arching above the white pillars, inscribed with Ghana's proud words: _“Freedom and Justice.”_
+
+<Image
+  src="/blogs/2025-11-03/10.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Black Star Square"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Black Star Square
+</p>
+
+## Castles and Chains — The Door of No Return
+
+I made my way to Osu Castle. Inside, the air was damp and heavy with history. Our guide, a woman with a voice that carried like wind through stone, led us through the dungeons.
+
+<Image
+  src="/blogs/2025-11-03/11.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="One of the dungeons"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  One of the dungeons
+</p>
+
+> “Here,” she said softly, “hundreds of women were kept in the dark. Above them was a church — imagine, prayers above and suffering below.”
+
+<Image
+  src="/blogs/2025-11-03/15.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Catholic Church on top of the Female Dungeon"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Catholic Church on top of the Female Dungeon
+</p>
+
+We entered the room with the Door of No Return, once the last threshold before
+the enslaved were shipped across the ocean. The words were now crossed out and
+replaced with _“Door of Return,”_ marking the homecoming of African descendants
+centuries later.
+
+Standing there, I felt both grief and pride. The Atlantic waves crashed below, indifferent and eternal.
+
+Before leaving, we visited a small room inside, where Queen Elizabeth's bed still stood — a relic of her visit decades ago. A strange reminder of how empires leave traces even in sorrow.
+
+<Image
+  src="/blogs/2025-11-03/13.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Queen Elizabeth's Bed"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Queen Elizabeth's Bed
+</p>
+
+Back in Accra, hunger had returned with a vengeance. That night, I sought out a restaurant famous for its fufu — cassava and plantain pounded into a smooth dough, served in a bowl of spicy soup with fish.
+
+The texture was elastic, the soup fiery, the fish fresh. It was a meal that demanded patience and rewarded effort.
+
+After dinner, I returned to Jamestown Coffee House for a few hours of quiet work. The staff recognised me this time.
+
+> “Ah, our Kenyan engineer is back!” one joked.
+
+The café had become my little refuge — a place where the world slowed down just enough to think.
+
+Later that night, in my small Airbnb room, I showered again. Accra's heat doesn't politely fade; it clings to you like a second skin. I drifted to sleep listening to the hum of ceiling fans and distant traffic.
+
+## Leaving Ghana
+
+The next morning was my departure day — destination: **Togo**. Traffic in Accra is a living organism, unpredictable and stubborn. I left before noon and still reached the bus terminal barely in time. The journey eastward began under a bright sun. From my window seat, I watched the countryside roll by — coconut trees, small towns, women selling plantains by the roadside, children waving at passing buses. At the border, the air grew tense again. The Ghanaian officers were efficient, stamping passports briskly. The formality was almost casual — a nod, a glance, a stamp. And then, just like that, I was in **Lomé**, capital of Togo.
+
+Crossing into Togo felt almost surreal — not because the geography changed drastically, but because the world seemed to shift gears. The bus rolled slowly across the border, and before I knew it, we were in Lomé, the small but bustling capital city that hugs the Atlantic coast. Unlike Accra's sprawling neighbourhoods, Lomé felt compact, calm, and coastal — a city that moves at the pace of the sea.
+
+## A Welcome That Costs a Little Extra
+
+The bus stopped near a dusty junction that doubled as the central station. Before I could even grab my bag, a young man approached.
+
+> “Monsieur, taxi? Where are you going?”
+
+I told him my Airbnb address, and within seconds, he had a motorcycle taxi lined up. As I climbed on, I realised I hadn't even negotiated the price — a rookie mistake. By the time we reached my destination, the fare he quoted was **2,000 francs** — a steep price for the short ride. Later, I'd learn it should've been a fraction of that. It's something every traveller eventually learns: in West Africa, _help is often a service — and services come with a bill._ Still, the man smiled warmly as I paid him.
+
+> “Bienvenue à Lomé!” he said, waving as he rode away.
+
+My Airbnb was a modest apartment tucked inside a quiet street near the city centre. After unpacking, I decided to find dinner.
+
+## The Morning After — Independence and Art
+
+The next day, I woke to the sound of motorbikes and roosters crowing in unison. Lomé has a rhythm of its own: sunrise brings life to the streets, but not chaos. My plan for the day was to explore the city's historical heart — the **Independence Square** and **Palais de Lomé**, both within a short ride from where I stayed. I ordered a ride through **Gozem**, Togo's equivalent of Uber. The green app became my best friend for the rest of the stay.
+
+<Image
+  src="/blogs/2025-11-03/16.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Independence Monument"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Independence Monument
+</p>
+
+The **Independence Monument** stood tall at the heart of a wide square — a white obelisk surrounded by neat gardens and palm trees. It symbolised the birth of Togo's independence in 1960, a moment of pride that still lingers in the city's collective memory. After a few photos, I walked toward **Palais de Lomé**, a colonial-era palace turned museum. The palace was stunning — high ceilings, art exhibitions, and gardens filled with sculptures. Inside, exhibits told stories of the **Togolese women's resistance**, the _Nana Benz_ traders, and the textile revolutions that shaped the country's post-colonial identity.
+
+<Image
+  src="/blogs/2025-11-03/17.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Palais de Lomé"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Palais de Lomé
+</p>
+
+> The Nana Benz were a generation of Togolese women who dominated the textile trade in the 1950s and 60s, named after the Mercedes-Benz cars they bought with their success. They remain symbols of female entrepreneurship and resilience.
+
+<Image
+  src="/blogs/2025-11-03/18.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Nana Benz"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Nana Benz
+</p>
+
+One of the exhibits featured old photos of these women wrapped in vibrant _pagne_ fabrics, smiling with quiet defiance. After leaving the palace, I went looking for the **Sacré-Cœur Cathedral**, one of Lomé's most photographed landmarks. The midday sun was merciless, the air shimmering on the pavement. I walked through the market, weaving between women balancing baskets of fruit on their heads and men selling everything from shoes to radios.
+
+But somehow, I never found the cathedral. I must have taken a wrong turn, or maybe the heat simply clouded my sense of direction. Instead, I found myself in the middle of **Grand Marché**, Lomé's main market — a living organism of colour and noise. Here, French blended with Ewe, and bargaining was a language of its own. I bought a cold drink — something orange, fizzier than Fanta — and watched the world go by. The market was chaotic, but beautiful in its rhythm. By late afternoon, I returned to my Airbnb, showered, and packed. My stay in Togo had been brief but intense, full of small lessons in humility and human connection. The next leg awaited — **Benin**, just a few hours east.
+
+## **Crossing Into Benin — The Border of Bribes**
+
+I left Lomé before sunset, heading toward the Benin border in a shared taxi. The ride was smooth at first, coastal winds sweeping through the open windows. But soon, the familiar challenge returned: **border negotiations.** At the Togolese side, the officers checked my passport with little fuss. But on the Benin side, things got complicated. The driver leaned over and whispered,
+
+> “You will need to pay a small amount for police.”
+
+I frowned. “Why?”
+
+> “So they let us pass fast. No worry, I handle.”
+
+I hesitated but eventually handed over the equivalent of a few dollars. The language barrier didn't help — the officers spoke rapid French, and all I could do was smile and hope it was enough. It's an uncomfortable truth of travel through certain borders: honesty sometimes slows you down, while a few notes of currency oil the wheels of bureaucracy. Eventually, the papers were stamped, and the driver waved at me triumphantly.
+
+> “Bienvenue au Bénin!”
+
+The sun had set, and the sky was deep violet by the time we reached **Cotonou**. By the time I arrived in **Cotonou**, the night had already swallowed the city whole. I stepped out of the car, my backpack slung over one shoulder, and looked around at what would be home for the next few nights. The driver pointed down a narrow lane. That night, I didn't have the energy to explore. My stomach grumbled, but fatigue was stronger. I wandered to a nearby kiosk and bought what seemed to be the city's most reliable meal — **baguette bread and soda**. Everywhere I went in West Africa, bread was a constant. Ivory Coast had its baguettes sold on every street corner, Ghana its sweet rolls, and now Benin its crusty loaves that snapped with a satisfying crunch.
+
+> The love of bread across Francophone West Africa is a lingering echo of French colonial influence. Yet locals have turned it into something their own — fresh, affordable, and shared at every meal.
+
+As I walked back with my humble dinner, I noticed how alive the streets were despite the late hour. At my Airbnb, I ate in silence, washed down the meal with **Fanta**, and noted, again, how different it tasted from the versions back home. Each country, it seemed, had its own soul — even in its soft drinks.
+
+## Morning in Cotonou
+
+The next morning, after a cold shower and a quick chat with my host (who translated my broken French into patience), I set out to explore. My first destination was the **Amazon Statue**, one of Benin's proudest landmarks. As I approached, the bronze gleamed under the morning sun — a colossal figure of a woman holding a machete and a shield, standing tall in defiance and grace. She wasn't a myth — she represented the **Dahomey Amazons**, an all-female military regiment that once protected the Kingdom of Dahomey. I stood there for a while, thinking about how history can live on in metal and memory.
+
+<Image
+  src="/blogs/2025-11-03/19.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Amazon Statue"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Amazon Statue
+</p>
+
+Crossing the street in Cotonou turned out to be an adventure of its own. Unlike in other cities, the **zebra crossings here had buttons** — you pressed one, and a traffic light would shift from green to yellow to red, commanding cars to stop. It was strangely satisfying, pressing that button and watching the flow of traffic freeze for you — a momentary feeling of power amid the chaos of honking and motorbikes. I pressed the button twice, just because I could.
+
+From there, I walked along **Rue des Murales**, a long street transformed into an open-air canvas. For over a kilometre, the walls were covered in **murals and graffiti**, each one shouting with colour, protest, or poetry. Faces of African queens, geometric patterns, slogans in Fon and French — the artwork was alive, breathing revolution and pride. I walked nearly the entire stretch of the murals — more than a kilometre, maybe two — my shirt sticking to my back under the sun. By the end, my phone's gallery was full of colour.
+
+<Image
+  src="/blogs/2025-11-03/20.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Rue des Murales"
+/>
+<Image
+  src="/blogs/2025-11-03/21.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Rue des Murales"
+/>
+<Image
+  src="/blogs/2025-11-03/22.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Rue des Murales"
+/>
+<Image
+  src="/blogs/2025-11-03/23.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Rue des Murales"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Rue des Murales
+</p>
+
+By afternoon, the heat had become unbearable. I retreated to my Airbnb. As evening approached, I checked out and packed for the next leg — **Nigeria**, the final chapter of the journey. But first, one more challenge awaited: the border at **Sèmè-Kraké**. I left for the border, first by shared taxi, then by motorbike for the final stretch. The road was dusty, flanked by palm trees and small roadside stalls.
+
+At Sèmè-Kraké, chaos reigned. Trucks idled in long queues, vendors sold bottled water and SIM cards, and immigration officers moved between booths like slow-moving chess pieces. The Beninese exit process was smooth enough, but the Nigerian side — that was another story. The officers demanded proof of vaccination — not for yellow fever, which was listed on their website, but for _polio_ and _meningitis_. I explained that my travel documents didn't list these as requirements. They didn't care.
+
+> “You can pay small, and we forget,” one officer said with a shrug.
+
+I refused politely, citing “policy.” It became a back-and-forth of stubborn smiles and sighs. Eventually, perhaps bored by my persistence, they let me through. I'd crossed enough borders by then to know the truth: in West Africa, patience is a stronger currency than money.
+
+## Riding with the Navy
+
+Once inside Nigeria, I realised there were no public buses from the border to Lagos. The distance stretched ahead like a dare. Then, as if by miracle, I met a man in a navy uniform.
+
+> “You need a ride? I go to Lagos.”
+> “Yes, please,” I said.
+> “Okay. I take you — but you will buy me Coke.”
+
+Fair trade. The ride was long and bumpy, but we talked the entire way — about football, politics, and his years stationed along the coast. When we finally reached Lagos, he pulled over and smiled.
+
+<Image
+  src="/blogs/2025-11-03/25.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Journey to Lagos"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Journey to Lagos
+</p>
+
+> “Kenya man,” he said, “you survived West Africa. Lagos is your reward.”
+
+We laughed, shook hands, and he drove off into the traffic. If West Africa had a heartbeat, it would sound like Lagos traffic: loud, chaotic, relentless, yet somehow perfectly timed. I'd heard stories about Lagos — some terrifying, others thrilling — but no story can truly prepare you for the sensory overload that greets you when you arrive.
+
+## The Conference — GopherCon Lagos
+
+Morning arrived hot and loud. Even before the sun rose, the city was already moving. I ordered a ride through Uber, heading to the **GopherCon venue**. It felt surreal walking into a hall filled with engineers, laptops, and conversations about Go, cloud, and the future of software — after weeks of crossing borders, languages, and time zones.
+
+<Image
+  src="/blogs/2025-11-03/26.jpg"
+  width={400}
+  height={400}
+  className="mx-auto my-6 rounded-xl"
+  alt="Gophercon Africa 2025"
+/>
+<p className="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+  Gophercon Africa 2025
+</p>
+
+My talk — **Expanding Kubernetes Abilities with Controllers** — was scheduled for the first day. I spoke about extending Kubernetes with custom CRDs and controllers written in Go, sharing how these patterns can automate edge workloads and infrastructure. But as I stood there, looking at the audience — developers from across Africa — I realised this conference was more than just tech. It was a gathering of dreamers.
+
+Afterwards, a young engineer approached me.
+
+> “I never thought Kubernetes could be _fun_,” he said.
+> I laughed. “It's only fun when it breaks — that's how you learn.”
+
+We both smiled, and I remembered why I loved these spaces. Tech, at its best, builds bridges faster than governments ever could.
+
+The next few days of the conference felt like a reunion of minds.
+
+I met **Rebecca** from Digitax — sharp, organised, and one of the key organisers of the event. Then there was **Sammy**, my friend and fellow Kenyan, who gave a brilliant talk on **bootstrapping with Gophers** — how Go compiles itself and what that means for developers. And **Marvin**, who had opened the conference with a powerful keynote on Go's growth in Africa.
+
+Between talks, we huddled around coffee tables, swapping stories of projects, startups, and the little absurdities of travel.
+
+## The Last Day — Reflections by the Lagoon
+
+The final day of GopherCon was quieter. I listened to the last few talks, chatted with attendees, and shared one last meal with my Kenyan friends. In the evening, the organisers invited us to Lagos Island to have dinner. We found a small restaurant overlooking the lagoon. The drive across the **Third Mainland Bridge** revealed the vast sprawl of Lagos — the lagoon below shimmering like a living thing, dotted with boats and distant lights.
+
+That night, I began to feel the toll of the journey. My throat was sore, my body tired. Weeks of bus rides, border stress, and unfamiliar meals had finally caught up. I skipped the afterparties, opting instead to stay in my room, drink water, and rest.
+
+## The Journey Home
+
+The next morning, I packed for my flight. The road to the airport was long, lined with street vendors selling everything from SIM cards to bananas. Inside **Murtala Muhammed International Airport**, the crowds swirled in practised chaos. At one checkpoint, an officer winked and said,
+
+> “Happy Sabbath again, my brother.”
+
+I smiled, nodded, and kept walking. I'd learned by now which battles weren't worth fighting. My return flight was with **RwandAir**, connecting through **Kigali** and **Entebbe** before finally landing in **Nairobi**.
+
+## Epilogue
+
+When I finally stepped off the plane at **Jomo Kenyatta International Airport**, I felt both older and lighter.
+
+I had crossed the **Greenwich Meridian** for the first time — from East Africa to the West — and discovered not just countries, but perspectives.
+
+In **Ivory Coast**, I learned patience through translation.
+In **Ghana**, I walked through history and pride.
+In **Togo**, I saw feminism woven into the nation's art.
+In **Benin**, I met the echoes of warriors in bronze and paint.
+And in **Nigeria**, I found the pulse of an entire continent — imperfect, unstoppable, and brilliant.
+
+The trip hadn't been perfectly planned. It was messy, improvised, and sometimes uncomfortable. But that's what made it real. Travel, I realised, doesn't need perfection. It needs curiosity, humility, and the courage to let life unfold on its own terms. As I rolled my suitcase out into Nairobi's night, I thought of the words I'd written at the start of the trip: _The Journey to the West._ It had been just that — not a tour, not a checklist, but a genuine passage through people, places, and the living rhythm of Africa. And though I was back home, part of me was still out there — somewhere between the roar of Lagos traffic and the quiet grace of a Beninese sunrise.
