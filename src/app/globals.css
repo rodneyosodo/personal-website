@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@plugin 'tailwindcss-animate';
+@plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -197,7 +197,7 @@ pre code {
 }
 
 pre code > span .sh__token--identifier {
-  color: white !important;
+  color: white;
 }
 
 pre code span {
@@ -206,5 +206,5 @@ pre code span {
 
 code:not(pre code) span {
   font-weight: 500;
-  color: black !important;
+  color: black;
 }
