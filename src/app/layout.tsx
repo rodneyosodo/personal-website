@@ -38,10 +38,10 @@ export const metadata: Metadata = {
     siteName: "Rodney Osodo",
     images: [
       {
-        url: `${baseUrl}/opengraph-image.png`,
-        secureUrl: `${baseUrl}/opengraph-image.png`,
+        url: `${baseUrl}/opengraph-image.jpeg`,
+        secureUrl: `${baseUrl}/opengraph-image.jpeg`,
         alt: "Rodney Osodo's Portfolio",
-        type: "image/png",
+        type: "image/jpeg",
         width: 1200,
         height: 630,
       },
@@ -54,10 +54,10 @@ export const metadata: Metadata = {
       "This is Rodney Osodo's website. I am a software and mechatronics engineer.",
     images: [
       {
-        url: `${baseUrl}/opengraph-image.png`,
-        secureUrl: `${baseUrl}/opengraph-image.png`,
+        url: `${baseUrl}/opengraph-image.jpeg`,
+        secureUrl: `${baseUrl}/opengraph-image.jpeg`,
         alt: "Rodney Osodo's Portfolio",
-        type: "image/png",
+        type: "image/jpeg",
         width: 1200,
         height: 630,
       },
