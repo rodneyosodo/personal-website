@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ExternalLink from "@/components/external-link";
 
 export default function Home() {
   return (
@@ -22,23 +23,21 @@ export default function Home() {
             Hey 👋🏾, I'm Rodney. I studied Mechatronics Engineering for 5 years
             and now I write software. I am passionate about building scalable
             distributed systems, building communities (
-            <a
+            <ExternalLink
               href="https://www.meetup.com/python-nairobi/"
               className="text-primary underline underline-offset-4"
-              target="_blank"
-              rel="noopener noreferrer"
+              linkName="python-nairobi"
             >
               Python-Nairobi
-            </a>{" "}
+            </ExternalLink>{" "}
             and{" "}
-            <a
+            <ExternalLink
               href="https://www.meetup.com/roboke/"
               className="text-primary underline underline-offset-4"
-              target="_blank"
-              rel="noopener noreferrer"
+              linkName="roboke"
             >
               RoboKE
-            </a>
+            </ExternalLink>
             ), and building products that make people's lives easier.
           </p>
         </div>

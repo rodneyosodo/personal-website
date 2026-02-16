@@ -13,6 +13,10 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       ui_host: process.env.NEXT_PUBLIC_POSTHOG_HOST as string,
       capture_pageview: false,
       capture_pageleave: true,
+      // Include recommended defaults for best practices
+      defaults: "2025-05-24",
+      // Enable error tracking
+      capture_exceptions: true,
     });
   }, []);
 

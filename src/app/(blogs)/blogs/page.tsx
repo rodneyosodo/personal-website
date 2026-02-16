@@ -1,4 +1,4 @@
-import Link from "next/link";
+import BlogLink from "@/components/blog-link";
 import { getArticles } from "@/lib/blogs";
 
 export default function Blogs() {
@@ -35,12 +35,11 @@ export default function Blogs() {
             ) : (
               <span className="min-w-[2rem] sm:min-w-[4rem]" />
             )}
-            <Link
-              href={`/blogs/${post.slug}`}
-              className="grow hover:underline break-words"
-            >
-              {post.metadata.title}
-            </Link>
+            <BlogLink
+              slug={post.slug}
+              title={post.metadata.title}
+              date={post.metadata.date}
+            />
             <span className="text-muted-foreground whitespace-nowrap">
               {new Date(post.metadata.date).toLocaleDateString("en-US", {
                 month: "short",

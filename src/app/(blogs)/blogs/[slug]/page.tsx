@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import BlogPostTracker from "@/components/blog-post-tracker";
 import Form from "@/components/form";
 import { CustomMdx } from "@/components/mdx";
 import { getArticles } from "@/lib/blogs";
@@ -16,6 +17,11 @@ export default async function Article(props: {
 
   return (
     <div className="relative overflow-hidden">
+      <BlogPostTracker
+        slug={post.slug}
+        title={post.metadata.title}
+        date={post.metadata.date}
+      />
       <div className="container mx-auto max-w-8xl px-8">
         <div className="max-w-2xl mx-auto">
           <h1 className="title font-semibold text-3xl tracking-tighter mt-2 mb-8">
