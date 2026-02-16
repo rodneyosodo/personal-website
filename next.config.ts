@@ -1,5 +1,5 @@
-import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
@@ -7,6 +7,19 @@ const nextConfig: NextConfig = {
     taint: true,
   },
   transpilePackages: ["next-mdx-remote"],
+  async headers() {
+    return [
+      {
+        source: "/ingest/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
   async rewrites() {
     const postHogBaseURL = process.env.NEXT_PUBLIC_POSTHOG_HOST;
     if (!postHogBaseURL) {
