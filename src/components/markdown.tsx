@@ -86,12 +86,12 @@ export const components = {
       <Image
         width={width}
         height={height}
-        className={`my-6 rounded-lg ${className}`.trim()}
+        className={cn("my-6 rounded-lg", className)}
         {...props}
       />
     ) : (
       <span
-        className={`relative block w-full aspect-video my-6 ${className}`.trim()}
+        className={cn("relative block w-full aspect-video my-6", className)}
       >
         <Image fill className="rounded-lg object-cover" {...props} />
       </span>
