@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 const robotoMono = Roboto_Mono({
   weight: "400",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com";
