@@ -98,7 +98,7 @@ function SocialLinks() {
 
 export default function Footer() {
   return (
-    <footer className="bg-background py-12 mt-auto">
+    <footer className="bg-background pt-12 mt-auto">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center border-t pt-4">
           <Navigation />

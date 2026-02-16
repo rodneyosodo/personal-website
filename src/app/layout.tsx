@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 const robotoMono = Roboto_Mono({
   weight: "400",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com";
@@ -71,8 +72,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${robotoMono.className}  antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${robotoMono.className}  antialiased`}
+        suppressHydrationWarning
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -82,7 +86,7 @@ export default async function RootLayout({
           <PostHogProvider>
             <div className="min-h-screen flex flex-col">
               <Navbar />
-              {children}
+              <main className="flex-1 flex flex-col">{children}</main>
               <Footer />
             </div>
           </PostHogProvider>

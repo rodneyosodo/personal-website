@@ -81,9 +81,21 @@ export const components = {
       {...props}
     />
   ),
-  Image: (props: ImageProps) => (
-    <Image className="my-6 rounded-lg" {...props} />
-  ),
+  Image: ({ width, height, className = "", ...props }: ImageProps) =>
+    width && height ? (
+      <Image
+        width={width}
+        height={height}
+        className={cn("my-6 rounded-lg", className)}
+        {...props}
+      />
+    ) : (
+      <span
+        className={cn("relative block w-full aspect-video my-6", className)}
+      >
+        <Image fill className="rounded-lg object-cover" {...props} />
+      </span>
+    ),
   hr: ({ ...props }) => <hr className="my-4 md:my-8" {...props} />,
   code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
     const codeHtml = highlight(children as string);
