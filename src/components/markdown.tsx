@@ -1,7 +1,6 @@
-import type { ImageProps } from "next/image";
+import Image, { type ImageProps } from "next/image";
 import type { ComponentPropsWithoutRef, JSX } from "react";
 import { highlight } from "sugar-high";
-import ZoomableImage from "@/components/zoomable-image";
 import { cn } from "@/lib/utils";
 
 function slugify(str: string) {
@@ -82,7 +81,21 @@ export const components = {
       {...props}
     />
   ),
-  Image: (props: ImageProps) => <ZoomableImage {...props} />,
+  Image: ({ width, height, className = "", ...props }: ImageProps) =>
+    width && height ? (
+      <Image
+        width={width}
+        height={height}
+        className={`my-6 rounded-lg ${className}`.trim()}
+        {...props}
+      />
+    ) : (
+      <span
+        className={`relative block w-full aspect-video my-6 ${className}`.trim()}
+      >
+        <Image fill className="rounded-lg object-cover" {...props} />
+      </span>
+    ),
   hr: ({ ...props }) => <hr className="my-4 md:my-8" {...props} />,
   code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
     const codeHtml = highlight(children as string);
