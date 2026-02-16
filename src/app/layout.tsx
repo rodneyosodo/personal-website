@@ -71,8 +71,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${robotoMono.className}  antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${robotoMono.className}  antialiased`}
+        suppressHydrationWarning
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
