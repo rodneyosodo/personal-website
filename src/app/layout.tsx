@@ -13,7 +13,9 @@ const robotoMono = Roboto_Mono({
   display: "swap",
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com";
+const baseUrl = (
+  process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com"
+).replace(/\/+$/, "");
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

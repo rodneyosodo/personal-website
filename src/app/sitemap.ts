@@ -1,7 +1,9 @@
 import type { MetadataRoute } from "next";
 import { getArticles } from "@/lib/blogs";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com";
+const baseUrl = (
+  process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com"
+).replace(/\/+$/, "");
 
 function generateBlogsSitemap() {
   const posts = getArticles();
