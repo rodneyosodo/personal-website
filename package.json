@@ -28,7 +28,6 @@
     "posthog-js": "1.347.2",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "sugar-high": "0.9.5",
     "tailwind-merge": "3.4.1",
     "tailwindcss-animate": "1.0.7"
   },
@@ -39,6 +38,7 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "postcss": "8.5.6",
+    "shiki": "^3.22.0",
     "tailwindcss": "4.1.18",
     "typescript": "5.9.3"
   }
