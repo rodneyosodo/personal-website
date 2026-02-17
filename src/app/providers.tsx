@@ -8,12 +8,16 @@ import SuspendedPostHogPageView from "@/app/posthog-page-view";
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY as string, {
-      api_host: "/ingest",
-      ui_host: process.env.NEXT_PUBLIC_POSTHOG_HOST as string,
-      capture_pageview: false,
-      capture_pageleave: true,
-    });
+    const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+    const host = process.env.NEXT_PUBLIC_POSTHOG_HOST;
+    if (key && host) {
+      posthog.init(key, {
+        api_host: "/ingest",
+        ui_host: host,
+        capture_pageview: false,
+        capture_pageleave: true,
+      });
+    }
   }, []);
 
   return (

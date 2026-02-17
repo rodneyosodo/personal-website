@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   return (
     <div>
@@ -14,7 +14,7 @@ export function ThemeToggle() {
         size="sm"
         className="size-8 px-0"
         onClick={() => {
-          if (theme === "light") {
+          if (resolvedTheme === "light") {
             setTheme("dark");
           } else {
             setTheme("light");

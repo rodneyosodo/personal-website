@@ -1,7 +1,21 @@
 import Image, { type ImageProps } from "next/image";
-import type { ComponentPropsWithoutRef, JSX } from "react";
+import {
+  type ComponentPropsWithoutRef,
+  isValidElement,
+  type JSX,
+  type ReactNode,
+} from "react";
 import { highlight } from "sugar-high";
 import { cn } from "@/lib/utils";
+
+function extractText(node: ReactNode): string {
+  if (typeof node === "string") return node;
+  if (typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(extractText).join("");
+  if (isValidElement(node))
+    return extractText((node.props as { children?: ReactNode }).children);
+  return "";
+}
 
 function slugify(str: string) {
   return str
@@ -27,8 +41,7 @@ function createHeading(level: 1 | 2 | 3 | 4 | 5 | 6) {
   const Tag = `h${level}` as keyof JSX.IntrinsicElements;
 
   return ({ className = "" as string, ...props }) => {
-    const text = typeof props.children === "string" ? props.children : "";
-    const id = slugify(text);
+    const id = slugify(extractText(props.children as ReactNode));
 
     return (
       <Tag id={id} className={cn(`${styles[level]}`, className)} {...props}>
@@ -98,7 +111,9 @@ export const components = {
     ),
   hr: ({ ...props }) => <hr className="my-4 md:my-8" {...props} />,
   code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
-    const codeHtml = highlight(children as string);
+    const codeHtml = highlight(
+      typeof children === "string" ? children : String(children ?? ""),
+    );
     return (
       <code
         className="relative rounded-md border bg-muted py-1 font-mono text-sm text-foreground"

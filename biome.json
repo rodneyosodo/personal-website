@@ -43,11 +43,7 @@
         "noUselessElse": "error"
       }
     },
-    "includes": [
-      "src/**/*",
-      "!src/components/ui/**/*",
-      "!**/src/app/providers.tsx"
-    ]
+    "includes": ["src/**/*", "!src/components/ui/**/*"]
   },
   "javascript": {
     "formatter": {

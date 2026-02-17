@@ -57,3 +57,13 @@ function getMdxData(dir: string) {
 export function getArticles() {
   return getMdxData(path.join(process.cwd(), "src", "app", "(blogs)", "blogs"));
 }
+
+export function getArticleBySlug(slug: string) {
+  const dir = path.join(process.cwd(), "src", "app", "(blogs)", "blogs");
+  const filePath = path.join(dir, `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) {
+    return null;
+  }
+  const { metadata, content } = readMdxFile(filePath);
+  return { metadata, slug, content };
+}

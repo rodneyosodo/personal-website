@@ -1,14 +1,18 @@
 import { notFound } from "next/navigation";
 import Form from "@/components/form";
 import { CustomMdx } from "@/components/mdx";
-import { getArticles } from "@/lib/blogs";
+import { getArticleBySlug, getArticles } from "@/lib/blogs";
+
+export async function generateStaticParams() {
+  const posts = getArticles();
+  return posts.map((post) => ({ slug: post.slug }));
+}
 
 export default async function Article(props: {
   params: Promise<{ slug: string }>;
 }) {
   const params = await props.params;
-  const posts = getArticles();
-  const post = posts.find((post) => post.slug === params.slug);
+  const post = getArticleBySlug(params.slug);
 
   if (!post) {
     notFound();
