@@ -61,6 +61,10 @@ export function getArticles() {
 export function getArticleBySlug(slug: string) {
   const dir = path.join(process.cwd(), "src", "app", "(blogs)", "blogs");
   const filePath = path.join(dir, `${slug}.mdx`);
+  // Ensure the resolved path is within the blogs directory
+  if (!filePath.startsWith(dir)) {
+    return null;
+  }
   if (!fs.existsSync(filePath)) {
     return null;
   }
