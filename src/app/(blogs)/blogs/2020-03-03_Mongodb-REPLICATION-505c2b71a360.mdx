@@ -193,7 +193,7 @@ docker-compose exec demo-mongo-primary mongo -u "root" -p "password"
 
 8. Instatiate the replica set
 
-```terminal
+```text
 rs.initiate(
     {"_id" : "tut12-replica-set",
     "members" : [
@@ -207,7 +207,7 @@ rs.initiate(
 
 9. Set the priority of the master over the other nodes
 
-```terminal
+```text
 conf = rs.config();
 conf.members[0].priority = 2;
 rs.reconfig(conf);

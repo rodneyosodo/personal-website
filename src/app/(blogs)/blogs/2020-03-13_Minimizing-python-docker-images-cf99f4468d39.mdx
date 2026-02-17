@@ -73,7 +73,7 @@ it and the allocated resources.
 
 Lets create a python Flask app for demonstration purposes:
 
-```python3
+```python
 from flask import Flask
 
 app = Flask(__name__)
@@ -124,7 +124,7 @@ Werkzeug==1.0.0
 
 We write a first Dockerfile:
 
-```Dockerfile
+```dockerfile
 FROM ubuntu
 LABEL Maintainer="Rodney Osodo"
 WORKDIR /app
@@ -149,7 +149,7 @@ Our docker images size is 1.28GB, which isn't that bad but is extremely bad.
 
 Lets make another dockerfile from python as the base image:
 
-```Dockerfile
+```dockerfile
 FROM python
 WORKDIR /app
 COPY . .
@@ -184,7 +184,7 @@ Use alpine as base when you care about image size.
 
 Lets try reducing the images. Ahh we should all be happy now, right?
 
-```Dockerfile
+```dockerfile
 FROM python:3.7-slim
 WORKDIR /app
 COPY . .
@@ -194,7 +194,7 @@ CMD ["python", "app.py"]
 
 Image size is 209MB
 
-```Dockerfile
+```dockerfile
 FROM python:3.7-slim-stretch
 WORKDIR /app
 COPY . .
@@ -207,7 +207,7 @@ Image size is 186MB
 Definitely slim-stretch is better than slim.
 What about our alpine base image?
 
-```Dockerfile
+```dockerfile
 FROM python:3.7-alpine
 WORKDIR /app
 COPY . .
@@ -231,7 +231,7 @@ files. When copying use dockerignore to exclude files that are not needed.
     - pip3 — no-cache-dir
     - apk — no-cache
 
-```Dockerfile
+```dockerfile
 FROM python:3.7-alpine
 WORKDIR /app
 COPY . .
@@ -246,7 +246,7 @@ Size 107MB
 - Build a docker image with all your deps then install your app.
 - Copy the result to a fresh image and label is as the final image.
 
-```Dockerfile
+```dockerfile
 # Stage 1 - Install build dependencies
 FROM python:3.7-alpine AS builder
 WORKDIR /app
@@ -292,7 +292,7 @@ func main() {
 We compile the program then it will generated an executable file which we can
 ran from a scratch image:
 
-```Dockerfile
+```dockerfile
 FROM scratch
 COPY app /
 CMD ["/app"]
