@@ -5,7 +5,8 @@ import {
   type JSX,
   type ReactNode,
 } from "react";
-import { highlight } from "sugar-high";
+import { codeToHtml } from "shiki";
+import { CopyButton } from "@/components/copy-button";
 import { cn } from "@/lib/utils";
 
 function extractText(node: ReactNode): string {
@@ -110,17 +111,65 @@ export const components = {
       </span>
     ),
   hr: ({ ...props }) => <hr className="my-4 md:my-8" {...props} />,
-  code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
-    const codeHtml = highlight(
-      typeof children === "string" ? children : String(children ?? ""),
+  pre: async ({
+    children,
+  }: ComponentPropsWithoutRef<"pre"> & { children?: ReactNode }) => {
+    // Extract language from the child <code> element's className (e.g. "language-ts")
+    let lang = "text";
+    let code = "";
+
+    if (isValidElement(children)) {
+      const childProps = children.props as {
+        className?: string;
+        children?: ReactNode;
+      };
+      const match = childProps.className?.match(/language-(\w+)/);
+      if (match) lang = match[1];
+      code =
+        typeof childProps.children === "string"
+          ? childProps.children.trimEnd()
+          : extractText(childProps.children);
+    }
+
+    const html = await codeToHtml(code, {
+      lang,
+      themes: { light: "github-light", dark: "github-dark" },
+      defaultColor: false,
+    });
+
+    return (
+      <div className="group relative my-6 rounded-lg border text-sm">
+        <div
+          className="overflow-x-auto [&_pre]:p-4 [&_pre]:leading-relaxed"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Shiki output is trusted
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+        <CopyButton code={code} />
+      </div>
     );
+  },
+  code: ({
+    children,
+    className,
+    ...props
+  }: ComponentPropsWithoutRef<"code">) => {
+    // Inline code only — fenced blocks are handled by `pre` above
+    if (className?.includes("language-"))
+      return (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      );
     return (
       <code
-        className="relative rounded-md border bg-muted py-1 font-mono text-sm text-foreground"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: This is the intended behavior
-        dangerouslySetInnerHTML={{ __html: codeHtml }}
+        className={cn(
+          "relative rounded-md border bg-muted px-1 py-0.5 font-mono text-sm text-foreground",
+          className,
+        )}
         {...props}
-      />
+      >
+        {children}
+      </code>
     );
   },
 };
