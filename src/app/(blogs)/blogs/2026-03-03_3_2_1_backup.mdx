@@ -1,0 +1,162 @@
+---
+title: My 3 2 1 Backup Strategy
+date: 2026-03-03
+---
+
+Hard disks, and really, any storage device, are destined to fail. It’s never a question of _if_, only _when_.
+
+I’ve had my fair share of drive failures. As many of you know, I run a home server. Back in January, one of my disks started acting up. At the time, I was swamped with work and couldn’t address it immediately. That meant my home server was down for a while.
+
+Unfortunately, I don’t have logs from that period. What I remember clearly is this: every time I tried to boot a VM on my Proxmox host, it would freeze right after the boot screen. No errors. Just a hang. This went on for days.
+
+Eventually, I gave up troubleshooting and wiped the disk. Thankfully, I had a one-month-old backup. I restored the VM and everything came back to life.
+
+That’s when I started checking hard drive prices.
+
+They were astronomical.
+
+Storage prices had spiked, partly due to supply constraints driven by AI infrastructure demand. Unfortunately, I couldn’t find a good deal locally.
+
+## Switching to NVMe (And Paying the Price in Data)
+
+Luckily, my Proxmox host had an NVMe SSD. I restored the VM onto the NVMe and removed the failing hard disk.
+
+Everything worked flawlessly.
+
+The only downside? I lost one month of data.
+
+Lesson learned. Immediately after restoring, I:
+
+- Backed up my photos and documents again
+- Backed up the VM itself
+- Started thinking seriously about offsite backups
+
+I didn’t want to go through this again.
+
+# Implementing the 3-2-1 Backup Strategy
+
+To prevent a repeat disaster, I researched offsite backup solutions and settled on [Backblaze B2](https://backblaze.com/), which offers object storage at about **$6 per TB per month** — more than affordable for my needs.
+
+I also decided to properly implement the **[3-2-1](https://www.purestorage.com/knowledge/3-2-1-backup-strategy.html) backup strategy**.
+
+## What Is the 3-2-1 Backup Strategy?
+
+The 3-2-1 strategy is a simple but powerful approach to data protection. It was popularized by photographer [Peter Krogh](https://x.com/peterkrogh) in his 2009 book _Digital Asset Management for Photographers_.
+
+It recommends:
+
+- 3 copies of your data
+- 2 different storage media
+- 1 copy stored offsite
+
+### What This Looks Like in My Setup
+
+- 1 — Live Data: The running VM on my NVMe SSD
+- 2 — Local Copy: Backup machine datastore
+- 3 — Offsite Copy: Backblaze B2
+
+That gives me:
+
+- A primary working copy
+- A local backup
+- A geographically separate offsite backup
+
+I’m planning to move the backup machine to a different physical location to further reduce risk. That way, even if my primary location is compromised (fire, theft, power surge), I still have two independent copies of my data.
+
+## Proxmox Backup Server
+
+I use [Proxmox Backup Server](https://www.proxmox.com/en/products/proxmox-backup-server/overview) to manage backups for my VMs and containers. It provides deduplication, compression, encryption, and centralized management.
+
+Here’s how I configured it.
+
+### 1. Update proxmox to latest version, `4.1-1`.
+
+Since I had proxmox already running, I updated it using [community scripts](https://community-scripts.github.io/ProxmoxVE/scripts?id=pbs4-upgrade&category=Proxmox+%26+Virtualization). Alternatively, you can install PBS directly using the [official ISO](https://www.proxmox.com/en/downloads) from the Proxmox website.
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/pbs4-upgrade.sh)"
+```
+
+### 2. [Add an S3 Endpoint (Backblaze B2)](https://www.derekseaman.com/2025/08/how-to-backblaze-b2-as-a-proxmox-backup-server-4-0-datastore.html)
+
+```txt
+Name: Any datastore name you wish
+Datastore Type: S3 (tech preview)
+Local Cache: /mnt/backblazecache (your new partition)
+S3 Endpoint ID: Your configured endpoint name
+Bucket: Your Backblaze B2 bucket
+```
+
+<Image
+  src="/blogs/2026-03-03/add-s3-endpoint.png"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-xl"
+  alt="Add S3 Endpoint on Proxmox Backup Server"
+/>
+<span className="text-center text-sm text-gray-500 dark:text-gray-400 italic block">
+  Add S3 Endpoint on Proxmox Backup Server
+</span>
+
+[For backblaze](https://forum.proxmox.com/threads/pbs-fails-to-connect-to-backblaze-b2.170220/) make sure you have enabled `Path Style` and also under Provider Quirks pick `Skip If-None-Match Header`. Without these settings, the connection may fail.
+
+### 3. Create the Datastore
+
+After configuring the S3 endpoint, create a datastore pointing to your Backblaze bucket. This becomes the remote storage target for your backups.
+
+<Image
+  src="/blogs/2026-03-03/add-datastore.png"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-xl"
+  alt="Add Datastore on Proxmox Backup Server"
+/>
+<span className="text-center text-sm text-gray-500 dark:text-gray-400 italic block">
+  Add Datastore on Proxmox Backup Server
+</span>
+
+### 4. Configure a Sync (Pull) Job
+
+Since I already had a local datastore (nyika), I created a pull job to sync backups from:
+
+nyika → backblaze
+
+This ensures:
+
+Local backups remain fast and accessible
+
+Offsite backups stay updated automatically
+
+Data is replicated safely to the cloud
+
+<Image
+  src="/blogs/2026-03-03/sync-job.png"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-xl"
+  alt="Add Sync Job on Proxmox Backup Server to Sync from one datastore to another"
+/>
+<span className="text-center text-sm text-gray-500 dark:text-gray-400 italic block">
+  Add Sync Job on Proxmox Backup Server to Sync from one datastore to another
+</span>
+
+<Image
+  src="/blogs/2026-03-03/backblaze.png"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-xl"
+  alt="Backblaze UI showing sync"
+/>
+<span className="text-center text-sm text-gray-500 dark:text-gray-400 italic block">
+  Backblaze UI showing sync
+</span>
+
+## Final Thoughts
+
+Storage will fail. Hardware will die. It always does.
+
+Backups aren’t optional — they’re infrastructure.
+
+And now, finally, I can sleep a little better.
+
+To my haters we are back up (99% uptime)
