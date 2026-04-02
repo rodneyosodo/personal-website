@@ -111,6 +111,41 @@ export const components = {
       </span>
     ),
   hr: ({ ...props }) => <hr className="my-4 md:my-8" {...props} />,
+  table: ({ className = "" as string, ...props }) => (
+    <div className="my-6 overflow-x-auto">
+      <table
+        className={cn("min-w-full divide-y divide-border", className)}
+        {...props}
+      />
+    </div>
+  ),
+  thead: ({ className = "" as string, ...props }) => (
+    <thead className={cn("bg-muted/50", className)} {...props} />
+  ),
+  tbody: ({ className = "" as string, ...props }) => (
+    <tbody className={cn("divide-y divide-border", className)} {...props} />
+  ),
+  tr: ({ className = "" as string, ...props }) => (
+    <tr
+      className={cn("hover:bg-muted/30 transition-colors", className)}
+      {...props}
+    />
+  ),
+  th: ({ className = "" as string, ...props }) => (
+    <th
+      className={cn(
+        "px-4 py-3 text-left text-sm font-semibold text-foreground",
+        className,
+      )}
+      {...props}
+    />
+  ),
+  td: ({ className = "" as string, ...props }) => (
+    <td
+      className={cn("px-4 py-3 text-sm text-muted-foreground", className)}
+      {...props}
+    />
+  ),
   pre: async ({
     children,
   }: ComponentPropsWithoutRef<"pre"> & { children?: ReactNode }) => {
