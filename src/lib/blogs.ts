@@ -4,10 +4,12 @@ import path from "node:path";
 type Metadata = {
   title: string;
   date: string;
+  image?: string;
 };
 
 const frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
 const quoteRegex = /^['"](.*)['"]\$/;
+const imageSrcRegex = /src=["']([^"']+\.(?:jpg|jpeg|png|webp|gif|svg))["']/i;
 
 function parseFrontmatter(fileContent: string) {
   const match = frontmatterRegex.exec(fileContent);
@@ -29,6 +31,15 @@ function parseFrontmatter(fileContent: string) {
   return { metadata: metadata as Metadata, content };
 }
 
+function extractFirstImage(content: string): string | undefined {
+  const match = imageSrcRegex.exec(content);
+  if (!match) return undefined;
+  const src = match[1];
+  if (src.startsWith("/")) return src;
+  if (src.startsWith("http")) return src;
+  return undefined;
+}
+
 function getMdxFiles(dir: string) {
   return fs
     .readdirSync(dir)
@@ -46,8 +57,9 @@ function getMdxData(dir: string) {
   return mdxFiles.map((file) => {
     const { metadata, content } = readMdxFile(path.join(dir, file));
     const slug = path.basename(file, path.extname(file));
+    const image = metadata.image || extractFirstImage(content);
     return {
-      metadata,
+      metadata: { ...metadata, image },
       slug,
       content,
     };
@@ -69,5 +81,6 @@ export function getArticleBySlug(slug: string) {
     return null;
   }
   const { metadata, content } = readMdxFile(filePath);
-  return { metadata, slug, content };
+  const image = metadata.image || extractFirstImage(content);
+  return { metadata: { ...metadata, image }, slug, content };
 }

@@ -46,9 +46,7 @@ function createHeading(level: 1 | 2 | 3 | 4 | 5 | 6) {
 
     return (
       <Tag id={id} className={cn(`${styles[level]}`, className)} {...props}>
-        <a href={`#${id}`} aria-label="Link to section">
-          {props.children}
-        </a>
+        {props.children}
       </Tag>
     );
   };
