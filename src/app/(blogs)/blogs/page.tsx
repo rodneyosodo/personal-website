@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { getArticles } from "@/lib/blogs";
 
-export default function Blogs() {
-  const posts = getArticles();
+export default async function Blogs() {
+  const posts = await getArticles();
 
   const groupedPosts = posts
     .sort(

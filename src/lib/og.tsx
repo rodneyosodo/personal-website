@@ -1,4 +1,3 @@
-import { readFile } from "node:fs/promises";
 import type { ImageResponseOptions } from "@takumi-rs/image-response";
 import type { ReactNode } from "react";
 
@@ -9,11 +8,13 @@ export interface OGImageProps {
   backgroundImageUrl?: string;
 }
 
-const font = readFile("src/lib/og/RobotoMono-Variable.ttf").then((data) => ({
-  name: "RobotoMono",
-  data,
-  weight: 400 as const,
-}));
+const font = Bun.file("src/lib/og/RobotoMono-Variable.ttf")
+  .arrayBuffer()
+  .then((data) => ({
+    name: "RobotoMono",
+    data: new Uint8Array(data),
+    weight: 400 as const,
+  }));
 
 export async function getOGImageOptions(): Promise<ImageResponseOptions> {
   return {

@@ -9,7 +9,7 @@ const baseUrl = (
 ).replace(/\/+$/, "");
 
 export async function generateStaticParams() {
-  const posts = getArticles();
+  const posts = await getArticles();
   return posts.map((post) => ({ slug: post.slug }));
 }
 
@@ -17,7 +17,7 @@ export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const post = getArticleBySlug(params.slug);
+  const post = await getArticleBySlug(params.slug);
 
   if (!post) {
     return { title: "Not Found" };
@@ -59,7 +59,7 @@ export default async function Article(props: {
   params: Promise<{ slug: string }>;
 }) {
   const params = await props.params;
-  const post = getArticleBySlug(params.slug);
+  const post = await getArticleBySlug(params.slug);
 
   if (!post) {
     notFound();
