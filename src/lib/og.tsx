@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 export interface OGImageProps {
   title: ReactNode;
   date?: string;
-  excerpt?: string;
   backgroundImageUrl?: string;
 }
 
@@ -25,12 +24,7 @@ export async function getOGImageOptions(): Promise<ImageResponseOptions> {
   };
 }
 
-export function BlogOGImage({
-  title,
-  date,
-  excerpt,
-  backgroundImageUrl,
-}: OGImageProps) {
+export function BlogOGImage({ title, date, backgroundImageUrl }: OGImageProps) {
   return (
     <div
       style={{
