@@ -63,7 +63,7 @@ async function getMdxData(dir: string) {
       const slug = file.replace(/\.mdx$/, "");
       const image = metadata.image || extractFirstImage(content);
       return {
-        metadata: { ...metadata, image },
+        metadata: image ? { ...metadata, image } : metadata,
         slug,
         content,
       };
@@ -85,5 +85,5 @@ export async function getArticleBySlug(slug: string) {
   }
   const { metadata, content } = await readMdxFile(filePath);
   const image = metadata.image || extractFirstImage(content);
-  return { metadata: { ...metadata, image }, slug, content };
+  return { metadata: image ? { ...metadata, image } : metadata, slug, content };
 }

@@ -6,6 +6,18 @@ import { BlogOGImage, getOGImageOptions } from "@/lib/og";
 export const revalidate = false;
 
 const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
+const EXCERPT_WORD_COUNT = 20;
+
+function extractExcerpt(content: string): string {
+  const cleaned = content
+    .replace(/^---[\s\S]*?---/, "")
+    .replace(/[#*_`~\[\]()]/g, "")
+    .replace(/https?:\/\/[^\s]+/g, "")
+    .replace(/\n+/g, " ")
+    .trim();
+  const words = cleaned.split(/\s+/).slice(0, EXCERPT_WORD_COUNT);
+  return words.join(" ") + (words.length >= EXCERPT_WORD_COUNT ? "..." : "");
+}
 
 async function resolveImageUrl(imageSrc?: string): Promise<string | undefined> {
   if (!imageSrc) return undefined;
@@ -13,16 +25,20 @@ async function resolveImageUrl(imageSrc?: string): Promise<string | undefined> {
   if (imageSrc.startsWith("/")) {
     const ext = imageSrc.split(".").pop()?.toLowerCase();
     if (!ext || !imageExtensions.has(`.${ext}`)) return undefined;
-    const filePath = `${process.cwd()}/public${imageSrc}`;
-    const data = await Bun.file(filePath).arrayBuffer();
-    const mime =
-      ext === "jpg" || ext === "jpeg" ? "image/jpeg" : `image/${ext}`;
-    return `data:${mime};base64,${Buffer.from(data).toString("base64")}`;
+    try {
+      const filePath = `${process.cwd()}/public${imageSrc}`;
+      const file = Bun.file(filePath);
+      if (!(await file.exists())) return undefined;
+      const data = await file.arrayBuffer();
+      const mime =
+        ext === "jpg" || ext === "jpeg" ? "image/jpeg" : `image/${ext}`;
+      return `data:${mime};base64,${Buffer.from(data).toString("base64")}`;
+    } catch {
+      return undefined;
+    }
   }
   return undefined;
 }
-
-const avatarUrl = resolveImageUrl("/android-chrome-512x512.png");
 
 export async function GET(
   _req: Request,
@@ -35,8 +51,6 @@ export async function GET(
     notFound();
   }
 
-  const resolvedAvatar = await avatarUrl;
-
   return new ImageResponse(
     <BlogOGImage
       title={post.metadata.title}
@@ -45,25 +59,10 @@ export async function GET(
         day: "numeric",
         year: "numeric",
       })}
+      excerpt={extractExcerpt(post.content)}
       backgroundImageUrl={await resolveImageUrl(post.metadata.image)}
-      avatarUrl={resolvedAvatar}
     />,
-    {
-      ...(await getOGImageOptions()),
-      ...(resolvedAvatar
-        ? {
-            persistentImages: [
-              {
-                src: "avatar",
-                data: () =>
-                  Bun.file(
-                    `${process.cwd()}/public/android-chrome-512x512.png`,
-                  ).arrayBuffer(),
-              },
-            ],
-          }
-        : {}),
-    },
+    await getOGImageOptions(),
   );
 }
 

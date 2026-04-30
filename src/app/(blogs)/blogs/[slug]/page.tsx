@@ -8,6 +8,19 @@ const baseUrl = (
   process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com"
 ).replace(/\/+$/, "");
 
+const EXCERPT_WORD_COUNT = 20;
+
+function extractExcerpt(content: string): string {
+  const cleaned = content
+    .replace(/^---[\s\S]*?---/, "")
+    .replace(/[#*_`~\[\]()]/g, "")
+    .replace(/https?:\/\/[^\s]+/g, "")
+    .replace(/\n+/g, " ")
+    .trim();
+  const words = cleaned.split(/\s+/).slice(0, EXCERPT_WORD_COUNT);
+  return words.join(" ") + (words.length >= EXCERPT_WORD_COUNT ? "..." : "");
+}
+
 export async function generateStaticParams() {
   const posts = await getArticles();
   return posts.map((post) => ({ slug: post.slug }));
@@ -27,7 +40,7 @@ export async function generateMetadata(props: {
 
   return {
     title: post.metadata.title,
-    description: `Blog post by Rodney Osodo published on ${new Date(post.metadata.date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`,
+    description: extractExcerpt(post.content),
     openGraph: {
       title: post.metadata.title,
       url: `${baseUrl}/blogs/${post.slug}`,
@@ -69,11 +82,10 @@ export default async function Article(props: {
     <div className="relative overflow-hidden">
       <div className="container mx-auto max-w-8xl px-8">
         <div className="max-w-2xl mx-auto">
-          <h1 className="title font-semibold text-3xl tracking-tighter mt-2 mb-8">
+          <h1 className="title font-semibold text-3xl tracking-tighter mt-2 mb-2">
             {post.metadata.title}
           </h1>
-          <p className="text-muted-foreground text-sm mt-2 mb-8">
-            Published on{" "}
+          <p className="text-muted-foreground text-sm mb-8">
             {new Date(post.metadata.date).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
