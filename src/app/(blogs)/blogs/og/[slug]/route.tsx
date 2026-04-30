@@ -22,6 +22,8 @@ async function resolveImageUrl(imageSrc?: string): Promise<string | undefined> {
   return undefined;
 }
 
+const avatarUrl = resolveImageUrl("/android-chrome-512x512.png");
+
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ slug: string }> },
@@ -33,6 +35,8 @@ export async function GET(
     notFound();
   }
 
+  const resolvedAvatar = await avatarUrl;
+
   return new ImageResponse(
     <BlogOGImage
       title={post.metadata.title}
@@ -42,8 +46,24 @@ export async function GET(
         year: "numeric",
       })}
       backgroundImageUrl={await resolveImageUrl(post.metadata.image)}
+      avatarUrl={resolvedAvatar}
     />,
-    await getOGImageOptions(),
+    {
+      ...(await getOGImageOptions()),
+      ...(resolvedAvatar
+        ? {
+            persistentImages: [
+              {
+                src: "avatar",
+                data: () =>
+                  Bun.file(
+                    `${process.cwd()}/public/android-chrome-512x512.png`,
+                  ).arrayBuffer(),
+              },
+            ],
+          }
+        : {}),
+    },
   );
 }
 

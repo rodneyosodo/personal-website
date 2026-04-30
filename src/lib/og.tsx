@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 
 export interface OGImageProps {
   title: ReactNode;
-  description?: ReactNode;
   date?: string;
+  avatarUrl?: string;
   backgroundImageUrl?: string;
 }
 
@@ -25,8 +25,13 @@ export async function getOGImageOptions(): Promise<ImageResponseOptions> {
   };
 }
 
-export function BlogOGImage({ title, date, backgroundImageUrl }: OGImageProps) {
-  const siteName = "Rodney Osodo";
+export function BlogOGImage({
+  title,
+  date,
+  avatarUrl,
+  backgroundImageUrl,
+}: OGImageProps) {
+  const author = "Rodney Osodo";
 
   return (
     <div
@@ -35,9 +40,16 @@ export function BlogOGImage({ title, date, backgroundImageUrl }: OGImageProps) {
         flexDirection: "column",
         width: "100%",
         height: "100%",
+        backgroundColor: "#111",
         color: "white",
-        backgroundColor: "rgb(10,10,10)",
         fontFamily: "RobotoMono",
+        padding: "60px",
+        justifyContent: "space-between",
+        ...(!backgroundImageUrl
+          ? {
+              backgroundImage: "linear-gradient(135deg, #1a1a1a 0%, #000 100%)",
+            }
+          : {}),
       }}
     >
       {backgroundImageUrl ? (
@@ -57,60 +69,68 @@ export function BlogOGImage({ title, date, backgroundImageUrl }: OGImageProps) {
           }}
         />
       ) : null}
+      {backgroundImageUrl ? (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundImage:
+              "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4))",
+          }}
+        />
+      ) : null}
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           width: "100%",
           height: "100%",
-          padding: "4rem",
-          ...(backgroundImageUrl
-            ? {
-                backgroundImage:
-                  "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.5))",
-              }
-            : {}),
         }}
       >
-        <span
-          style={{
-            fontWeight: 700,
-            fontSize: "64px",
-            lineHeight: 1.2,
-            textShadow: "0 2px 8px rgba(0,0,0,0.8)",
-          }}
-        >
-          {title}
-        </span>
         <div
           style={{
             display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
+            flexDirection: "column",
             gap: "24px",
-            marginTop: "auto",
-            color: "rgb(240,240,240)",
-            textShadow: "0 1px 4px rgba(0,0,0,0.8)",
+            flexGrow: 1,
           }}
         >
-          <span
+          <h1
             style={{
-              fontSize: "36px",
-              fontWeight: 700,
+              fontSize: 72,
+              fontWeight: 800,
+              lineHeight: 1.1,
+              margin: 0,
+              textShadow: "0 4px 12px rgba(0,0,0,0.5)",
             }}
           >
-            {siteName}
-          </span>
-          {date ? (
-            <span
+            {title}
+          </h1>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+          {avatarUrl ? (
+            // biome-ignore lint/performance/noImgElement: takumi renders to image, not DOM
+            <img
+              src="avatar"
+              alt=""
+              width={80}
+              height={80}
               style={{
-                fontSize: "28px",
-                color: "rgba(240,240,240,0.5)",
+                borderRadius: 40,
+                objectFit: "cover",
               }}
-            >
-              {date}
-            </span>
+            />
           ) : null}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <span style={{ fontSize: 32, fontWeight: 600 }}>{author}</span>
+            {date ? (
+              <span style={{ fontSize: 24, color: "#a1a1aa" }}>{date}</span>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
