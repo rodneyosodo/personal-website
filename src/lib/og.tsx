@@ -7,20 +7,22 @@ export interface OGImageProps {
   backgroundImageUrl?: string;
 }
 
-const font = Bun.file("src/lib/og/RobotoMono-Variable.ttf")
+const fontPromise = Bun.file("src/lib/og/RobotoMono-Variable.ttf")
   .arrayBuffer()
   .then((data) => ({
     name: "RobotoMono",
     data: new Uint8Array(data),
     weight: 400 as const,
-  }));
+  }))
+  .catch(() => null);
 
 export async function getOGImageOptions(): Promise<ImageResponseOptions> {
+  const fontData = await fontPromise;
   return {
     width: 1200,
     height: 630,
     format: "webp",
-    fonts: [await font],
+    fonts: fontData ? [fontData] : [],
   };
 }
 
