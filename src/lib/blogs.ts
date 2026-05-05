@@ -1,4 +1,4 @@
-import { Glob } from "bun";
+import { Glob, resolve } from "bun";
 
 type Metadata = {
   title: string;
@@ -76,7 +76,7 @@ export async function getArticles() {
 }
 
 export async function getArticleBySlug(slug: string) {
-  const filePath = `${blogsDir}/${slug}.mdx`;
+  const filePath = resolve(`${blogsDir}/${slug}.mdx`);
   if (!filePath.startsWith(blogsDir)) {
     return null;
   }
