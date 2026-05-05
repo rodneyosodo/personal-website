@@ -1,11 +1,13 @@
 import { ImageResponse } from "@takumi-rs/image-response";
 import { notFound } from "next/navigation";
+import { resolve } from "node:path";
 import { getArticleBySlug, getArticles } from "@/lib/blogs";
 import { BlogOGImage, getOGImageOptions } from "@/lib/og";
 
 export const revalidate = false;
 
 const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
+const publicDir = resolve(`${process.cwd()}/public`);
 
 async function resolveImageUrl(imageSrc?: string): Promise<string | undefined> {
   if (!imageSrc) return undefined;
@@ -14,7 +16,8 @@ async function resolveImageUrl(imageSrc?: string): Promise<string | undefined> {
     const ext = imageSrc.split(".").pop()?.toLowerCase();
     if (!ext || !imageExtensions.has(`.${ext}`)) return undefined;
     try {
-      const filePath = `${process.cwd()}/public${imageSrc}`;
+      const filePath = resolve(`${publicDir}${imageSrc}`);
+      if (!filePath.startsWith(publicDir)) return undefined;
       const file = Bun.file(filePath);
       if (!(await file.exists())) return undefined;
       const data = await file.arrayBuffer();

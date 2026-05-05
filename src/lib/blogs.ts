@@ -1,4 +1,5 @@
-import { Glob, resolve } from "bun";
+import { Glob } from "bun";
+import { resolve } from "node:path";
 
 type Metadata = {
   title: string;
