@@ -18,8 +18,9 @@ function extractExcerpt(content: string): string {
     .replace(/https?:\/\/[^\s]+/g, "")
     .replace(/\n+/g, " ")
     .trim();
-  const words = cleaned.split(/\s+/).slice(0, EXCERPT_WORD_COUNT);
-  return words.join(" ") + (words.length >= EXCERPT_WORD_COUNT ? "..." : "");
+  const allWords = cleaned ? cleaned.split(/\s+/) : [];
+  const words = allWords.slice(0, EXCERPT_WORD_COUNT);
+  return words.join(" ") + (allWords.length >= EXCERPT_WORD_COUNT ? "..." : "");
 }
 
 export async function generateStaticParams() {
