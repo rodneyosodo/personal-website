@@ -16,13 +16,13 @@
     "incremental": true,
     "plugins": [
       {
-        "name": "next",
-      },
+        "name": "next"
+      }
     ],
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
-    "types": ["node", "bun"],
+    "types": ["node", "bun"]
   },
   "include": [
     "next-env.d.ts",
@@ -30,7 +30,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/(pages)/sample.mdx",
-    ".next/dev/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }

@@ -14,7 +14,7 @@ function extractExcerpt(content: string): string {
   const cleaned = content
     .replace(/^---[\s\S]*?---/, "")
     .replace(/<[^>]+>/g, "")
-    .replace(/[#*_`~\[\]()]/g, "")
+    .replace(/[#*_`~[\]()]/g, "")
     .replace(/https?:\/\/[^\s]+/g, "")
     .replace(/\n+/g, " ")
     .trim();

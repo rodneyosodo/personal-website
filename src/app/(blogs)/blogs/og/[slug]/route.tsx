@@ -1,6 +1,6 @@
+import { resolve } from "node:path";
 import { ImageResponse } from "@takumi-rs/image-response";
 import { notFound } from "next/navigation";
-import { resolve } from "node:path";
 import { getArticleBySlug, getArticles } from "@/lib/blogs";
 import { BlogOGImage, getOGImageOptions } from "@/lib/og";
 

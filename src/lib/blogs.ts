@@ -1,5 +1,5 @@
-import { Glob } from "bun";
 import { resolve } from "node:path";
+import { Glob } from "bun";
 
 type Metadata = {
   title: string;
