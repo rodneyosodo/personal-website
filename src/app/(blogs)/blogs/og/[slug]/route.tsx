@@ -6,7 +6,14 @@ import { BlogOGImage, getOGImageOptions } from "@/lib/og";
 
 export const revalidate = false;
 
-const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
+const imageExtensions = new Set([
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".gif",
+  ".svg",
+]);
 const publicDir = resolve(`${process.cwd()}/public`);
 
 async function resolveImageUrl(imageSrc?: string): Promise<string | undefined> {
