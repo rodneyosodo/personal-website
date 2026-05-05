@@ -5,8 +5,8 @@ const baseUrl = (
   process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com"
 ).replace(/\/+$/, "");
 
-function generateBlogsSitemap() {
-  const posts = getArticles();
+async function generateBlogsSitemap() {
+  const posts = await getArticles();
   const sitemap: MetadataRoute.Sitemap = [];
 
   for (const post of posts) {
@@ -20,7 +20,7 @@ function generateBlogsSitemap() {
   return sitemap;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     {
       url: `${baseUrl}/`,
@@ -47,6 +47,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date().toISOString(),
       priority: 0.5,
     },
-    ...generateBlogsSitemap(),
+    ...(await generateBlogsSitemap()),
   ];
 }

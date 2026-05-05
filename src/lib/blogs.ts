@@ -1,13 +1,17 @@
-import fs from "node:fs";
-import path from "node:path";
+import { resolve } from "node:path";
+import { Glob } from "bun";
 
 type Metadata = {
   title: string;
   date: string;
+  image?: string;
 };
 
 const frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
 const quoteRegex = /^['"](.*)['"]\$/;
+const imageSrcRegex = /src=["']([^"']+\.(?:jpg|jpeg|png|webp|gif|svg))["']/i;
+const blogsDir = `${process.cwd()}/src/app/(blogs)/blogs`;
+const mdxGlob = new Glob("*.mdx");
 
 function parseFrontmatter(fileContent: string) {
   const match = frontmatterRegex.exec(fileContent);
@@ -29,45 +33,58 @@ function parseFrontmatter(fileContent: string) {
   return { metadata: metadata as Metadata, content };
 }
 
-function getMdxFiles(dir: string) {
-  return fs
-    .readdirSync(dir)
-    .filter((file) => path.extname(file) === ".mdx" && file !== "page.mdx");
+function extractFirstImage(content: string): string | undefined {
+  const match = imageSrcRegex.exec(content);
+  if (!match) return undefined;
+  const src = match[1];
+  if (src.startsWith("/")) return src;
+  if (src.startsWith("http")) return src;
+  return undefined;
 }
 
-function readMdxFile(filePath: string) {
-  const rawContent = fs.readFileSync(filePath, "utf-8");
+async function getMdxFiles(dir: string) {
+  const files: string[] = [];
+  for await (const file of mdxGlob.scan(dir)) {
+    if (file !== "page.mdx") files.push(file);
+  }
+  return files;
+}
+
+async function readMdxFile(filePath: string) {
+  const rawContent = await Bun.file(filePath).text();
   return parseFrontmatter(rawContent);
 }
 
-function getMdxData(dir: string) {
-  const mdxFiles = getMdxFiles(dir);
+async function getMdxData(dir: string) {
+  const mdxFiles = await getMdxFiles(dir);
 
-  return mdxFiles.map((file) => {
-    const { metadata, content } = readMdxFile(path.join(dir, file));
-    const slug = path.basename(file, path.extname(file));
-    return {
-      metadata,
-      slug,
-      content,
-    };
-  });
+  return Promise.all(
+    mdxFiles.map(async (file) => {
+      const { metadata, content } = await readMdxFile(`${dir}/${file}`);
+      const slug = file.replace(/\.mdx$/, "");
+      const image = metadata.image || extractFirstImage(content);
+      return {
+        metadata: image ? { ...metadata, image } : metadata,
+        slug,
+        content,
+      };
+    }),
+  );
 }
 
-export function getArticles() {
-  return getMdxData(path.join(process.cwd(), "src", "app", "(blogs)", "blogs"));
+export async function getArticles() {
+  return getMdxData(blogsDir);
 }
 
-export function getArticleBySlug(slug: string) {
-  const dir = path.join(process.cwd(), "src", "app", "(blogs)", "blogs");
-  const filePath = path.join(dir, `${slug}.mdx`);
-  // Ensure the resolved path is within the blogs directory
-  if (!filePath.startsWith(dir)) {
+export async function getArticleBySlug(slug: string) {
+  const filePath = resolve(`${blogsDir}/${slug}.mdx`);
+  if (!filePath.startsWith(blogsDir)) {
     return null;
   }
-  if (!fs.existsSync(filePath)) {
+  if (!(await Bun.file(filePath).exists())) {
     return null;
   }
-  const { metadata, content } = readMdxFile(filePath);
-  return { metadata, slug, content };
+  const { metadata, content } = await readMdxFile(filePath);
+  const image = metadata.image || extractFirstImage(content);
+  return { metadata: image ? { ...metadata, image } : metadata, slug, content };
 }

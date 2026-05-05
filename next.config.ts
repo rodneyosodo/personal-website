@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
     taint: true,
   },
   transpilePackages: ["next-mdx-remote"],
+  serverExternalPackages: [
+    "@takumi-rs/core",
+    "takumi-js",
+    "@takumi-rs/image-response",
+  ],
   async headers() {
     return [
       {
