@@ -52,6 +52,8 @@ export default function Form({
                 placeholder="you@example.com"
                 type="email"
                 name="email"
+                autoComplete="email"
+                required
                 className="rounded-full"
               />
             </div>
