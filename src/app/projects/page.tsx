@@ -103,6 +103,7 @@ export default function ProjectsPage() {
               <h2 className="flex items-center gap-1.5 text-xl font-semibold group-hover:text-link">
                 {p.name}
                 <ArrowUpRight className="size-4 opacity-0 transition-opacity group-hover:opacity-100" />
+                <span className="sr-only"> (opens in a new tab)</span>
               </h2>
               <p className="eyebrow mt-3">{p.role}</p>
               <p className="mt-1.5 font-mono text-xs text-muted-foreground">
@@ -126,6 +127,7 @@ export default function ProjectsPage() {
           className="text-link underline underline-offset-4 hover:text-foreground"
         >
           github.com/rodneyosodo
+          <span className="sr-only"> (opens in a new tab)</span>
         </a>
         .
       </p>

@@ -100,6 +100,7 @@ function RoleList({ roles }: { roles: Role[] }) {
                 >
                   {role.org}
                   <ArrowUpRight className="size-4 opacity-0 transition-opacity group-hover:opacity-100" />
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               ) : (
                 role.org

@@ -90,6 +90,7 @@ export default async function Home() {
               rel="noopener noreferrer"
             >
               Python-Nairobi
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>{" "}
             and{" "}
             <a
@@ -98,7 +99,7 @@ export default async function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              RoboKE
+              RoboKE<span className="sr-only"> (opens in a new tab)</span>
             </a>
             , and write about the systems I take apart.
           </p>
@@ -119,7 +120,7 @@ export default async function Home() {
             </Link>
             <div className="ml-1 flex items-center gap-1">
               <a
-                aria-label="GitHub"
+                aria-label="GitHub (opens in a new tab)"
                 href="https://github.com/rodneyosodo"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -128,7 +129,7 @@ export default async function Home() {
                 <Github className="size-[1.1rem]" />
               </a>
               <a
-                aria-label="LinkedIn"
+                aria-label="LinkedIn (opens in a new tab)"
                 href="https://www.linkedin.com/in/rodneyosodo"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -202,6 +203,7 @@ export default async function Home() {
                 <h3 className="flex items-center gap-1.5 text-xl font-semibold group-hover:text-link">
                   {p.name}
                   <ArrowUpRight className="size-4 opacity-0 transition-opacity group-hover:opacity-100" />
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </h3>
                 <p className="eyebrow mt-2">
                   {p.role} · {p.tech}
@@ -261,6 +263,7 @@ export default async function Home() {
           >
             Reach me on LinkedIn
             <ArrowUpRight className="size-4" />
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
           <a
             href="https://github.com/rodneyosodo"
@@ -270,6 +273,7 @@ export default async function Home() {
           >
             <Github className="size-4" />
             See the code
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
         </div>
 

@@ -66,7 +66,7 @@ export default function Footer() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={label}
+                aria-label={`${label} (opens in a new tab)`}
                 className="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
               >
                 <Icon className="size-[1.05rem]" />
