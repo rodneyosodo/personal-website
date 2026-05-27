@@ -5,28 +5,51 @@ import { useId } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
-export default function Form() {
+export default function Form({
+  label = "Get new posts in your inbox. No spam, just the occasional deep dive.",
+  buttonLabel = "Subscribe",
+  align = "center",
+  source = "subscribe",
+  subject = "New blog subscriber",
+}: {
+  label?: string;
+  buttonLabel?: string;
+  align?: "center" | "left";
+  source?: string;
+  subject?: string;
+}) {
   const [state, handleSubmit] = useForm("mlddygzj");
   const id = useId();
+  const centered = align === "center";
 
   return (
-    <div>
-      <div className="mb-8 w-full max-w-md text-center pt-8">
-        <p className="text-sm">Subscribe to get future posts via email </p>
-      </div>
+    <div className={cn(centered && "flex flex-col items-center pt-8")}>
+      <p
+        className={cn(
+          "mb-4 w-full max-w-md text-sm text-muted-foreground",
+          centered && "text-center",
+        )}
+      >
+        {label}
+      </p>
       <div className="w-full max-w-md">
         {state.succeeded ? (
-          <p className="text-center">Thank you for subscribing!</p>
+          <p className={cn("text-sm", centered && "text-center")}>
+            Thanks, you're on the list.
+          </p>
         ) : (
-          <form className="flex space-x-2" onSubmit={handleSubmit}>
+          <form className="flex gap-2" onSubmit={handleSubmit}>
+            <input type="hidden" name="source" value={source} />
+            <input type="hidden" name="_subject" value={subject} />
             <div className="grow">
-              <Label htmlFor="email" className="sr-only">
+              <Label htmlFor={id} className="sr-only">
                 Email
               </Label>
               <Input
                 id={id}
-                placeholder="Enter your email"
+                placeholder="you@example.com"
                 type="email"
                 name="email"
                 className="rounded-full"
@@ -34,10 +57,10 @@ export default function Form() {
             </div>
             <Button
               type="submit"
-              className="rounded-full"
+              className="rounded-full whitespace-nowrap"
               disabled={state.submitting}
             >
-              Subscribe
+              {buttonLabel}
             </Button>
           </form>
         )}

@@ -62,7 +62,10 @@ export const components = {
 
   a: ({ className = "" as string, ...props }) => (
     <a
-      className={cn("font-medium underline underline-offset-4", className)}
+      className={cn(
+        "font-medium text-link underline underline-offset-4 transition-colors hover:text-foreground",
+        className,
+      )}
       {...props}
     />
   ),

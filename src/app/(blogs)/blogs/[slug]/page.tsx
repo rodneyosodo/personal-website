@@ -82,7 +82,7 @@ export default async function Article(props: {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="container mx-auto max-w-8xl px-8">
+      <div className="container mx-auto max-w-6xl px-6 py-12 md:py-16">
         <div className="max-w-2xl mx-auto">
           <h1 className="title font-semibold text-3xl tracking-tighter mt-2 mb-2">
             {post.metadata.title}

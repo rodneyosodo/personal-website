@@ -6,12 +6,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative overflow-hidden py-8 lg:py-12">
-      <div className="container mx-auto max-w-7xl px-8">
-        <div className="max-w-2xl mx-auto">
-          <article className="prose">{children}</article>
-        </div>
-      </div>
+    <div className="container mx-auto max-w-6xl px-6 py-12 md:py-16">
+      <article>{children}</article>
     </div>
   );
 }
