@@ -54,6 +54,7 @@ export default async function Blogs() {
                     {new Date(post.metadata.date).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
+                      timeZone: "UTC",
                     })}
                   </span>
                 </Link>
