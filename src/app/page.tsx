@@ -39,13 +39,13 @@ const projects = [
   {
     name: "Serengeti",
     role: "Creator",
-    tech: "Rust · MQTT",
+    tech: "Rust · MQTT 3.1.1",
     body: "A high-performance, plugin-extensible MQTT broker built in Rust.",
     href: "https://github.com/rodneyosodo/serengeti",
   },
   {
     name: "Propeller",
-    role: "Creator",
+    role: "Core contributor",
     tech: "Rust · Go · WebAssembly",
     body: "A WebAssembly orchestrator and rules engine for running compute at the edge.",
     href: "https://github.com/rodneyosodo/propeller",
