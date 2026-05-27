@@ -20,6 +20,9 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "complexity": {
+        "noImportantStyles": "off"
+      },
       "correctness": {},
       "performance": {},
       "security": {},
