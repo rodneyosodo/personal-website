@@ -28,6 +28,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      url: `${baseUrl}/experience`,
+      lastModified: new Date().toISOString(),
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/projects`,
+      lastModified: new Date().toISOString(),
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/publications`,
       lastModified: new Date().toISOString(),
       priority: 0.8,

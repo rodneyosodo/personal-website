@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import {
   Github,
   Instagram,
@@ -11,98 +8,71 @@ import {
   YouTube,
 } from "@/components/ui/icons";
 
-function Navigation() {
-  return (
-    <nav className="mb-8 flex flex-wrap justify-center gap-6">
-      <Link href="/" className="text-muted-foreground">
-        Home
-      </Link>
-      <span className="hidden md:block text-muted-foreground mx-2">|</span>
-      <Link href="/blogs" className="text-muted-foreground">
-        Blogs
-      </Link>
-      <span className="hidden md:block text-muted-foreground mx-2">|</span>
-      <Link href="/publications" className="text-muted-foreground">
-        Publications
-      </Link>
-      <span className="hidden md:block text-muted-foreground mx-2">|</span>
-      <Link href="/talks" className="text-muted-foreground">
-        Talks
-      </Link>
-      <span className="hidden md:block text-muted-foreground mx-2">|</span>
-      <Link href="/awards" className="text-muted-foreground">
-        Awards
-      </Link>
-    </nav>
-  );
-}
+const sections = [
+  { href: "/experience", label: "Work" },
+  { href: "/projects", label: "Projects" },
+  { href: "/blogs", label: "Writing" },
+  { href: "/talks", label: "Talks" },
+  { href: "/awards", label: "Awards" },
+  { href: "/publications", label: "Publications" },
+];
 
-function SocialLinks() {
-  return (
-    <div className="mb-8 flex space-x-2">
-      <a
-        href="https://www.linkedin.com/in/rodneyosodo"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <Button variant="link" size="icon">
-          <LinkedIn className="h-4 w-4" />
-          <span className="sr-only">LinkedIn</span>
-        </Button>
-      </a>
-      <a href="https://github.com/rodneyosodo" target="_blank" rel="noreferrer">
-        <Button variant="link" size="icon">
-          <Github className="h-4 w-4" />
-          <span className="sr-only">Github</span>
-        </Button>
-      </a>
-      <a href="https://x.com/b1ackd0t" target="_blank" rel="noreferrer">
-        <Button variant="link" size="icon">
-          <XformerlyTwitter className="h-4 w-4" />
-          <span className="sr-only">Twitter</span>
-        </Button>
-      </a>
-      <a
-        href="https://www.instagram.com/rodneyosodo/"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <Button variant="link" size="icon">
-          <Instagram className="h-4 w-4" />
-          <span className="sr-only">Instagram</span>
-        </Button>
-      </a>
-      <a
-        href="https://www.tiktok.com/@b1ackd0t"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <Button variant="link" size="icon">
-          <TikTok className="h-4 w-4" />
-          <span className="sr-only">TikTok</span>
-        </Button>
-      </a>
-      <a
-        href="https://www.youtube.com/@rodneyosodo"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <Button variant="link" size="icon">
-          <YouTube className="h-4 w-4" />
-          <span className="sr-only">YouTube</span>
-        </Button>
-      </a>
-    </div>
-  );
-}
+const socials = [
+  {
+    href: "https://www.linkedin.com/in/rodneyosodo",
+    label: "LinkedIn",
+    Icon: LinkedIn,
+  },
+  { href: "https://github.com/rodneyosodo", label: "GitHub", Icon: Github },
+  { href: "https://x.com/b1ackd0t", label: "X", Icon: XformerlyTwitter },
+  {
+    href: "https://www.instagram.com/rodneyosodo/",
+    label: "Instagram",
+    Icon: Instagram,
+  },
+  { href: "https://www.tiktok.com/@b1ackd0t", label: "TikTok", Icon: TikTok },
+  {
+    href: "https://www.youtube.com/@rodneyosodo",
+    label: "YouTube",
+    Icon: YouTube,
+  },
+];
 
 export default function Footer() {
   return (
-    <footer className="bg-background pt-12 mt-auto">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center border-t pt-4">
-          <Navigation />
-          <SocialLinks />
+    <footer className="mt-auto border-t border-border bg-background">
+      <div className="container mx-auto max-w-6xl px-6 py-8">
+        <div className="flex flex-col items-center gap-6 md:flex-row md:justify-between md:gap-8">
+          <p className="order-3 font-mono text-xs text-muted-foreground md:order-1 md:flex-1">
+            © {new Date().getFullYear()} Rodney Osodo
+          </p>
+
+          <nav className="order-1 flex flex-wrap justify-center gap-x-8 gap-y-3 md:order-2">
+            {sections.map((s) => (
+              <Link
+                key={s.href}
+                href={s.href}
+                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {s.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="order-2 flex flex-wrap justify-end gap-1 md:order-3 md:flex-1">
+            {socials.map(({ href, label, Icon }) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${label} (opens in a new tab)`}
+                className="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              >
+                <Icon className="size-[1.05rem]" />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
