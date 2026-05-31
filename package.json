@@ -12,7 +12,8 @@
     "start": "bun --bun next start",
     "prod": "bun --bun next build && bun --bun next start",
     "lint": "biome check .",
-    "lint:fix": "biome check . --write"
+    "lint:fix": "biome check . --write",
+    "images:optimize": "bun scripts/optimize-images.ts"
   },
   "dependencies": {
     "@formspree/react": "3.0.0",
