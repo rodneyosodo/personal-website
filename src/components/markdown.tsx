@@ -108,7 +108,12 @@ export const components = {
       <span
         className={cn("relative block w-full aspect-video my-6", className)}
       >
-        <Image fill className="rounded-lg object-cover" {...props} />
+        <Image
+          fill
+          sizes="(max-width: 768px) 100vw, 768px"
+          className="rounded-lg object-cover"
+          {...props}
+        />
       </span>
     ),
   hr: ({ ...props }) => <hr className="my-4 md:my-8" {...props} />,
