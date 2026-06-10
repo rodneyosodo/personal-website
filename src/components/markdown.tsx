@@ -1,4 +1,5 @@
-import Image, { type ImageProps } from "next/image";
+import { MdxImage } from "@/components/mdx-image";
+import { type ImageProps } from "next/image";
 import {
   type ComponentPropsWithoutRef,
   isValidElement,
@@ -96,26 +97,9 @@ export const components = {
       {...props}
     />
   ),
-  Image: ({ width, height, className = "", ...props }: ImageProps) =>
-    width && height ? (
-      <Image
-        width={width}
-        height={height}
-        className={cn("my-6 rounded-lg", className)}
-        {...props}
-      />
-    ) : (
-      <span
-        className={cn("relative block w-full aspect-video my-6", className)}
-      >
-        <Image
-          fill
-          sizes="(max-width: 768px) 100vw, 768px"
-          className="rounded-lg object-cover"
-          {...props}
-        />
-      </span>
-    ),
+  Image: ({ className = "", ...props }: ImageProps) => (
+    <MdxImage className={className} {...props} />
+  ),
   hr: ({ ...props }) => <hr className="my-4 md:my-8" {...props} />,
   table: ({ className = "" as string, ...props }) => (
     <div className="my-6 overflow-x-auto">
