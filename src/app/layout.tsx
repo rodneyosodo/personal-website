@@ -26,9 +26,9 @@ const baseUrl = (
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  title: "Rodney Osodo — Engineer & Writer",
+  title: "Rodney Osodo",
   description:
-    "The personal website of Rodney Osodo, an engineer and writer in Nairobi. I build distributed systems in Go and Rust, organise developer communities, and write about everything I take apart, from code to road trips across Africa.",
+    "The personal website of Rodney Osodo, an engineer in Nairobi. I build distributed systems in Go and Rust, organise developer communities, and write about everything I take apart, from code to road trips across Africa.",
   authors: [
     {
       name: "Rodney Osodo",
@@ -48,12 +48,11 @@ export const metadata: Metadata = {
   ],
   creator: "Rodney Osodo",
   publisher: "Rodney Osodo",
-
   openGraph: {
     type: "website",
-    title: "Rodney Osodo — Engineer & Writer",
+    title: "Rodney Osodo",
     description:
-      "Engineer and writer in Nairobi. I build distributed systems in Go and Rust, organise communities, and write about everything I take apart, from code to road trips across Africa.",
+      "Engineer in Nairobi. I build distributed systems in Go and Rust, organise communities, and write about everything I take apart, from code to road trips across Africa.",
     url: baseUrl,
     siteName: "Rodney Osodo",
     images: [
@@ -69,9 +68,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rodney Osodo — Engineer & Writer",
+    title: "Rodney Osodo",
     description:
-      "Engineer and writer in Nairobi. I build distributed systems in Go and Rust, organise communities, and write about everything I take apart, from code to road trips across Africa.",
+      "Engineer in Nairobi. I build distributed systems in Go and Rust, organise communities, and write about everything I take apart, from code to road trips across Africa.",
     images: [
       {
         url: `${baseUrl}/opengraph-image.jpeg`,
