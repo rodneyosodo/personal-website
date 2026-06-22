@@ -1,0 +1,113 @@
+---
+title: Meta's Crawler Ate My 2TB Bandwidth
+date: 2026-06-22
+image: https://r2.rodneyosodo.com/blogs/2026-06-22_metas_crawler_ate_my_2TB_bandwidth/1.webp
+---
+
+I have a home server that I use to host some of my applications. The past two months I've been getting FUP warnings from Safaricom, throttling my speed to 8 Mbps. My subscription gives me 60 Mbps. At first I thought Safaricom was measuring wrong, I shrugged it off.
+
+Second month, same thing. Now I'm pissed.
+
+<Image
+  src="https://r2.rodneyosodo.com/blogs/2026-06-22_metas_crawler_ate_my_2TB_bandwidth/8.webp"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-xl"
+  alt="Network metrics showing decline in download and upload speed"
+/>
+
+I hooked OpenCode to my server to investigate. The FUP cut hit Friday evening, but power outages kept cycling my machine so I couldn't get clean metrics. Once it stayed up, the data was staggering.
+
+**1.82 TB in 7 days. 93 GB down, 1.73 TB up.**
+
+<Image
+  src="https://r2.rodneyosodo.com/blogs/2026-06-22_metas_crawler_ate_my_2TB_bandwidth/1.webp"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-xl"
+  alt="1.43 TB upload usage in 7 days"
+/>
+
+My home lab runs Proxmox → a Debian VM → Docker with ~30 services. In Proxmox I could see the outgoing traffic bar was maxed. Something was scraping the hell out of my services.
+
+I dug through docker logs and found the culprit: **gitea**, my self-hosted [git instance](https://git.rodneyosodo.com/). A Meta/Facebook crawler (`AS32934`, `2a03:2880::/32`) was continuously scraping every repo, commit by commit, project by project.
+
+<Image
+  src="https://r2.rodneyosodo.com/blogs/2026-06-22_metas_crawler_ate_my_2TB_bandwidth/3.webp"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-xl"
+  alt="Past 24hrs showing Meta's crawler pulling git data"
+/>
+
+Before blocking: **1,200 KB/s steady upload**, the crawler was pulling entire repo histories 24/7.
+After blocking `AS32934` with a Cloudflare WAF rule: **2-3 KB/s**, a 99.75% drop.
+
+All my repos are public. I want them public. But scraping 1.73 TB of git data in a week is not browsing, it's downloading entire organizations.
+
+Bot Fight Mode didn't stop it. AI Security didn't stop it. Meta's crawler is verified, so Cloudflare's bot protections let it through. Only a brute-force WAF Custom Rule, `AS Num = 32934` on `git.rodneyosodo.com`, killed it.
+
+<Image
+  src="https://r2.rodneyosodo.com/blogs/2026-06-22_metas_crawler_ate_my_2TB_bandwidth/4.webp"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-xl"
+  alt="Past 24hrs showing Meta's crawler pulling git data"
+/>
+
+<Image
+  src="https://r2.rodneyosodo.com/blogs/2026-06-22_metas_crawler_ate_my_2TB_bandwidth/6.webp"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-xl"
+  alt="Past 24hrs showing Meta's crawler pulling git data"
+/>
+
+So now I'm running VictoriaMetrics with 90-day retention, Grafana with bandwidth dashboards and FUP alerts, and a `node_exporter` watching every byte on eth0. I'll know the moment something sniffs my bandwidth again.
+
+## What I did
+
+1. I enabled Bot fight mode
+2. I added a custom rule to block Meta's crawler
+
+```json
+{
+  "action": "block",
+  "description": "AI Crawl Control - Block AI bots by User Agent",
+  "enabled": true,
+  "expression": "(http.request.uri.path ne \"/robots.txt\" and (http.user_agent contains \"meta-externalagent\"))",
+  "id": "9e1344f5e3a5429a8645957301cb9f48",
+  "last_updated": "2026-06-20T12:07:06.61738Z",
+  "ref": "[CF AI Audit]",
+  "version": "1",
+  "position": {
+    "index": 1
+  }
+}
+```
+
+```json
+{
+  "action": "block",
+  "description": "Block Meta crawler",
+  "enabled": true,
+  "expression": "(http.host eq \"git.rodneyosodo.com\" and ip.src.asnum eq 32934)",
+  "id": "75f0f1802f634739a2f12e360720c75c",
+  "last_updated": "2026-06-20T12:10:19.923341Z",
+  "ref": "75f0f1802f634739a2f12e360720c75c",
+  "version": "1",
+  "position": {
+    "after": "9e1344f5e3a5429a8645957301cb9f48"
+  }
+}
+```
+
+These are the results so far.
+
+<Image
+  src="https://r2.rodneyosodo.com/blogs/2026-06-22_metas_crawler_ate_my_2TB_bandwidth/9.webp"
+  width={800}
+  height={800}
+  className="mx-auto my-6 rounded-xl"
+  alt="Blocked events by the 2 rules I added"
+/>
