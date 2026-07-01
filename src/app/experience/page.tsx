@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Work — Rodney Osodo",
+  title: "Work - Rodney Osodo",
   description:
     "Rodney Osodo's engineering work, community leadership, and education.",
 };

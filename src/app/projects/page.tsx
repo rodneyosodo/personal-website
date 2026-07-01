@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Projects — Rodney Osodo",
+  title: "Projects - Rodney Osodo",
   description:
     "Open-source and personal projects: distributed systems, IoT platforms, WebAssembly, and quantum machine learning.",
 };
