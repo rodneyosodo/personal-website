@@ -1,6 +1,6 @@
-import { readdir, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
-import { join, extname } from "node:path";
+import { readdir, stat } from "node:fs/promises";
+import { extname, join } from "node:path";
 
 const inputDir = process.argv[2];
 
@@ -11,8 +11,9 @@ if (!inputDir) {
 
 const SUPPORTED = new Set([".jpg", ".jpeg", ".png"]);
 
-const files = (await readdir(inputDir))
-  .filter((f) => SUPPORTED.has(extname(f).toLowerCase()));
+const files = (await readdir(inputDir)).filter((f) =>
+  SUPPORTED.has(extname(f).toLowerCase()),
+);
 
 if (files.length === 0) {
   console.log("No images found.");
@@ -30,7 +31,17 @@ for (const file of files) {
 
   const { size } = await stat(inputPath);
 
-  const proc = Bun.spawnSync(["cwebp", "-q", "80", "-resize", "1920", "0", inputPath, "-o", outputPath]);
+  const proc = Bun.spawnSync([
+    "cwebp",
+    "-q",
+    "80",
+    "-resize",
+    "1920",
+    "0",
+    inputPath,
+    "-o",
+    outputPath,
+  ]);
 
   if (proc.exitCode !== 0) {
     console.error(`Failed: ${file}`, proc.stderr.toString());
@@ -39,7 +50,9 @@ for (const file of files) {
 
   const { size: newSize } = await stat(outputPath);
   const ratio = ((1 - newSize / size) * 100).toFixed(1);
-  console.log(`  ${file}  ${(size / 1024 / 1024).toFixed(1)}MB → ${(newSize / 1024 / 1024).toFixed(1)}MB  (${ratio}% smaller)`);
+  console.log(
+    `  ${file}  ${(size / 1024 / 1024).toFixed(1)}MB → ${(newSize / 1024 / 1024).toFixed(1)}MB  (${ratio}% smaller)`,
+  );
 }
 
 console.log(`\nDone. ${files.length} image(s) converted.`);

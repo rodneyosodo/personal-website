@@ -12,7 +12,7 @@ export function MdxImage({
 }: React.ComponentProps<typeof Image>) {
   const [aspectRatio, setAspectRatio] = useState("16 / 9");
   const [zoomed, setZoomed] = useState(false);
-  const spanRef = useRef<HTMLSpanElement>(null);
+  const spanRef = useRef<HTMLButtonElement>(null);
   const srcStr = typeof src === "string" ? src : "";
 
   useEffect(() => {
@@ -42,16 +42,15 @@ export function MdxImage({
 
   return (
     <>
-      <span
+      <button
         ref={spanRef}
-        className={cn("relative block w-full my-6 cursor-zoom-in", className)}
+        className={cn(
+          "relative block w-full my-6 cursor-zoom-in text-left",
+          className,
+        )}
         style={{ aspectRatio }}
         onClick={open}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") open();
-        }}
-        role="button"
-        tabIndex={0}
+        type="button"
       >
         <Image
           fill
@@ -61,7 +60,7 @@ export function MdxImage({
           className="rounded-lg object-contain"
           {...props}
         />
-      </span>
+      </button>
 
       {zoomed && (
         <div

@@ -1,5 +1,4 @@
-import { MdxImage } from "@/components/mdx-image";
-import { type ImageProps } from "next/image";
+import type { ImageProps } from "next/image";
 import {
   type ComponentPropsWithoutRef,
   isValidElement,
@@ -8,6 +7,7 @@ import {
 } from "react";
 import { codeToHtml } from "shiki";
 import { CopyButton } from "@/components/copy-button";
+import { MdxImage } from "@/components/mdx-image";
 import { cn } from "@/lib/utils";
 
 function extractText(node: ReactNode): string {

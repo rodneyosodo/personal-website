@@ -26,10 +26,11 @@
   },
   "include": [
     "next-env.d.ts",
+    "next.config.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
     "src/app/(pages)/sample.mdx",
+    ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules"]

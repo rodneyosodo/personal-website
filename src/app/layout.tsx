@@ -95,12 +95,7 @@ export default async function RootLayout({
         className={`${bricolage.variable} ${robotoMono.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem={true}
-          disableTransitionOnChange={true}
-        >
+        <ThemeProvider>
           <PostHogProvider>
             <div className="min-h-screen flex flex-col">
               <Navbar />

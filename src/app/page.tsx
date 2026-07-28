@@ -71,7 +71,7 @@ export default async function Home() {
   return (
     <div className="container mx-auto max-w-6xl px-6">
       <section className="grid grid-cols-1 items-center gap-10 py-16 md:grid-cols-[1.5fr_1fr] md:py-24">
-        <div className="animate-rise">
+        <div>
           <p className="eyebrow mb-5">
             Backend & Distributed Systems Engineer · Nairobi, Kenya
           </p>
@@ -142,7 +142,7 @@ export default async function Home() {
         </div>
 
         <div
-          className="relative mx-auto w-full max-w-76 animate-rise md:mx-0"
+          className="relative mx-auto w-full max-w-76 md:mx-0"
           style={{ animationDelay: "120ms" }}
         >
           <div className="relative aspect-square">
