@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "./.github/workflows"
+    schedule:
+      interval: "monthly"
+    groups:
+      gh-dependency:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "bun"
+    directory: "./"
+    schedule:
+      interval: "monthly"
+    groups:
+      bun-dependency:
+        patterns:
+          - "*"
