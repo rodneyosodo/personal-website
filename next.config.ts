@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   experimental: {
     taint: true,
+    useTypeScriptCli: true,
   },
   transpilePackages: ["next-mdx-remote"],
   serverExternalPackages: [
