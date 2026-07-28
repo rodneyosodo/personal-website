@@ -1,6 +1,6 @@
 {
   "name": "rodneyosodo.com",
-  "version": "2026.5.0",
+  "version": "2026.7.28",
   "private": true,
   "overrides": {
     "protobufjs": "^7.5.5"
