@@ -178,7 +178,7 @@ export const components = {
     className,
     ...props
   }: ComponentPropsWithoutRef<"code">) => {
-    // Inline code only — fenced blocks are handled by `pre` above
+    // Inline code only - fenced blocks are handled by `pre` above
     if (className?.includes("language-"))
       return (
         <code className={className} {...props}>

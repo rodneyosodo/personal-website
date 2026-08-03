@@ -4,9 +4,11 @@ import { Glob } from "bun";
 type Metadata = {
   title: string;
   date: string;
+  description?: string;
   image?: string;
 };
 
+const EXCERPT_MAX_CHARS = 160;
 const frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
 const quoteRegex = /^['"](.*)['"]\$/;
 const imageSrcRegex = /src=["']([^"']+\.(?:jpg|jpeg|png|webp|gif|svg))["']/i;
@@ -40,6 +42,42 @@ function extractFirstImage(content: string): string | undefined {
   if (src.startsWith("/")) return src;
   if (src.startsWith("http")) return src;
   return undefined;
+}
+
+const EXCERPT_SENTENCE_WINDOW = 200;
+
+/**
+ * Builds a meta-description-friendly excerpt from MDX content.
+ * Prefers ending at a sentence boundary (even slightly beyond the ideal
+ * length); never truncates mid-word.
+ */
+export function extractExcerpt(content: string): string {
+  const cleaned = content
+    .replace(/^---[\s\S]*?---/, "")
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[#*_`~[\]()]/g, "")
+    .replace(/https?:\/\/[^\s]+/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (cleaned.length <= EXCERPT_MAX_CHARS) {
+    return cleaned;
+  }
+
+  // Prefer a complete sentence ending within a reasonable window.
+  const window = cleaned.slice(0, EXCERPT_SENTENCE_WINDOW);
+  const sentenceEnds = [". ", "! ", "? "]
+    .map((token) => window.lastIndexOf(token))
+    .filter((index) => index > 0);
+  const lastSentenceEnd = Math.max(...sentenceEnds, -1);
+  if (lastSentenceEnd >= EXCERPT_MAX_CHARS / 2) {
+    return window.slice(0, lastSentenceEnd + 1);
+  }
+
+  const cut = cleaned.slice(0, EXCERPT_MAX_CHARS);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${cut.slice(0, lastSpace).replace(/[,;:—–-]$/, "")}…`;
 }
 
 async function getMdxFiles(dir: string) {

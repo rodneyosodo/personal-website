@@ -1,6 +1,7 @@
 ---
 title: My 3 2 1 Backup Strategy
 date: 2026-03-03
+description: Storage is destined to fail - it's when, not if. How I apply the 3-2-1 backup rule to protect my data across my homelab and the cloud.
 ---
 
 Hard disks, and really, any storage device, are destined to fail. It’s never a question of _if_, only _when_.
@@ -35,7 +36,7 @@ I didn’t want to go through this again.
 
 # Implementing the 3-2-1 Backup Strategy
 
-To prevent a repeat disaster, I researched offsite backup solutions and settled on [Backblaze B2](https://backblaze.com/), which offers object storage at about **$6 per TB per month** — more than affordable for my needs.
+To prevent a repeat disaster, I researched offsite backup solutions and settled on [Backblaze B2](https://backblaze.com/), which offers object storage at about **$6 per TB per month** - more than affordable for my needs.
 
 I also decided to properly implement the **[3-2-1](https://www.purestorage.com/knowledge/3-2-1-backup-strategy.html) backup strategy**.
 
@@ -51,9 +52,9 @@ It recommends:
 
 ### What This Looks Like in My Setup
 
-- 1 — Live Data: The running VM on my NVMe SSD
-- 2 — Local Copy: Backup machine datastore
-- 3 — Offsite Copy: Backblaze B2
+- 1 - Live Data: The running VM on my NVMe SSD
+- 2 - Local Copy: Backup machine datastore
+- 3 - Offsite Copy: Backblaze B2
 
 That gives me:
 
@@ -155,7 +156,7 @@ Data is replicated safely to the cloud
 
 Storage will fail. Hardware will die. It always does.
 
-Backups aren’t optional — they’re infrastructure.
+Backups aren’t optional - they’re infrastructure.
 
 And now, finally, I can sleep a little better.
 

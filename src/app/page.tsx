@@ -5,6 +5,48 @@ import Form from "@/components/form";
 import { Github, LinkedIn } from "@/components/ui/icons";
 import { getArticles } from "@/lib/blogs";
 
+const baseUrl = (
+  process.env.NEXT_PUBLIC_BASE_URL || "https://www.rodneyosodo.com"
+).replace(/\/+$/, "");
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Rodney Osodo",
+  url: baseUrl,
+  image: `${baseUrl}/opengraph-image.jpeg`,
+  jobTitle: "Software Engineer",
+  description:
+    "Engineer in Nairobi building distributed systems in Go and Rust, organising developer communities, and writing about code and travel across Africa.",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Nairobi",
+    addressCountry: "KE",
+  },
+  sameAs: [
+    "https://www.linkedin.com/in/rodneyosodo",
+    "https://github.com/rodneyosodo",
+    "https://x.com/b1ackd0t",
+    "https://www.instagram.com/rodneyosodo/",
+    "https://www.tiktok.com/@b1ackd0t",
+    "https://www.youtube.com/@rodneyosodo",
+    "https://medium.com/@rodneyosodo",
+    "https://rodneyosodo.substack.com",
+  ],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Rodney Osodo",
+  url: baseUrl,
+  author: {
+    "@type": "Person",
+    name: "Rodney Osodo",
+    url: baseUrl,
+  },
+};
+
 const focus = [
   {
     n: "01",
@@ -70,6 +112,16 @@ export default async function Home() {
 
   return (
     <div className="container mx-auto max-w-6xl px-6">
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD is statically generated and trusted
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD is statically generated and trusted
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
       <section className="grid grid-cols-1 items-center gap-10 py-16 md:grid-cols-[1.5fr_1fr] md:py-24">
         <div>
           <p className="eyebrow mb-5">

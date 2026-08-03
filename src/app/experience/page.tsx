@@ -3,15 +3,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Work - Rodney Osodo",
+  title: "Work",
   description:
     "Rodney Osodo's engineering work, community leadership, and education.",
+  alternates: {
+    canonical: "/experience",
+  },
 };
 
 type Role = {
   org: string;
   title: string;
-  period: string; // "" hides the date; fill in "2023 — Present" etc.
+  period: string; // "" hides the date; fill in "2023 - Present" etc.
   location: string;
   points: string[];
   href?: string;

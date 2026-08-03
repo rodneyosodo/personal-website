@@ -21,14 +21,19 @@ const robotoMono = Roboto_Mono({
 });
 
 const baseUrl = (
-  process.env.NEXT_PUBLIC_BASE_URL || "https://rodneyosodo.com"
+  process.env.NEXT_PUBLIC_BASE_URL || "https://www.rodneyosodo.com"
 ).replace(/\/+$/, "");
+
+const defaultDescription =
+  "Rodney Osodo is an engineer in Nairobi building distributed systems in Go and Rust, organising developer communities, and writing about code and travel across Africa.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  title: "Rodney Osodo",
-  description:
-    "The personal website of Rodney Osodo, an engineer in Nairobi. I build distributed systems in Go and Rust, organise developer communities, and write about everything I take apart, from code to road trips across Africa.",
+  title: {
+    default: "Rodney Osodo - Software Engineer in Nairobi",
+    template: "%s | Rodney Osodo",
+  },
+  description: defaultDescription,
   authors: [
     {
       name: "Rodney Osodo",
@@ -48,13 +53,19 @@ export const metadata: Metadata = {
   ],
   creator: "Rodney Osodo",
   publisher: "Rodney Osodo",
+  alternates: {
+    canonical: "/",
+    types: {
+      "application/rss+xml": `${baseUrl}/feed.xml`,
+    },
+  },
   openGraph: {
     type: "website",
-    title: "Rodney Osodo",
-    description:
-      "Engineer in Nairobi. I build distributed systems in Go and Rust, organise communities, and write about everything I take apart, from code to road trips across Africa.",
+    title: "Rodney Osodo - Software Engineer in Nairobi",
+    description: defaultDescription,
     url: baseUrl,
     siteName: "Rodney Osodo",
+    locale: "en_US",
     images: [
       {
         url: `${baseUrl}/opengraph-image.jpeg`,
@@ -68,9 +79,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rodney Osodo",
-    description:
-      "Engineer in Nairobi. I build distributed systems in Go and Rust, organise communities, and write about everything I take apart, from code to road trips across Africa.",
+    site: "@b1ackd0t",
+    creator: "@b1ackd0t",
+    title: "Rodney Osodo - Software Engineer in Nairobi",
+    description: defaultDescription,
     images: [
       {
         url: `${baseUrl}/opengraph-image.jpeg`,

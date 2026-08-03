@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getArticles } from "@/lib/blogs";
+
+export const metadata: Metadata = {
+  title: "Writing",
+  description:
+    "Essays by Rodney Osodo on distributed systems, Go, Rust, and hardware, plus travel writing from road trips across Africa.",
+  alternates: {
+    canonical: "/blogs",
+  },
+};
 
 export default async function Blogs() {
   const posts = await getArticles();

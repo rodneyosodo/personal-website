@@ -62,6 +62,59 @@ const nextConfig: NextConfig = {
   },
   // This is required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
+  async redirects() {
+    return [
+      // Legacy Hugo RSS feed URL
+      {
+        source: "/index.xml",
+        destination: "/feed.xml",
+        permanent: true,
+      },
+      {
+        source: "/rss.xml",
+        destination: "/feed.xml",
+        permanent: true,
+      },
+      // Legacy Medium-style blog URL (from the pre-Next.js site)
+      {
+        source:
+          "/blogs/@rodneyosodo/minimizing-python-docker-images-cf99f4468d39",
+        destination:
+          "/blogs/2020-03-13_Minimizing-python-docker-images-cf99f4468d39",
+        permanent: true,
+      },
+      {
+        source:
+          "/blogs/@rodneyosodo/minimizing-python-docker-images-cf99f4468d39/",
+        destination:
+          "/blogs/2020-03-13_Minimizing-python-docker-images-cf99f4468d39",
+        permanent: true,
+      },
+      // Removed PDF referenced by external sites
+      {
+        source: "/AfricaOpenHardwareCommunity2023.pdf",
+        destination: "/talks",
+        permanent: true,
+      },
+      // Ghost pagination URL from the old site
+      {
+        source: "/blogs/1",
+        destination: "/blogs",
+        permanent: true,
+      },
+      // Removed sample/demo pages
+      {
+        source: "/sample",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/blogs/sample",
+        destination: "/blogs",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 const withMDX = createMDX({});
