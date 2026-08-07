@@ -1,7 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import Form from "@/components/form";
+import CalButton from "@/components/cal";
 import { Github, LinkedIn } from "@/components/ui/icons";
 import { getArticles } from "@/lib/blogs";
 
@@ -327,16 +327,7 @@ export default async function Home() {
             See the code
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
-        </div>
-
-        <div className="mt-10 max-w-md">
-          <Form
-            align="left"
-            label="Prefer email?"
-            buttonLabel="Get in touch"
-            source="contact"
-            subject="New contact from rodneyosodo.com"
-          />
+          <CalButton />
         </div>
       </section>
     </div>
