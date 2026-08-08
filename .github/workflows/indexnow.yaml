@@ -1,0 +1,26 @@
+name: IndexNow
+
+on:
+  push:
+    branches:
+      - main
+
+  schedule:
+    - cron: "0 1 * * *"
+
+concurrency:
+  group: indexnow-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  submit:
+    name: Submit changed URLs to IndexNow
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Submit changed URLs to IndexNow
+        uses: bojieyang/indexnow-action@v3
+        with:
+          sitemap-location: https://www.rodneyosodo.com/sitemap.xml
+          key: 8b2ede42d530426d99693c9c5aeaf8df
+          endpoint: api.indexnow.org
