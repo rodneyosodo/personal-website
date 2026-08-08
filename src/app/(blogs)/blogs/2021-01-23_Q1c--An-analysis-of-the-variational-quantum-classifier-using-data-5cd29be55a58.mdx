@@ -16,7 +16,7 @@ Our previous blog is at: [Explaining Variational Quantum Classifiers](/blogs/202
 By now you should know how a variational quantum classifier works. The code for
 the previous series is at [Github repo](https://github.com/0x6f736f646f/variational-quantum-classifier-on-heartattack)
 
-### Introduction
+## Introduction
 
 In binary classification, let's say labelling if someone is likely to have a
 heart attack or not, we would build a function that takes in the information
@@ -47,7 +47,7 @@ returns
 By optimizing the circuits, you then find parameters that will give the closest
 probability to the reality based on training data.
 
-### Problem statement
+## Problem statement
 
 Given a dataset about patients' information, can we predict if the patient is
 likely to have a heart attack or not? This is a binary classification problem,
@@ -62,7 +62,7 @@ to build a quantum circuit whose output is the quantum state:
   alt="Image"
 />
 
-### Implementation
+## Implementation
 
 1.  We initialize our circuit in the zero state (all qubits in state zero)
 
@@ -189,7 +189,7 @@ def classify(self, x_list, params):
 
 ```
 
-### Results
+## Results
 
 Data classification was performed by using the implemented version of VQC in
 IBM's framework and executed on the provider simulator
@@ -230,7 +230,7 @@ results seem to indicate that the feature map which resulted in a lower cost
 function generally was the ZFeatureMap. But does this mean that the ZFeaturemap
 typically performs better in general?
 
-### Questions
+## Questions
 
 #### 1. Does increasing the variational form depth increase convergence?
 
@@ -289,7 +289,7 @@ ZFeatureMap(4, reps=1) SPSA(max_trials=50) vdepth 5 : Cost: 0.2076046292803965
 ZZFeatureMap(4, reps=4) SPSA(max_trials=50) vdepth 5 : Cost: 0.20892451316076094
 ```
 
-### Discussion
+## Discussion
 
 This time, our best model configs are totally different! What's fascinating
 about this is that the dataset used seems to demand a particular model

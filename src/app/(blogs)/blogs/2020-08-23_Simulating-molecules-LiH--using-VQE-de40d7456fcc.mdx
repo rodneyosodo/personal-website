@@ -21,7 +21,7 @@ energy of the Lithium Hydride (LiH) molecule.
   From science focus
 </span>
 
-### INTRODUCTION
+## INTRODUCTION
 
 Fundamentally, light was believed to be a wave. However, Albert Einstein found
 that light consisted of photons called quanta, which have energy determined by
@@ -63,7 +63,7 @@ these problems are in drug discoveries.
 > to make a simulation of nature, you'd better make it quantum mechanical, and
 > by golly, it's a wonderful problem because it doesn't look so easy.”_
 
-### PROCESS
+## PROCESS
 
 The variational principle explains how the energy of any trial wave function is
 greater than or equal to the system's exact ground state energy.
@@ -121,12 +121,12 @@ the ideal optimizer. It works by perturbing all the parameters in random. Under
 noise, Sequential Least Squares Programming (SLSQP) and Constrained
 Optimization BY Linear Approximation (COBYLA) are preferred.
 
-### IMPLEMENTATION
+## IMPLEMENTATION
 
 Notebook is
 [here](https://gist.github.com/rodneyosodo/698ee32dde649ace70ad1152d276f748)
 
-### Defining your molecule:
+## Defining your molecule:
 
 In this challenge, we will focus on LiH using the sto3g basis with the PySCF
 driver, which can be described in Qiskit as follows: `inter_dist` is the
@@ -147,7 +147,7 @@ freeze_list = [0]
 remove_list = [-3, -2] # negative number denotes the reverse order
 ```
 
-### Now, you can start choosing the components that make up your VQE algorithm!
+## Now, you can start choosing the components that make up your VQE algorithm!
 
 #### 1. Optimizers
 
@@ -196,7 +196,7 @@ backend = BasicAer.get_backend('statevector_simulator')
 backend = Aer.get_backend('qasm_simulator')
 ```
 
-### Compare the convergence of different choices for building your VQE algorithm
+## Compare the convergence of different choices for building your VQE algorithm
 
 Among the above choices, which combination do you think would outperform others
 and give you the lowest estimation of LiH ground state energy with the quickest
@@ -222,7 +222,7 @@ algo = VQE(qubitOp, var_form, optimizer, callback=store_intermediate_result)
 algo_result = algo.run(quantum_instance)
 ```
 
-### Compute the ground state energy of LiH at various interatomic distances
+## Compute the ground state energy of LiH at various interatomic distances
 
 By changing the parameter `inter_dist,` you can use your VQE algorithm to
 calculate the ground state energy of LiH at various interatomic distances, and
@@ -230,7 +230,7 @@ potentially produce a plot as you see here. Note that the VQE results are very
 close to the exact results, and so the exact energy curve is hidden by the VQE
 curve.
 
-### NOTE: I am not using the noisy model
+## NOTE: I am not using the noisy model
 
 ```python
 distances = np.arange(0.5, 4.0, 0.1)

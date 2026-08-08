@@ -43,7 +43,7 @@ My project plan is to:
 5.  Try to understand why these models performed the best and see if they are
     able to generalize well on new data.
 
-### Exploratory Data Analysis
+## Exploratory Data Analysis
 
 Exploratory Data Analysis (EDA) refers to the critical process of performing
 initial investigations on a dataset so as to discover patterns, spot anomalies,
@@ -54,7 +54,7 @@ to build models.
 My EDA process was short as the series topic alluded earlier, I would like to
 focus on quantum machine learning rather than dwell on data science!
 
-### Data explorations
+## Data explorations
 
 To start off, we imported necessary libraries: pandas, numpy, matplotlib,
 seaborn and pandas profiling, and loaded our dataset
@@ -163,7 +163,7 @@ age of 54 is the peak age where most people are susceptible to a heart attack.
 
 This pairplot shows us the distribution of every class.
 
-### Data cleaning
+## Data cleaning
 
 1.  We first change the column name and the target variable as it has spaces
 
@@ -272,7 +272,7 @@ def fix_missing_values(df):
 data.drop_duplicates(inplace=True)
 ```
 
-### Profiling
+## Profiling
 
 One way of doing better and faster exploratory data analysis in a very short
 time, is to use pandas profiling. It basically returns an interactive report in
@@ -311,7 +311,7 @@ because:
 2.  `oldpeak` has 188 (64.2%) zeros. The data is not normalized, hence most
     values are 0.
 
-### Next steps
+## Next steps
 
 1.  We shuffle the data to introduce some randomness: we maintain the same
     random state for all operations.
