@@ -32,15 +32,19 @@ export default function Form({
     const formData = new FormData(form);
     const email = formData.get("email");
 
-    const response = await fetch("/api/subscribe", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, source, subject }),
-    });
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, source, subject }),
+      });
 
-    if (response.ok) {
-      setState("succeeded");
-    } else {
+      if (response.ok) {
+        setState("succeeded");
+      } else {
+        setState("error");
+      }
+    } catch {
       setState("error");
     }
   }
