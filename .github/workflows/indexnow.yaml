@@ -24,3 +24,6 @@ jobs:
           sitemap-location: https://www.rodneyosodo.com/sitemap.xml
           key: 8b2ede42d530426d99693c9c5aeaf8df
           endpoint: api.indexnow.org
+          since: 100
+          since-unit: year
+          lastmod-required: false
