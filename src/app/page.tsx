@@ -51,7 +51,7 @@ const focus = [
   {
     n: "01",
     title: "Distributed systems & messaging",
-    body: "Multi-tenant IoT and commerce platforms in Go and Rust: message brokers, event streaming with Kafka and RabbitMQ, GraphQL APIs, and observability you can actually debug. Core contributor to SuperMQ / Magistrala; author of Serengeti, a plugin-extensible MQTT broker in Rust.",
+    body: "Multi-tenant IoT and commerce platforms in Go and Rust: message brokers, event streaming with Kafka and RabbitMQ, GraphQL APIs, and observability you can actually debug. Core contributor to Magistrala; author of Serengeti, a plugin-extensible MQTT broker in Rust.",
   },
   {
     n: "02",
@@ -72,11 +72,11 @@ const focus = [
 
 const projects = [
   {
-    name: "SuperMQ / Magistrala",
+    name: "Magistrala",
     role: "Core contributor",
     tech: "Go · MQTT · gRPC",
     body: "Production IoT messaging and device-management platform. Multi-protocol, multi-tenant, open source.",
-    href: "https://github.com/absmach/supermq",
+    href: "https://github.com/absmach/magistrala",
   },
   {
     name: "Serengeti",

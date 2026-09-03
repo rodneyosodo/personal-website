@@ -21,12 +21,12 @@ type Project = {
 
 const projects: Project[] = [
   {
-    name: "SuperMQ / Magistrala",
+    name: "Magistrala",
     role: "Core contributor",
     tech: "Go · MQTT · CoAP · gRPC",
     year: "Ongoing",
     body: "Production-grade IoT messaging and device-management platform by Abstract Machines. Multi-tenant, multi-protocol, fully open source. I work across the messaging core, users and auth, and protocol adapters (MQTT, CoAP, HTTP, gRPC).",
-    href: "https://github.com/absmach/supermq",
+    href: "https://github.com/absmach/magistrala",
   },
   {
     name: "Magistrala UI",

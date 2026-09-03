@@ -28,13 +28,13 @@ const engineering: Role[] = [
     location: "Remote",
     href: "https://github.com/absmach",
     points: [
-      "Core contributor to SuperMQ / Magistrala, an open-source IoT messaging and device-management platform written in Go.",
+      "Core contributor to Magistrala, an open-source IoT messaging and device-management platform written in Go.",
       "Work spans the messaging core, users and authentication, and protocol adapters (MQTT, CoAP, HTTP, gRPC).",
       "Pioneered the Magistrala UI's move from server-rendered Go templates to a modern Next.js application (React, TypeScript, Tailwind), and continue to maintain it.",
     ],
   },
   {
-    org: "B2B Commerce Platform",
+    org: "Twiga Foods",
     title: "Software Engineer, Backend",
     period: "",
     location: "Nairobi · Remote",
@@ -51,7 +51,7 @@ const engineering: Role[] = [
 const community: Role[] = [
   {
     org: "Python-Nairobi",
-    title: "Organiser",
+    title: "Co-organiser",
     period: "",
     location: "Nairobi",
     href: "https://www.meetup.com/python-nairobi/",
@@ -61,7 +61,7 @@ const community: Role[] = [
   },
   {
     org: "RoboKE",
-    title: "Organiser",
+    title: "Co-organiser",
     period: "",
     location: "Nairobi",
     href: "https://www.meetup.com/roboke/",
