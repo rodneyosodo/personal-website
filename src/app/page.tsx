@@ -51,7 +51,7 @@ const focus = [
   {
     n: "01",
     title: "Distributed systems & messaging",
-    body: "Multi-tenant IoT and commerce platforms in Go and Rust: message brokers, event streaming with Kafka and RabbitMQ, GraphQL APIs, and observability you can actually debug. Core contributor to Magistrala; author of Serengeti, a plugin-extensible MQTT broker in Rust.",
+    body: "Multi-tenant IoT and commerce platforms in Go and Rust: message brokers, event streaming with Kafka and RabbitMQ, GraphQL APIs, and observability you can actually debug. Core contributor to Magistrala, Propeller, and Atom; author of Serengeti, a plugin-extensible MQTT broker in Rust.",
   },
   {
     n: "02",
@@ -91,6 +91,13 @@ const projects = [
     tech: "Rust · Go · WebAssembly",
     body: "A WebAssembly orchestrator and rules engine for running compute at the edge.",
     href: "https://github.com/rodneyosodo/propeller",
+  },
+  {
+    name: "Atom",
+    role: "Contributor",
+    tech: "Rust · PostgreSQL · JWT",
+    body: "Identity and authorization service: JWT/API-key auth, online RBAC/ABAC policy checks, and audit logs.",
+    href: "https://github.com/absmach/atom",
   },
   {
     name: "Belong",
